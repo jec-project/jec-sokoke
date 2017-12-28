@@ -1,0 +1,50 @@
+{
+  "name": "jec-sokoke",
+  "version": "1.0.6",
+  "description": "JEC Sokoke - The default RESTful web services framework for GlassCat applications.",
+  "main": "dist/com/onsoft/jec-sokoke-index",
+  "types": "types/jec-sokoke.d.ts",
+  "scripts": {
+    "test": "mocha juta/tiger/run-unit-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pechemann/jec-sokoke.git"
+  },
+  "keywords": [
+    "JEC",
+    "Sokoke",
+    "JDI",
+    "DI",
+    "IoC",
+    "Dependency Injection",
+    "Inversion of Control",
+    "JavaScript",
+    "TypeScript",
+    "server",
+    "applications"
+  ],
+  "author": "Pascal ECHEMANN",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/pechemann/jec-sokoke/issues"
+  },
+  "homepage": "https://github.com/pechemann/jec-sokoke#readme",
+  "devDependencies": {
+    "@types/node": "^8.0.13",
+    "chai": "^3.5.0",
+    "chai-spies": "^0.7.1",
+    "jec-juta": "^1.1.7",
+    "jec-tiger": "^1.1.8",
+    "mocha": "^3.4.2",
+    "typedoc": "^0.8.0",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-ts": "^6.0.0-beta.16",
+    "grunt-typedoc": "^0.2.4",
+    "typescript": "^2.5.1"
+  },
+  "dependencies": {}
+}

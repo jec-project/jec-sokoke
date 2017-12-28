@@ -14,14 +14,24 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {DelegatedContainer, DomainContainer} from "jec-glasscat-core";
-import {SokokeError} from "./exceptions/SokokeError";
+import {Sokoke} from "../Sokoke";
+import {DefaultSokokeContainer} from "../core/DefaultSokokeContainer";
+import {DelegatedContainerBuilder, DelegatedContainer,
+        DomainContainer} from "jec-glasscat-core";
 
 /**
- * The main Sokoke execution entry point, which will execute a full Sokoke
- * execution session.
+ * A helper class that creates new <code>Sokoke</code> instances.
  */
-export interface Sokoke extends DelegatedContainer {
+export class SokokeBuilder implements DelegatedContainerBuilder {
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Constructor function
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Creates a new <code>SokokeBuilder</code> instance.
+   */
+  constructor() {}
 
   //////////////////////////////////////////////////////////////////////////////
   // Public methods
@@ -30,10 +40,9 @@ export interface Sokoke extends DelegatedContainer {
   /**
    * @inheritDoc
    */
-  setDomainContainer(container:DomainContainer):void;
-
-  /**
-   * @inheritDoc
-   */
-  process(callback:(err:SokokeError)=>void):void;
+  public build(container:DomainContainer):DelegatedContainer {
+    let sandcat:Sokoke = new DefaultSokokeContainer();
+    sandcat.setDomainContainer(container);
+    return sandcat;
+  }
 };

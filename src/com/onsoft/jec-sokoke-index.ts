@@ -12,5 +12,11 @@
  * Please maintain package and alphabetical order!
  */
 
- //--> com/onsoft/sokoke
+//--> com/onsoft/builders
+export {SokokeBuilder} from "./sokoke/builders/SokokeBuilder";
+//--> com/onsoft/core
+export {DefaultSokokeContainer} from "./sokoke/core/DefaultSokokeContainer";
+//--> com/onsoft/exceptions
+export {SokokeError} from "./sokoke/exceptions/SokokeError";
+//--> com/onsoft/sokoke
 export {Sokoke} from "./sokoke/Sokoke";

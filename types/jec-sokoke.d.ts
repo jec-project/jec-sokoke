@@ -12,4 +12,4 @@ import { DomainContainer, DomainConnector } from "jec-glasscat-core";
 import { FileProperties, FilePreProcessor, Decorator, AbstractLoggerProxy,
          AbstractDecoratorConnector, LoggerProxy } from "jec-commons";
 
-export class SokokeError extends Error {    constructor(message: string);}export interface Sokoke {    setDomainContainer(container: DomainContainer): void;    process(callback: (err: SokokeError) => void): void;}}
+export class SokokeBuilder implements DelegatedContainerBuilder {    constructor();    build(container: DomainContainer): DelegatedContainer;}export class DefaultSokokeContainer implements Sokoke {    constructor();    private _domainContainer;    private initObj();    getDomainContainer(): DomainContainer;    setDomainContainer(container: DomainContainer): void;    process(callback: (err: SokokeError) => void): void;}export class SokokeError extends Error {    constructor(message: string);}export interface Sokoke extends DelegatedContainer {    setDomainContainer(container: DomainContainer): void;    process(callback: (err: SokokeError) => void): void;}}

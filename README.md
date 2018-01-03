@@ -21,42 +21,6 @@ Set up the Sokoke module with:
 $ npm install jec-sokoke --save
 ```
 
-## Sokoke Framework Initialization
-
-You have to configure the Sokoke framework within a standard `Bootstrap` class
-in order to detect JDI decorators:
-
-```javascript
-import {Bootstrap, BootstrapScript, JecContainer} from "jec-commons";
-import {SokokeBuilder} from "jec-sokoke";
-
-@Bootstrap()
-export class InitApp implements BootstrapScript {
-
-  public run(container:JecContainer):void {
-    new SokokeBuilder().build(container)
-                       .process((err:any)=>{
-                          if(err) {
-                            throw new Error("Invalid JDI config: " + err);
-                          }
-                       });
-  }
-}
-```
-
-## Using JDI Decorators
-
-All JDI decorators have to be imported with the ES6 syntax:
-
-```javascript
-import {Injectable} from "jec-jdi";
-
-@Injectable()
-export class HelloWorld { }
-```
-
-For a complete list of available decorators, please refer to the [JDI project][jec-jdi-url].
-
 ## Running Tests
 
 To execute all unit tests, use:

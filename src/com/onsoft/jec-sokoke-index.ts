@@ -12,11 +12,17 @@
  * Please maintain package and alphabetical order!
  */
 
-//--> com/onsoft/builders
-export {SokokeBuilder} from "./sokoke/builders/SokokeBuilder";
 //--> com/onsoft/core
-export {DefaultSokokeContainer} from "./sokoke/core/DefaultSokokeContainer";
+export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
 //--> com/onsoft/exceptions
 export {SokokeError} from "./sokoke/exceptions/SokokeError";
-//--> com/onsoft/sokoke
-export {Sokoke} from "./sokoke/Sokoke";
+//--> com/onsoft/jcad/connectors
+export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
+//--> com/onsoft/jcad/decorators
+export {InjectableDecorator} from "./sokoke/jcad/decorators/InjectableDecorator";
+export {InjectParameterDecorator} from "./sokoke/jcad/decorators/InjectParameterDecorator";
+export {InjectPropertyDecorator} from "./sokoke/jcad/decorators/InjectPropertyDecorator";
+//--> com/onsoft/jcad
+export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
+//--> com/onsoft/logging
+export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";

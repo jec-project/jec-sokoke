@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "jec-commons": "^1.1.8",
+    "jec-commons-node": "^1.1.7",
     "jec-jdi": "^0.0.1"
   }
 }

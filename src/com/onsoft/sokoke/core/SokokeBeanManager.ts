@@ -14,26 +14,22 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {DelegatedContainer, DomainContainer} from "jec-glasscat-core";
-import {SokokeError} from "./exceptions/SokokeError";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
+import {BeanManager} from "jec-commons";
+import {SokokeError} from "../exceptions/SokokeError";
 
 /**
- * The main Sokoke execution entry point, which will execute a full Sokoke
- * execution session.
+ * The <code>SokokeBeanManager</code> class is the Sokoke framework 
+ * implementation of the  <code>BeanManager</code> interface.
  */
-export interface Sokoke extends DelegatedContainer {
-
-  //////////////////////////////////////////////////////////////////////////////
-  // Public methods
-  //////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * @inheritDoc
-   */
-  setDomainContainer(container:DomainContainer):void;
+export class SokokeBeanManager implements BeanManager {
+  
+  ////////////////////////////////////////////////////////////////////////////
+  // Constructor function
+  ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * @inheritDoc
+   * Creates a new <code>SokokeBeanManager</code> instance.
    */
-  process(callback:(err:SokokeError)=>void):void;
-};
+  constructor() { }
+}

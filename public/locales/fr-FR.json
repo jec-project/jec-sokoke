@@ -1,0 +1,9 @@
+{
+	"process": {
+		"start": "initialisation du framework Sokoke terminée",
+		"complete": "détection des beans autoconfigurés terminée"
+	},
+	"bean": {
+		"detected": "bean autoconfiguré détecté : fichier source='%s'"
+	}
+}

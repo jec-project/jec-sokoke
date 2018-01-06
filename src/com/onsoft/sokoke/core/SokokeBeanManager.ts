@@ -15,12 +15,12 @@
 //   limitations under the License.
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
-import {BeanManager} from "jec-commons";
+import {BeanManager} from "jec-jdi";
 import {SokokeError} from "../exceptions/SokokeError";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 
- * implementation of the  <code>BeanManager</code> interface.
+ * implementation of the <code>BeanManager</code> interface.
  */
 export class SokokeBeanManager implements BeanManager {
   

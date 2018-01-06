@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
+const path = require("path");
 class SokokeAutowireProcessor {
     constructor() {
         this.initObj();
@@ -14,7 +15,14 @@ class SokokeAutowireProcessor {
         logger.log("resolveInjectionPoints");
     }
     processStart(watcher, sourcePath) {
-        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log("Sokoke processStart");
+        let locale = watcher.getContainer().getLocale();
+        let localeString = locale.toString();
+        let sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
+        let cfg = {
+            directory: sokokeLocalesPath
+        };
+        SokokeLocaleManager_1.SokokeLocaleManager.getInstance().init(localeString, cfg);
+        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"));
     }
     process(file, watcher) {
         let decorators = file.decorators;
@@ -23,6 +31,7 @@ class SokokeAutowireProcessor {
         let classPath = null;
         let decoratorName = null;
         let logger = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance();
+        let i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let fileName = file.name;
         while (len--) {
             decorator = decorators[len];
@@ -30,15 +39,12 @@ class SokokeAutowireProcessor {
             decoratorName = decorator.name;
             if (classPath === SokokeAutowireProcessor.JDI_MASK &&
                 decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
-                console.log(`------------------>
-decoratorName=${decoratorName}
-<------------------`);
-                logger.log("autowired bean detected: source file='" + fileName + "'");
+                logger.log(i18n.get("bean.detected", fileName));
             }
         }
     }
     processComplete(watcher, sourcePath) {
-        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log("Sokoke processComplete");
+        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.complete"));
     }
 }
 SokokeAutowireProcessor.JDI_MASK = "jec-jdi";

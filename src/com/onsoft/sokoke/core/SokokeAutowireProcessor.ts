@@ -15,9 +15,12 @@
 //   limitations under the License.
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
-import {LoggerProxy, FilePreProcessor, FileProperties, DecoratorProperties} from "jec-commons";
+import {LoggerProxy, FilePreProcessor, FileProperties, DecoratorProperties,
+        Locale} from "jec-commons";
+import {LocaleManager} from "jec-commons-node";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeError} from "../exceptions/SokokeError";
+import * as path from "path";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -80,8 +83,17 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    * @inheritDoc
    */
   public processStart(watcher:any, sourcePath:string):void {
+    let locale:Locale = watcher.getContainer().getLocale();
+    let localeString:string = locale.toString();
+    let sokokeLocalesPath:string = path.join(
+      process.cwd(), "node_modules/jec-sokoke/public/locales/"
+    );
+    let cfg:any = {
+      directory: sokokeLocalesPath
+    };
+    SokokeLocaleManager.getInstance().init(localeString, cfg);
     SokokeLoggerProxy.getInstance().log(
-      "Sokoke processStart"
+      SokokeLocaleManager.getInstance().get("process.start")
     );
   }
 
@@ -95,6 +107,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     let classPath:string = null;
     let decoratorName:string = null;
     let logger:LoggerProxy = SokokeLoggerProxy.getInstance();
+    let i18n:LocaleManager = SokokeLocaleManager.getInstance();
     let fileName:string = file.name;
     while(len--) {
       decorator = decorators[len];
@@ -102,12 +115,10 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
       decoratorName = decorator.name;
       if(classPath === SokokeAutowireProcessor.JDI_MASK &&
          decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
-        console.log(`------------------>
+        /*console.log(`------------------>
 decoratorName=${decoratorName}
-<------------------`)
-        logger.log(
-          "autowired bean detected: source file='" + fileName + "'"
-        );
+<------------------`)*/
+        logger.log(i18n.get("bean.detected", fileName));
       }
     }
   }
@@ -117,7 +128,7 @@ decoratorName=${decoratorName}
    */
   public processComplete(watcher:any, sourcePath:string) {
     SokokeLoggerProxy.getInstance().log(
-      "Sokoke processComplete"
+      SokokeLocaleManager.getInstance().get("process.complete")
     );
   }
 }

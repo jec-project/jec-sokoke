@@ -1,0 +1,9 @@
+{
+	"process": {
+		"start": "Sokoke framework initialization complete",
+		"complete": "annotated beans detection complete"
+	},
+	"bean": {
+		"detected": "annotated bean detected: source file='%s'"
+	}
+}

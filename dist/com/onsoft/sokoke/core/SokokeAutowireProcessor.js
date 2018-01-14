@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
+const Sokoke_1 = require("../inject/Sokoke");
 class SokokeAutowireProcessor {
     constructor() {
         this.initObj();
@@ -23,6 +24,7 @@ class SokokeAutowireProcessor {
         };
         SokokeLocaleManager_1.SokokeLocaleManager.getInstance().init(localeString, cfg);
         SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"));
+        Sokoke_1.Sokoke.getInstance();
     }
     process(file, watcher) {
         let decorators = file.decorators;

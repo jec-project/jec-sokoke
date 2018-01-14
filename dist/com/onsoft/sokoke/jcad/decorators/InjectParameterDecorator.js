@@ -7,6 +7,8 @@ class InjectParameterDecorator {
         console.log(target);
         console.log(propertyKey);
         console.log(parameterIndex);
+        console.log(params);
+        console.log("---------------------------------");
         return target;
     }
 }

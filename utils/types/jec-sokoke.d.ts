@@ -8,10 +8,10 @@
 declare module "jec-sokoke" {
 
 import { Injectable, Inject, InjectableParams, InjectParams,
-         BeanManager } from "jec-jdi";
+         BeanManager, Bean, InjectionPoint, JdiContainer, JDI } from "jec-jdi";
 import { FileProperties, FilePreProcessor, Decorator, AbstractLoggerProxy,
-         AbstractDecoratorConnector, LoggerProxy, JcadContext,
-       } from "jec-commons";
+         AbstractDecoratorConnector, LoggerProxy, JcadContext, Member,
+         Parameter } from "jec-commons";
 import { LocaleManager } from "jec-commons-node";
 
 /*PLACEHOLDER*/}

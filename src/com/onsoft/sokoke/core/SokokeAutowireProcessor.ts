@@ -21,6 +21,7 @@ import {LocaleManager} from "jec-commons-node";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeError} from "../exceptions/SokokeError";
 import * as path from "path";
+import {Sokoke} from "../inject/Sokoke";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -95,6 +96,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get("process.start")
     );
+    Sokoke.getInstance();
   }
 
   /**

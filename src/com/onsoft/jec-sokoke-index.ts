@@ -12,10 +12,18 @@
  * Please maintain package and alphabetical order!
  */
 
+ //--> com/onsoft/builders
+export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
 //--> com/onsoft/core
 export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
 //--> com/onsoft/exceptions
 export {SokokeError} from "./sokoke/exceptions/SokokeError";
+//--> com/onsoft/i18n
+export {SokokeLocaleManager} from "./sokoke/i18n/SokokeLocaleManager";
+//--> com/onsoft/inject
+export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
+export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
+export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
 //--> com/onsoft/jcad/connectors
 export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
 //--> com/onsoft/jcad/decorators
@@ -26,3 +34,4 @@ export {InjectPropertyDecorator} from "./sokoke/jcad/decorators/InjectPropertyDe
 export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 //--> com/onsoft/logging
 export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
+

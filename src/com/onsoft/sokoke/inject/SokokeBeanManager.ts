@@ -14,40 +14,55 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
-import {InjectParams} from "jec-jdi";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
+import {BeanManager, InjectionPoint, Bean} from "jec-jdi";
+import {SokokeError} from "../exceptions/SokokeError";
 
 /**
- * The <code>InjectParameterDecorator</code> class defines the   
- * <code>Decorator</code> implementation for the JDI <code>@Inject</code>
- * decorator when it is used to inject bean through a method parameter.
+ * The <code>SokokeBeanManager</code> class is the Sokoke framework 
+ * implementation of the <code>BeanManager</code> interface.
  */
-export class InjectParameterDecorator implements Decorator {
+export class SokokeBeanManager implements BeanManager {
   
   ////////////////////////////////////////////////////////////////////////////
   // Constructor function
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>InjectParameterDecorator</code> instance.
+   * Creates a new <code>SokokeBeanManager</code> instance.
    */
-  constructor() {}
+  constructor() {
+    this.initObj();
+  }
 
   ////////////////////////////////////////////////////////////////////////////
-  // public methods
+  // Private methods
+  ////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Initializes this object.
+   */
+  private initObj():void {
+
+  }
+
+  ////////////////////////////////////////////////////////////////////////////
+  // Public methods
   ////////////////////////////////////////////////////////////////////////////
 
   /**
    * @inheritDoc
    */
-  public decorate(target:any, propertyKey:string|symbol,
-                               parameterIndex:number, params:InjectParams):any {
-    console.log("InjectParameterDecorator")
-    console.log(target)
-    console.log(propertyKey)
-    console.log(parameterIndex)
-    console.log(params)
-    console.log("---------------------------------")
-    return target;
+  public addBean(bean:Bean):void {
+    //TODO
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getBeans(injectionPoint:InjectionPoint):Set<Bean> {
+    let result:Set<Bean> = new Set<Bean>();
+    //TODO
+    return result;
   }
 }

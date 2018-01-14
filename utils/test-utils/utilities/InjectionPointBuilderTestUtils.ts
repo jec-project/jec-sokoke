@@ -1,3 +1,4 @@
+
 //  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 //
 //   Copyright 2016-2018 Pascal ECHEMANN.
@@ -14,22 +15,18 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
-import {BeanManager} from "jec-jdi";
-import {SokokeError} from "../exceptions/SokokeError";
+import { Bean, Scope } from "jec-jdi";
+import { Parameter } from "jec-commons";
 
-/**
- * The <code>SokokeBeanManager</code> class is the Sokoke framework 
- * implementation of the <code>BeanManager</code> interface.
+/*!
+ * This module constains utilities used by the InjectionPointBuilderTest test
+ * suite.
  */
-export class SokokeBeanManager implements BeanManager {
-  
-  ////////////////////////////////////////////////////////////////////////////
-  // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
 
-  /**
-   * Creates a new <code>SokokeBeanManager</code> instance.
-   */
-  constructor() { }
-}
+// Utilities:
+export class BeanType {}
+export const BEAN:Bean = ({
+  getScope: function():Scope { return null; },
+  getName: function():string { return null; }
+} as Bean);
+export const PARAMETER:Parameter = new Parameter("foo");

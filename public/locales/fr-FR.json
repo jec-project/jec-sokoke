@@ -5,5 +5,8 @@
 	},
 	"bean": {
 		"detected": "bean autoconfiguré détecté : fichier source='%s'"
+	},
+	"errors": {
+		"singleton": "Vous ne pouvez pas créer une instance de %s; utilisez getInstance() à la place."
 	}
 }

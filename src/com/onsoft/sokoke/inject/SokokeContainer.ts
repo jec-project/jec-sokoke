@@ -14,40 +14,59 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
-import {InjectParams} from "jec-jdi";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
+import {BeanManager, JdiContainer} from "jec-jdi";
 
 /**
- * The <code>InjectParameterDecorator</code> class defines the   
- * <code>Decorator</code> implementation for the JDI <code>@Inject</code>
- * decorator when it is used to inject bean through a method parameter.
+ * The <code>JdiContainer</code> class is the Sokoke framework 
+ * implementation of the <code>JdiContainer</code> interface.
  */
-export class InjectParameterDecorator implements Decorator {
+export class SokokeContainer implements JdiContainer {
   
   ////////////////////////////////////////////////////////////////////////////
   // Constructor function
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>InjectParameterDecorator</code> instance.
+   * Creates a new <code>SokokeContainer</code> instance.
    */
-  constructor() {}
+  constructor() {
+    this.initObj();
+  }
 
   ////////////////////////////////////////////////////////////////////////////
-  // public methods
+  // Private methods
+  ////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Initializes this object.
+   */
+  private initObj():void {
+
+  }
+
+  ////////////////////////////////////////////////////////////////////////////
+  // Public methods
   ////////////////////////////////////////////////////////////////////////////
 
   /**
    * @inheritDoc
    */
-  public decorate(target:any, propertyKey:string|symbol,
-                               parameterIndex:number, params:InjectParams):any {
-    console.log("InjectParameterDecorator")
-    console.log(target)
-    console.log(propertyKey)
-    console.log(parameterIndex)
-    console.log(params)
-    console.log("---------------------------------")
-    return target;
+  public getId():string {
+    throw new Error("Method not implemented.");
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getBeanManager(key:string):BeanManager {
+    throw new Error("Method not implemented.");
+  }
+  
+  /**
+   * @inheritDoc
+   */
+  public setBeanManager(beanManager:BeanManager, key:string):void {
+    throw new Error("Method not implemented.");
   }
 }

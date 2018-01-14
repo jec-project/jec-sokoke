@@ -5,5 +5,8 @@
 	},
 	"bean": {
 		"detected": "annotated bean detected: source file='%s'"
+	},
+	"errors": {
+		"singleton": "You cannot create a %s instance; use getInstance() instead."
 	}
 }

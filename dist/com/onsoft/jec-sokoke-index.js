@@ -1,5 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var BeanBuilder_1 = require("./sokoke/builders/BeanBuilder");
+exports.BeanBuilder = BeanBuilder_1.BeanBuilder;
 var InjectionPointBuilder_1 = require("./sokoke/builders/InjectionPointBuilder");
 exports.InjectionPointBuilder = InjectionPointBuilder_1.InjectionPointBuilder;
 var SokokeAutowireProcessor_1 = require("./sokoke/core/SokokeAutowireProcessor");
@@ -8,6 +10,10 @@ var SokokeError_1 = require("./sokoke/exceptions/SokokeError");
 exports.SokokeError = SokokeError_1.SokokeError;
 var SokokeLocaleManager_1 = require("./sokoke/i18n/SokokeLocaleManager");
 exports.SokokeLocaleManager = SokokeLocaleManager_1.SokokeLocaleManager;
+var Sokoke_1 = require("./sokoke/inject/Sokoke");
+exports.Sokoke = Sokoke_1.Sokoke;
+var SokokeBean_1 = require("./sokoke/inject/SokokeBean");
+exports.SokokeBean = SokokeBean_1.SokokeBean;
 var SokokeBeanManager_1 = require("./sokoke/inject/SokokeBeanManager");
 exports.SokokeBeanManager = SokokeBeanManager_1.SokokeBeanManager;
 var SokokeContainer_1 = require("./sokoke/inject/SokokeContainer");

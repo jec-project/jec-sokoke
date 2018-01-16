@@ -13,6 +13,7 @@
  */
 
  //--> com/onsoft/builders
+export {BeanBuilder} from "./sokoke/builders/BeanBuilder";
 export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
 //--> com/onsoft/core
 export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
@@ -21,6 +22,8 @@ export {SokokeError} from "./sokoke/exceptions/SokokeError";
 //--> com/onsoft/i18n
 export {SokokeLocaleManager} from "./sokoke/i18n/SokokeLocaleManager";
 //--> com/onsoft/inject
+export {Sokoke} from "./sokoke/inject/Sokoke";
+export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
 export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
 export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";

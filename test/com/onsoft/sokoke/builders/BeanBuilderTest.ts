@@ -1,0 +1,154 @@
+//  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
+//
+//   Copyright 2016-2018 Pascal ECHEMANN.
+//
+//   Licensed under the Apache License, Version 2.0 (the "License");
+//   you may not use this file except in compliance with the License.
+//   You may obtain a copy of the License at
+//
+//       http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+
+import { TestSuite, Test, AfterAll, TestSorters } from "jec-juta";
+import { expect } from "chai";
+import { BeanBuilder } from "../../../../../src/com/onsoft/sokoke/builders/BeanBuilder";
+import { SokokeBean } from "../../../../../src/com/onsoft/sokoke/inject/SokokeBean";
+import { Bean } from "jec-jdi";
+import { SingletonError } from "jec-commons";
+
+import * as utils from "../../../../../utils/test-utils/utilities/SokokeBeanTestUtils";
+
+@TestSuite({
+  description: "Test the BeanBuilder class methods",
+  testOrder: TestSorters.ORDER_ASCENDING
+})
+export class BeanBuilderTest {
+
+  public bean:Bean = null;
+
+  @AfterAll()
+  public resetTest():void {
+    this.bean = null;
+  }
+
+  @Test({
+    description: "should throw a singleton error when calling the constructor function",
+    order: 0
+  })
+  public singletonErrorTest():void {
+    let buildInstance:Function = function():void {
+      new BeanBuilder();
+    };
+    expect(buildInstance).to.throw(SingletonError);
+  }
+  
+  @Test({
+    description: "should return a BeanBuilder instance",
+    order: 1
+  })
+  public getInstanceTest():void {
+    let builder:any = BeanBuilder.getInstance();
+    expect(builder).to.be.an.instanceOf(BeanBuilder);
+  }
+  
+  @Test({
+    description: "should return a singleton reference"
+  })
+  public singletonTest():void {
+    let builder1:any = BeanBuilder.getInstance();
+    let builder2:any = BeanBuilder.getInstance();
+    expect(builder1).to.equal(builder2);
+  }
+
+  @Test({
+    description: "should create an object of the type of 'SokokeBean'",
+    order: 3
+  })
+  public buildTest():void {
+    expect(
+      BeanBuilder.getInstance().build()
+    ).to.be.an.instanceOf(SokokeBean);
+  }
+  
+  @Test({
+    description: "should create an object of the type of 'SokokeBean'",
+    order: 4
+  })
+  public buildNewInstanceTest():void {
+    this.bean = BeanBuilder.getInstance().build();
+    expect(this.bean).to.not.equal(BeanBuilder.getInstance().build());
+  }
+  
+  @Test({
+    description: "'getScope() should return 'null' as default value",
+    order: 5
+  })
+  public getScopeDefaultTest():void {
+    expect(this.bean.getScope()).to.be.null;
+  }
+  
+  @Test({
+    description: "'getName() should return 'null' as default value",
+    order: 6
+  })
+  public getNameDefaultTest():void {
+    expect(this.bean.getName()).to.be.null;
+  }
+  
+  @Test({
+    description: "should create an object of the type of 'SokokeBean'",
+    order: 7
+  })
+  public buildInitializedInstanceTest():void {
+    this.bean = BeanBuilder.getInstance().scope(utils.SCOPE)
+                                         .name(utils.NAME)
+                                         .build();
+    expect(this.bean).to.not.equal(BeanBuilder.getInstance().build());
+  }
+
+  @Test({
+    description: "should return the same 'name' as used to build the bean",
+    order: 8
+  })
+  public getNameTest():void {
+    expect(this.bean.getName()).to.equal(utils.NAME);
+  }
+  
+  @Test({
+    description: "should return the same 'Scope' as used to build the bean",
+    order: 9
+  })
+  public getScopeTest():void {
+    expect(this.bean.getScope()).to.equal(utils.SCOPE);
+  }
+  
+  @Test({
+    description: "should reset the builder to its initial, empty state.",
+    order: 10
+  })
+  public clearTest():void {
+    expect(BeanBuilder.getInstance().clear()).to.be.OK;
+    this.bean = BeanBuilder.getInstance().build();
+  }
+
+  @Test({
+    description: "'getName() should return 'null' after a clear() method invocation",
+    order: 11
+  })
+  public getNameClearTest():void {
+    expect(this.bean.getName()).to.be.null;
+  }
+  
+  @Test({
+    description: "'getScope() should return 'null' after a clear() method invocation",
+    order: 12
+  })
+  public getScopeClearTest():void {
+    expect(this.bean.getScope()).to.be.null;
+  }
+}

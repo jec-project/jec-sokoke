@@ -4,7 +4,8 @@
 		"complete": "annotated beans detection complete"
 	},
 	"bean": {
-		"detected": "annotated bean detected: source file='%s'"
+		"detected": "managed bean detected: source file='%s'",
+		"instantiated": "managed bean instantiated: class='%s', scope='%s'"
 	},
 	"errors": {
 		"singleton": "You cannot create a %s instance; use getInstance() instead."

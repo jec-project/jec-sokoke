@@ -14,8 +14,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
+import {Decorator, LogLevel} from "jec-commons";
 import {InjectableParams} from "jec-jdi";
+import {SokokeLoggerProxy} from "../../logging/SokokeLoggerProxy";
+import {SokokeLocaleManager} from "../../i18n/SokokeLocaleManager";
 
 /**
  * The <code>InjectableDecorator</code> class defines the <code>Decorator</code>  
@@ -40,8 +42,15 @@ export class InjectableDecorator implements Decorator {
    * @inheritDoc
    */
   public decorate(target:any, params:InjectableParams):any {
-    console.log("InjectableDecorator")
+    /*console.log("InjectableDecorator")
     console.log(target)
+    console.log("---------------------------------")*/
+    SokokeLoggerProxy.getInstance().log(
+      SokokeLocaleManager.getInstance().get(
+        "bean.instantiated", target.name, params.scope
+      ),
+      LogLevel.DEBUG
+    );
     return target;
   }
 }

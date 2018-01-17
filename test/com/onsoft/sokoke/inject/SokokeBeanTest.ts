@@ -30,7 +30,9 @@ export class SokokeBeanTest {
 
   @BeforeAll()
   public initTest():void {
-    this.bean = new SokokeBean(utils.NAME, utils.SCOPE);
+    this.bean = new SokokeBean(
+      utils.NAME, utils.SCOPE, utils.BeanClass, utils.TYPES
+    );
   }
 
   @AfterAll()
@@ -50,5 +52,19 @@ export class SokokeBeanTest {
   })
   public getNameTest():void {
     expect(this.bean.getName()).to.equal(utils.NAME);
+  }
+  
+  @Test({
+    description: "should return the same class as passed as constructor parameter"
+  })
+  public getBeanClassTest():void {
+    expect(this.bean.getBeanClass()).to.equal(utils.BeanClass);
+  }
+  
+  @Test({
+    description: "should return the same types as passed as constructor parameter"
+  })
+  public getTypesTest():void {
+    expect(this.bean.getTypes()).to.equal(utils.TYPES);
   }
 }

@@ -22,6 +22,7 @@ import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeError} from "../exceptions/SokokeError";
 import * as path from "path";
 import {Sokoke} from "../inject/Sokoke";
+import {BeanFactory} from "./BeanFactory";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -55,6 +56,12 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    */
   private static readonly INJECTABLE_MASK:string = "Injectable";
 
+  /**
+   * The reference to the <code>BeanFactory</code> instance used by this
+   * processor to initialize beans.
+   */
+  private _factory:BeanFactory = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
   ////////////////////////////////////////////////////////////////////////////
@@ -64,6 +71,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    */
   private initObj():void {
     SokokeLocaleManager.getInstance();
+    this._factory = new BeanFactory();
   }
 
   /**
@@ -121,6 +129,8 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
 decoratorName=${decoratorName}
 <------------------`)*/
         logger.log(i18n.get("bean.detected", fileName));
+        this._factory.addBeanArchive(file);
+        break;
       }
     }
   }

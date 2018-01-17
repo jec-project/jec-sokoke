@@ -4,7 +4,8 @@
 		"complete": "détection des beans autoconfigurés terminée"
 	},
 	"bean": {
-		"detected": "bean autoconfiguré détecté : fichier source='%s'"
+		"detected": "bean autoconfiguré détecté : fichier source='%s'",
+		"instantiated": "bean autoconfiguré instancié: classe='%s', scope='%s'"
 	},
 	"errors": {
 		"singleton": "Vous ne pouvez pas créer une instance de %s; utilisez getInstance() à la place."

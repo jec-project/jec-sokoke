@@ -31,9 +31,11 @@ export class SokokeBean implements Bean {
    * 
    * @param {string} name the name of the bean, if it has one.
    * @param {Scope} scope the scope of the bean.
+   * @param {any} beanClass the bean class of the bean.
+   * @param {Set<any>} types the bean types of the bean.
    */
-  constructor(name:string, scope:Scope) {
-    this.initObj(name, scope);
+  constructor(name:string, scope:Scope, beanClass:any, types:Set<any>) {
+    this.initObj(name, scope, beanClass, types);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -50,6 +52,16 @@ export class SokokeBean implements Bean {
    */
   private _scope:Scope = null;
 
+  /**
+   * The bean class for this bean.
+   */
+  private _beanClass:any = null;
+
+  /**
+   * The bean types for this bean.
+   */
+  private _types:Set<any> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -59,10 +71,15 @@ export class SokokeBean implements Bean {
    * 
    * @param {string} name the name of the bean, if it has one.
    * @param {Scope} scope the scope of the bean.
+   * @param {any} beanClass the bean class of the bean.
+   * @param {Set<any>} types the bean types of the bean.
    */
-  private initObj(name:string, scope:Scope):void {
+  private initObj(name:string, scope:Scope, beanClass:any,
+                                                          types:Set<any>):void {
     this._name = name;
     this._scope = scope;
+    this._beanClass = beanClass;
+    this._types = types;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -72,14 +89,28 @@ export class SokokeBean implements Bean {
   /**
    * @inheritDoc
    */
-  public getScope(): Scope {
+  public getScope():Scope {
     return this._scope;
   }
 
   /**
    * @inheritDoc
    */
-  public getName(): string {
+  public getName():string {
     return this._name;
+  }
+  
+  /**
+   * @inheritDoc
+   */
+  public getBeanClass():any {
+    return this._beanClass;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getTypes():Set<any> {
+    return this._types;
   }
 }

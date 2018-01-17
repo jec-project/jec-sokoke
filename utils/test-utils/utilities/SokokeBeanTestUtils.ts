@@ -21,9 +21,15 @@ import {Scope} from "jec-jdi";
  */
 
 // Utilities:
+interface BeanType {};
+const BeanType:Symbol = Symbol("BeanType");
 export const NAME:string = "foo";
 export const SCOPE:Scope = {
   getType: function() {
     return null;
   }
 };
+export class BeanClass {}
+export const TYPES:Set<any> = new Set<any>();
+TYPES.add(BeanType);
+TYPES.add(BeanClass);

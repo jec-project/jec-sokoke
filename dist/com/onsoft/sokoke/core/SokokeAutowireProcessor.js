@@ -4,12 +4,15 @@ const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
 const Sokoke_1 = require("../inject/Sokoke");
+const BeanFactory_1 = require("./BeanFactory");
 class SokokeAutowireProcessor {
     constructor() {
+        this._factory = null;
         this.initObj();
     }
     initObj() {
         SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
+        this._factory = new BeanFactory_1.BeanFactory();
     }
     resolveInjectionPoints() {
         let logger = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance();
@@ -42,6 +45,8 @@ class SokokeAutowireProcessor {
             if (classPath === SokokeAutowireProcessor.JDI_MASK &&
                 decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
                 logger.log(i18n.get("bean.detected", fileName));
+                this._factory.addBeanArchive(file);
+                break;
             }
         }
     }

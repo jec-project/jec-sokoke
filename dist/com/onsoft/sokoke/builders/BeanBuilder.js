@@ -7,6 +7,8 @@ class BeanBuilder {
     constructor() {
         this._scope = null;
         this._name = null;
+        this._beanClass = null;
+        this._types = null;
         let msg = null;
         let i18n = null;
         if (BeanBuilder._locked || BeanBuilder.INSTANCE) {
@@ -37,13 +39,23 @@ class BeanBuilder {
         this._name = name;
         return this;
     }
+    beanClass(beanClass) {
+        this._beanClass = beanClass;
+        return this;
+    }
+    types(types) {
+        this._types = types;
+        return this;
+    }
     clear() {
         this._scope = null;
         this._name = null;
+        this._beanClass = null;
+        this._types = null;
         return this;
     }
     build() {
-        let bean = new SokokeBean_1.SokokeBean(this._name, this._scope);
+        let bean = new SokokeBean_1.SokokeBean(this._name, this._scope, this._beanClass, this._types);
         return bean;
     }
 }

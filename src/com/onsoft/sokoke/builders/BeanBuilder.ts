@@ -92,6 +92,16 @@ export class BeanBuilder {
    */
   private _name:string = null;
 
+  /**
+   * The bean class of the the new <code>Bean</code> object.
+   */
+  private _beanClass:any = null;
+
+  /**
+   * The bean types of the the new <code>Bean</code> object.
+   */
+  private _types:Set<any> = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Public methods
   ////////////////////////////////////////////////////////////////////////////
@@ -123,6 +133,30 @@ export class BeanBuilder {
   }
 
   /**
+   * Sets the bean class of the new <code>Bean</code> object.
+   * 
+   * @param {any} beanClass the bean class of the new <code>Bean</code> object.
+   * @return {BeanBuilder} the reference to this <code>BeanBuilder</code>
+   *                       object.
+   */
+  public beanClass(beanClass:any):BeanBuilder {
+    this._beanClass = beanClass;
+    return this;
+  }
+  
+  /**
+   * Sets the bean types of the new <code>Bean</code> object.
+   * 
+   * @param {Set<any>} types the bean types of the new <code>Bean</code> object.
+   * @return {BeanBuilder} the reference to this <code>BeanBuilder</code>
+   *                       object.
+   */
+  public types(types:Set<any>):BeanBuilder {
+    this._types = types;
+    return this;
+  }
+
+  /**
    * Resets the builder to its initial, empty state.
    * 
    * @return {BeanBuilder} the reference to this <code>BeanBuilder</code>
@@ -131,6 +165,8 @@ export class BeanBuilder {
   public clear():BeanBuilder {
     this._scope = null;
     this._name = null;
+    this._beanClass = null;
+    this._types = null;
     return this;
   }
 
@@ -142,7 +178,9 @@ export class BeanBuilder {
    *                properties.
    */
   public build():Bean {
-    let bean:Bean = new SokokeBean(this._name, this._scope);
+    let bean:Bean = new SokokeBean(
+                        this._name, this._scope, this._beanClass, this._types
+                      );
     return bean;
   }
 }

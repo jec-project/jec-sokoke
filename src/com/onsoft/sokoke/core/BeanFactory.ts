@@ -17,7 +17,9 @@
 import {Scope, Bean} from "jec-jdi";
 import {InjectableParamsEvaluator} from "../utils/InjectableParamsEvaluator";
 import {BeanBuilder} from "../builders/BeanBuilder";
-import {FileProperties} from "jec-commons";
+import {FileProperties, LogLevel} from "jec-commons";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
+import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 
 /**
  * The <code>BeanFactory</code> is responsible to create <code>Bean</code>
@@ -67,6 +69,10 @@ export class BeanFactory {
    * @param {FileProperties} file 
    */
   public addBeanArchive(file:FileProperties):void {
-    this._evaluator.evaluate(file);
+    let bean:Bean = this._evaluator.evaluate(file);
+    SokokeLoggerProxy.getInstance().log(
+      SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()),
+      LogLevel.DEBUG
+    );
   }
 }

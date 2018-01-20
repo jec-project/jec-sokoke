@@ -26,5 +26,8 @@ class SokokeBean {
     getTypes() {
         return this._types;
     }
+    toString() {
+        return `[bean: ${this._name || this._beanClass.name}]`;
+    }
 }
 exports.SokokeBean = SokokeBean;

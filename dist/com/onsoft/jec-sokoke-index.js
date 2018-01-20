@@ -36,5 +36,7 @@ var SokokeLoggerProxy_1 = require("./sokoke/logging/SokokeLoggerProxy");
 exports.SokokeLoggerProxy = SokokeLoggerProxy_1.SokokeLoggerProxy;
 var InjectableParamsEvaluator_1 = require("./sokoke/utils/InjectableParamsEvaluator");
 exports.InjectableParamsEvaluator = InjectableParamsEvaluator_1.InjectableParamsEvaluator;
+var InjectableParamsString_1 = require("./sokoke/utils/InjectableParamsString");
+exports.InjectableParamsString = InjectableParamsString_1.InjectableParamsString;
 var ScopeStrategy_1 = require("./sokoke/utils/ScopeStrategy");
 exports.ScopeStrategy = ScopeStrategy_1.ScopeStrategy;

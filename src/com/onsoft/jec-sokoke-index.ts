@@ -40,5 +40,6 @@ export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
 //--> com/onsoft/utils
 export {InjectableParamsEvaluator} from "./sokoke/utils/InjectableParamsEvaluator";
+export {InjectableParamsString} from "./sokoke/utils/InjectableParamsString";
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

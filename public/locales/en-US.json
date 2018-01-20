@@ -5,7 +5,8 @@
 	},
 	"bean": {
 		"detected": "managed bean detected: source file='%s'",
-		"instantiated": "managed bean instantiated: class='%s', scope='%s'"
+		"instantiated": "managed bean instantiated: class='%s', scope='%s'",
+		"evaluated": "managed bean evaluated: %s"
 	},
 	"errors": {
 		"singleton": "You cannot create a %s instance; use getInstance() instead."

@@ -16,7 +16,8 @@
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {LoggerProxy, FilePreProcessor, FileProperties, DecoratorProperties,
-        Locale} from "jec-commons";
+        Locale,
+        LogLevel} from "jec-commons";
 import {LocaleManager} from "jec-commons-node";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeError} from "../exceptions/SokokeError";
@@ -74,16 +75,6 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     this._factory = new BeanFactory();
   }
 
-  /**
-   * Starts beans resolution process.
-   */
-  private resolveInjectionPoints():void {
-    let logger:LoggerProxy = SokokeLoggerProxy.getInstance();
-    logger.log(
-      "resolveInjectionPoints"
-    );
-  }
-
   ////////////////////////////////////////////////////////////////////////////
   // Public methods
   ////////////////////////////////////////////////////////////////////////////
@@ -124,11 +115,8 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
       classPath = decorator.classPath;
       decoratorName = decorator.name;
       if(classPath === SokokeAutowireProcessor.JDI_MASK &&
-         decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
-        /*console.log(`------------------>
-decoratorName=${decoratorName}
-<------------------`)*/
-        logger.log(i18n.get("bean.detected", fileName));
+        decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
+        logger.log(i18n.get("bean.detected", fileName), LogLevel.DEBUG);
         this._factory.addBeanArchive(file);
         break;
       }

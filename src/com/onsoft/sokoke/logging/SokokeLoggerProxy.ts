@@ -31,7 +31,7 @@ export class SokokeLoggerProxy extends AbstractLoggerProxy
    * Creates a new <code>SokokeLoggerProxy</code> instance.
    */
   constructor() {
-    super("[SANDCAT]");
+    super("[SOKOKE]");
     if(SokokeLoggerProxy._locked || SokokeLoggerProxy.INSTANCE) {
       this.throwSingletonError("SokokeLoggerProxy");
     }

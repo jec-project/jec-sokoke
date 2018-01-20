@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
 class SokokeLoggerProxy extends jec_commons_1.AbstractLoggerProxy {
     constructor() {
-        super("[SANDCAT]");
+        super("[SOKOKE]");
         if (SokokeLoggerProxy._locked || SokokeLoggerProxy.INSTANCE) {
             this.throwSingletonError("SokokeLoggerProxy");
         }

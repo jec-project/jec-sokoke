@@ -113,4 +113,11 @@ export class SokokeBean implements Bean {
   public getTypes():Set<any> {
     return this._types;
   }
+
+  /*
+   * @private
+   */
+  public toString():string {
+    return `[bean: ${this._name || this._beanClass.name}]`;
+  }
 }

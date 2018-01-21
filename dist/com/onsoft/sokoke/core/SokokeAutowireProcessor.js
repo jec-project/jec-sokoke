@@ -6,14 +6,17 @@ const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
 const Sokoke_1 = require("../inject/Sokoke");
 const BeanFactory_1 = require("./BeanFactory");
+const InjectionPointFactory_1 = require("../core/InjectionPointFactory");
 class SokokeAutowireProcessor {
     constructor() {
-        this._factory = null;
+        this._beanFactory = null;
+        this._injectPointFactory = null;
         this.initObj();
     }
     initObj() {
         SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-        this._factory = new BeanFactory_1.BeanFactory();
+        this._beanFactory = new BeanFactory_1.BeanFactory();
+        this._injectPointFactory = new InjectionPointFactory_1.InjectionPointFactory();
     }
     processStart(watcher, sourcePath) {
         let locale = watcher.getContainer().getLocale();
@@ -35,16 +38,23 @@ class SokokeAutowireProcessor {
         let logger = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance();
         let i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let fileName = file.name;
+        let hasInjectionPoint = false;
         while (len--) {
             decorator = decorators[len];
             classPath = decorator.classPath;
             decoratorName = decorator.name;
-            if (classPath === SokokeAutowireProcessor.JDI_MASK &&
-                decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
-                logger.log(i18n.get("bean.detected", fileName), jec_commons_1.LogLevel.DEBUG);
-                this._factory.addBeanArchive(file);
-                break;
+            if (classPath === SokokeAutowireProcessor.JDI_MASK) {
+                if (decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
+                    logger.log(i18n.get("bean.detected", fileName), jec_commons_1.LogLevel.DEBUG);
+                    this._beanFactory.addBeanArchive(file);
+                }
+                else if (decoratorName === SokokeAutowireProcessor.INJECT_MASK) {
+                    hasInjectionPoint = true;
+                }
             }
+        }
+        if (hasInjectionPoint) {
+            logger.log(i18n.get("injection.detected", fileName), jec_commons_1.LogLevel.DEBUG);
         }
     }
     processComplete(watcher, sourcePath) {
@@ -53,4 +63,5 @@ class SokokeAutowireProcessor {
 }
 SokokeAutowireProcessor.JDI_MASK = "jec-jdi";
 SokokeAutowireProcessor.INJECTABLE_MASK = "Injectable";
+SokokeAutowireProcessor.INJECT_MASK = "Inject";
 exports.SokokeAutowireProcessor = SokokeAutowireProcessor;

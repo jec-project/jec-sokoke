@@ -14,13 +14,6 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Bean, Scope, InjectableParams, ScopeType} from "jec-jdi";
-import {BeanBuilder} from "../../builders/BeanBuilder";
-import {FileProperties, UrlStringsEnum} from "jec-commons";
-import {ScopeStrategy} from "../../utils/ScopeStrategy";
-import * as path from "path";
-import {InjectableParamsString} from "./InjectableParamsString";
-
 /**
  * The <code>InjectableParamsRegExp</code> static class provides functionalities
  * for working with regular expressions during bean archives evaluation.  

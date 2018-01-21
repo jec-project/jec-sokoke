@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jec_jdi_1 = require("jec-jdi");
 const BeanBuilder_1 = require("../../builders/BeanBuilder");
 const jec_commons_1 = require("jec-commons");
+const SokokeLoggerProxy_1 = require("../../logging/SokokeLoggerProxy");
+const SokokeLocaleManager_1 = require("../../i18n/SokokeLocaleManager");
 const ScopeStrategy_1 = require("../../utils/ScopeStrategy");
 const path = require("path");
 const InjectableParamsString_1 = require("./InjectableParamsString");
@@ -10,7 +12,7 @@ const InjectableParamsRegExp_1 = require("./InjectableParamsRegExp");
 class InjectableParamsEvaluator {
     constructor() { }
     getBeanClass(file) {
-        let fileName = file.name + jec_commons_1.UrlStringsEnum.DOT + file.extension;
+        let fileName = file.name + InjectableParamsString_1.InjectableParamsString.DOT + file.extension;
         let filePath = path.join(file.path, fileName);
         let beanClass = require(filePath);
         return beanClass;
@@ -101,6 +103,7 @@ class InjectableParamsEvaluator {
             .types(this.buildTypes(beanClass, params.type))
             .beanClass(beanClass)
             .build();
+        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()), jec_commons_1.LogLevel.DEBUG);
         return bean;
     }
 }

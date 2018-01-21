@@ -8,6 +8,10 @@
 		"instantiated": "managed bean instantiated: class='%s', scope='%s'",
 		"evaluated": "managed bean evaluated: %s"
 	},
+	"injection": {
+		"detected": "injection points detected: source file='%s'",
+		"evaluated": "injection point evaluated: %s"
+	},
 	"errors": {
 		"singleton": "You cannot create a %s instance; use getInstance() instead."
 	}

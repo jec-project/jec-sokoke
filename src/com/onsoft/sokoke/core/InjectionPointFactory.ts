@@ -14,22 +14,21 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Scope, Bean} from "jec-jdi";
-import {InjectableParamsEvaluator} from "../utils/reflection/InjectableParamsEvaluator";
+import {InjectParamsEvaluator} from "../utils/reflection/InjectParamsEvaluator";
 import {FileProperties} from "jec-commons";
 
 /**
- * The <code>BeanFactory</code> is responsible to create <code>Bean</code>
- * objects during the autowiring process.
+ * The <code>InjectionPointFactory</code> is responsible to create 
+ * <code>InjectionPoint</code> objects during the autowiring process.
  */
-export class BeanFactory {
+export class InjectionPointFactory {
   
   ////////////////////////////////////////////////////////////////////////////
   // Constructor function
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>BeanFactory</code> instance.
+   * Creates a new <code>InjectionPointFactory</code> instance.
    */
   constructor() {
     this.initObj();
@@ -40,10 +39,10 @@ export class BeanFactory {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * The <code>InjectableParamsEvaluator</code> object associated with this
-   * <code>BeanFactory</code> instance.
+   * The <code>InjectParamsEvaluator</code> object associated with this
+   * <code>InjectionPointFactory</code> instance.
    */
-  private _evaluator:InjectableParamsEvaluator = null;
+  private _evaluator:InjectParamsEvaluator = null;
 
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -53,7 +52,7 @@ export class BeanFactory {
    * Initializes this object.
    */
   private initObj():void {
-    this._evaluator = new InjectableParamsEvaluator();
+    this._evaluator = new InjectParamsEvaluator();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -65,7 +64,7 @@ export class BeanFactory {
    * 
    * @param {FileProperties} file 
    */
-  public addBeanArchive(file:FileProperties):void {
-    let bean:Bean = this._evaluator.evaluate(file);
+  public addFileContext(file:FileProperties):void {
+    this._evaluator.evaluate(file);
   }
 }

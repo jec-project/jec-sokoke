@@ -14,9 +14,8 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator, Member, Field} from "jec-commons";
-import {InjectParams, InjectionPoint, Bean} from "jec-jdi";
-import {InjectionPointBuilder} from "../../builders/InjectionPointBuilder";
+import {Decorator} from "jec-commons";
+import {InjectParams} from "jec-jdi";
 
 /**
  * The <code>InjectPropertyDecorator</code> class defines the   
@@ -46,15 +45,6 @@ export class InjectPropertyDecorator implements Decorator {
     console.log(target)
     console.log(key)
     console.log(params)
-    let bean:Bean = null;
-    let element:Member = new Field(key, target.constructor);
-    let injectPoint:InjectionPoint = InjectionPointBuilder.getInstance()
-                                                          .clear()
-                                                          .bean(bean)
-                                                          .type(params.type)
-                                                          .element(element)
-                                                          .build();
-    console.log(injectPoint)
     console.log("---------------------------------")
     return target;
   }

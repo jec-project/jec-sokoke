@@ -24,6 +24,7 @@ import {SokokeError} from "../exceptions/SokokeError";
 import * as path from "path";
 import {Sokoke} from "../inject/Sokoke";
 import {BeanFactory} from "./BeanFactory";
+import {InjectionPointFactory} from "../core/InjectionPointFactory";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -58,10 +59,22 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
   private static readonly INJECTABLE_MASK:string = "Injectable";
 
   /**
+   * The mask used to detect the <code>@Inject</code> decorator in a file.
+   * 
+   */
+  private static readonly INJECT_MASK:string = "Inject";
+  
+  /**
    * The reference to the <code>BeanFactory</code> instance used by this
    * processor to initialize beans.
    */
-  private _factory:BeanFactory = null;
+  private _beanFactory:BeanFactory = null;
+
+  /**
+   * The reference to the <code>InjectionPointFactory</code> instance used by 
+   * this processor to initialize injection points.
+   */
+  private _injectPointFactory:InjectionPointFactory = null;
 
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -72,7 +85,8 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    */
   private initObj():void {
     SokokeLocaleManager.getInstance();
-    this._factory = new BeanFactory();
+    this._beanFactory = new BeanFactory();
+    this._injectPointFactory = new InjectionPointFactory();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -110,16 +124,25 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     let logger:LoggerProxy = SokokeLoggerProxy.getInstance();
     let i18n:LocaleManager = SokokeLocaleManager.getInstance();
     let fileName:string = file.name;
+    let hasInjectionPoint:boolean = false;
     while(len--) {
       decorator = decorators[len];
       classPath = decorator.classPath;
       decoratorName = decorator.name;
-      if(classPath === SokokeAutowireProcessor.JDI_MASK &&
-        decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
-        logger.log(i18n.get("bean.detected", fileName), LogLevel.DEBUG);
-        this._factory.addBeanArchive(file);
-        break;
+      if(classPath === SokokeAutowireProcessor.JDI_MASK) {
+        if(decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
+          logger.log(i18n.get("bean.detected", fileName), LogLevel.DEBUG);
+          this._beanFactory.addBeanArchive(file);
+        } else if(decoratorName === SokokeAutowireProcessor.INJECT_MASK) {
+          hasInjectionPoint = true;
+        }
       }
+    }
+    if(hasInjectionPoint) {
+      logger.log(
+        i18n.get("injection.detected", fileName),
+        LogLevel.DEBUG
+      );
     }
   }
 

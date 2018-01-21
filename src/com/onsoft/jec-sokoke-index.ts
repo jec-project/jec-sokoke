@@ -17,6 +17,7 @@ export {BeanBuilder} from "./sokoke/builders/BeanBuilder";
 export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
 //--> com/onsoft/core
 export {BeanFactory} from "./sokoke/core/BeanFactory";
+export {InjectionPointFactory} from "./sokoke/core/InjectionPointFactory";
 export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
 //--> com/onsoft/exceptions
 export {SokokeError} from "./sokoke/exceptions/SokokeError";
@@ -42,6 +43,7 @@ export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
 export {InjectableParamsEvaluator} from "./sokoke/utils/reflection/InjectableParamsEvaluator";
 export {InjectableParamsRegExp} from "./sokoke/utils/reflection/InjectableParamsRegExp";
 export {InjectableParamsString} from "./sokoke/utils/reflection/InjectableParamsString";
+export {InjectParamsEvaluator} from "./sokoke/utils/reflection/InjectParamsEvaluator";
 //--> com/onsoft/utils
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

@@ -16,7 +16,9 @@
 
 import {Bean, Scope, InjectableParams, ScopeType} from "jec-jdi";
 import {BeanBuilder} from "../../builders/BeanBuilder";
-import {FileProperties, UrlStringsEnum} from "jec-commons";
+import {FileProperties, LogLevel} from "jec-commons";
+import {SokokeLoggerProxy} from "../../logging/SokokeLoggerProxy";
+import {SokokeLocaleManager} from "../../i18n/SokokeLocaleManager";
 import {ScopeStrategy} from "../../utils/ScopeStrategy";
 import * as path from "path";
 import {InjectableParamsString} from "./InjectableParamsString";
@@ -48,7 +50,8 @@ export class InjectableParamsEvaluator {
    *                              current bean archive.
    */
   private getBeanClass(file:FileProperties):any {
-    let fileName:string = file.name + UrlStringsEnum.DOT + file.extension;
+    let fileName:string =
+                        file.name + InjectableParamsString.DOT + file.extension;
     let filePath:string = path.join(file.path, fileName);
     let beanClass:any = require(filePath);
     return beanClass;
@@ -219,6 +222,10 @@ export class InjectableParamsEvaluator {
                                .types(this.buildTypes(beanClass, params.type))
                                .beanClass(beanClass)
                                .build();
+    SokokeLoggerProxy.getInstance().log(
+      SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()),
+      LogLevel.DEBUG
+    );
     return bean;
   }
 }

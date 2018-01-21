@@ -38,8 +38,10 @@ export {InjectPropertyDecorator} from "./sokoke/jcad/decorators/InjectPropertyDe
 export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 //--> com/onsoft/logging
 export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
+//--> com/onsoft/utils/reflection
+export {InjectableParamsEvaluator} from "./sokoke/utils/reflection/InjectableParamsEvaluator";
+export {InjectableParamsRegExp} from "./sokoke/utils/reflection/InjectableParamsRegExp";
+export {InjectableParamsString} from "./sokoke/utils/reflection/InjectableParamsString";
 //--> com/onsoft/utils
-export {InjectableParamsEvaluator} from "./sokoke/utils/InjectableParamsEvaluator";
-export {InjectableParamsString} from "./sokoke/utils/InjectableParamsString";
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

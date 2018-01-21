@@ -16,9 +16,9 @@
 
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
-import { InjectableParamsString } from "../../../../../src/com/onsoft/sokoke/utils/InjectableParamsString";
+import { InjectableParamsString } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectableParamsString";
 
-import * as utils  from "../../../../../utils/test-utils/utilities/InjectableParamsStringTestUtils";
+import * as utils  from "../../../../../../utils/test-utils/utilities/InjectableParamsStringTestUtils";
 
 @TestSuite({
   description: "Test the InjectableParamsString enum members"

@@ -16,7 +16,7 @@
 
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
-import { InjectableParamsRegExp } from "../../../../../src/com/onsoft/sokoke/utils/InjectableParamsRegExp";
+import { InjectableParamsRegExp } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectableParamsRegExp";
 
 @TestSuite({
   description: "Test the InjectableParamsRegExp class",

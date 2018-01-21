@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const InjectableParamsEvaluator_1 = require("../utils/InjectableParamsEvaluator");
+const InjectableParamsEvaluator_1 = require("../utils/reflection/InjectableParamsEvaluator");
 const jec_commons_1 = require("jec-commons");
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");

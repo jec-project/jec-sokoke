@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import {Scope, Bean} from "jec-jdi";
-import {InjectableParamsEvaluator} from "../utils/InjectableParamsEvaluator";
+import {InjectableParamsEvaluator} from "../utils/reflection/InjectableParamsEvaluator";
 import {BeanBuilder} from "../builders/BeanBuilder";
 import {FileProperties, LogLevel} from "jec-commons";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";

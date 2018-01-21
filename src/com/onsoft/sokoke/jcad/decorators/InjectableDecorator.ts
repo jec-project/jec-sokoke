@@ -42,9 +42,6 @@ export class InjectableDecorator implements Decorator {
    * @inheritDoc
    */
   public decorate(target:any, params:InjectableParams):any {
-    /*console.log("InjectableDecorator")
-    console.log(target)
-    console.log("---------------------------------")*/
     SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get(
         "bean.instantiated", target.name, params.scope

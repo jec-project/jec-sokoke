@@ -48,8 +48,12 @@ export class InjectParamsEvaluator {
    *                               objects for the current file.
    */
   private resolveInjectParams(file:FileProperties):Array<InjectParams> {
-    let found:RegExpMatchArray =
-                         InjectParamsRegExp.DECORATE_MATCHER.exec(file.content);
+    let found:RegExpMatchArray = null;
+    while((found = InjectParamsRegExp.DECORATE_MATCHER.exec(file.content))
+           !== null
+         ) {
+      console.log(found[0]);
+    }
     return null;
   }
 
@@ -64,7 +68,6 @@ export class InjectParamsEvaluator {
    */
   public evaluate(file:FileProperties):void {
     let params:Array<InjectParams> = this.resolveInjectParams(file);
-    
     /*
     let bean:Bean = null;
     let element:Member = new Field(key, target.constructor);

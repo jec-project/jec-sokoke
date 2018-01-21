@@ -22,4 +22,4 @@ import { InjectableParamsRegExp } from "../../../../../../src/com/onsoft/sokoke/
   description: "Test the InjectableParamsRegExp class",
   disabled: true
 })
-export class InjectableParamsStringTest {}
+export class InjectableParamsRegExpTest {}

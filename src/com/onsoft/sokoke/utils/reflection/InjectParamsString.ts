@@ -15,19 +15,13 @@
 //   limitations under the License.
 
 /**
- * The <code>InjectParamsRegExp</code> static class provides functionalities
- * for working with regular expressions during bean archives evaluation.  
+ * The <code>InjectParamsString</code> Enum contains convenient strings for
+ * evaluating injection points in a class. 
  */
-export class InjectParamsRegExp {
-
-  ////////////////////////////////////////////////////////////////////////////
-  // Public properties
-  ////////////////////////////////////////////////////////////////////////////
-
+export enum InjectParamsString {
+  
   /**
-   * The <code>RegExp</code> object that will be used to find decorator
-   * declaration for the specified JavaScript file.
+   * A reference to the <code>"prototype"</code> string.
    */
-  public static readonly DECORATE_MATCHER:RegExp =
-                                              /__decorate\(\[(?:\s|.[^;])*\);/g;
+  PROTOTYPE = "prototype"
 }

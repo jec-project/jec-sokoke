@@ -143,6 +143,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
         i18n.get("injection.detected", fileName),
         LogLevel.DEBUG
       );
+      this._injectPointFactory.addFileContext(file);
     }
   }
 

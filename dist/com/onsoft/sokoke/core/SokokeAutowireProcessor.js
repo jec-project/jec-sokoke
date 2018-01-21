@@ -55,6 +55,7 @@ class SokokeAutowireProcessor {
         }
         if (hasInjectionPoint) {
             logger.log(i18n.get("injection.detected", fileName), jec_commons_1.LogLevel.DEBUG);
+            this._injectPointFactory.addFileContext(file);
         }
     }
     processComplete(watcher, sourcePath) {

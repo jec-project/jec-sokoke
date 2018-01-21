@@ -44,6 +44,8 @@ export {InjectableParamsEvaluator} from "./sokoke/utils/reflection/InjectablePar
 export {InjectableParamsRegExp} from "./sokoke/utils/reflection/InjectableParamsRegExp";
 export {InjectableParamsString} from "./sokoke/utils/reflection/InjectableParamsString";
 export {InjectParamsEvaluator} from "./sokoke/utils/reflection/InjectParamsEvaluator";
+export {InjectParamsRegExp} from "./sokoke/utils/reflection/InjectParamsRegExp";
+export {InjectParamsString} from "./sokoke/utils/reflection/InjectParamsString";
 //--> com/onsoft/utils
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

@@ -1,3 +1,4 @@
+
 //  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 //
 //   Copyright 2016-2018 Pascal ECHEMANN.
@@ -14,20 +15,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-/**
- * The <code>InjectParamsRegExp</code> static class provides functionalities
- * for working with regular expressions during bean archives evaluation.  
+/*!
+ * This module constains utilities used by the InjectParamsStringTest test
+ * suite.
  */
-export class InjectParamsRegExp {
 
-  ////////////////////////////////////////////////////////////////////////////
-  // Public properties
-  ////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * The <code>RegExp</code> object that will be used to find decorator
-   * declaration for the specified JavaScript file.
-   */
-  public static readonly DECORATE_MATCHER:RegExp =
-                                              /__decorate\(\[(?:\s|.[^;])*\);/g;
-}
+// Utilities:
+export const PROTOTYPE:string = "prototype";

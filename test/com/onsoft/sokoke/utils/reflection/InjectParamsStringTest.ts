@@ -14,20 +14,21 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-/**
- * The <code>InjectParamsRegExp</code> static class provides functionalities
- * for working with regular expressions during bean archives evaluation.  
- */
-export class InjectParamsRegExp {
+import { TestSuite, Test } from "jec-juta";
+import { expect } from "chai";
+import { InjectParamsString } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectParamsString";
 
-  ////////////////////////////////////////////////////////////////////////////
-  // Public properties
-  ////////////////////////////////////////////////////////////////////////////
+import * as utils  from "../../../../../../utils/test-utils/utilities/InjectParamsStringTestUtils";
 
-  /**
-   * The <code>RegExp</code> object that will be used to find decorator
-   * declaration for the specified JavaScript file.
-   */
-  public static readonly DECORATE_MATCHER:RegExp =
-                                              /__decorate\(\[(?:\s|.[^;])*\);/g;
+@TestSuite({
+  description: "Test the InjectParamsString enum members"
+})
+export class InjectParamsStringTest {
+
+  @Test({
+    description: "PROTOTYPE should return 'prototype'"
+  })
+  public PROTOTYPETest():void {
+    expect(InjectParamsString.PROTOTYPE).to.equal(utils.PROTOTYPE);
+  }
 }

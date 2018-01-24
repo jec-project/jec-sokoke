@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
+import {Decorator, ClassLoaderContext} from "jec-commons";
 import {InjectParams} from "jec-jdi";
 
 /**
@@ -42,9 +42,10 @@ export class InjectPropertyDecorator implements Decorator {
    */
   public decorate(target:any, key:string, params:InjectParams):any {
     console.log("InjectPropertyDecorator")
-    console.log(target)
+    console.log(target.constructor)
     console.log(key)
     console.log(params)
+    console.log(ClassLoaderContext.getInstance().getPath())
     console.log("---------------------------------")
     return target;
   }

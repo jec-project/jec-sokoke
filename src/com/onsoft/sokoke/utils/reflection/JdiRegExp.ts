@@ -15,15 +15,15 @@
 //   limitations under the License.
 
 /**
- * The <code>InjectableParamsRegExp</code> static class provides functionalities
- * for working with regular expressions during bean archives evaluation.  
+ * The <code>JdiRegExp</code> static class provides functionalities for working
+ * with regular expressions during bean files evaluation.  
  */
-export class InjectableParamsRegExp {
+export class JdiRegExp {
 
   ////////////////////////////////////////////////////////////////////////////
   // Public properties
   ////////////////////////////////////////////////////////////////////////////
-
+  
   /**
    * The <code>RegExp</code> object that will be used to find injectable
    * parameters declaration for the specified bean archive.
@@ -33,11 +33,19 @@ export class InjectableParamsRegExp {
 
   /**
    * The <code>RegExp</code> object that will be used to find injectable
+   * parameters declaration for the specified JavaScript file.
+   */
+  public static readonly INJECT_MATCHER:RegExp =
+                     /(?:jec_jdi_\d+\.Inject\(\{{1})((\s*?.*?)*?)(?:\}{1}\))/gm;
+  
+  /**
+   * The <code>RegExp</code> object that will be used to find injectable
    * parameters for the specified bean archive.
    */
   public static readonly PARAMS_MATCHER:RegExp =
                        /(name|type|scope|retention|qualifier)(?:\s*:\s*)(.*)/gm;
 
+  
   ////////////////////////////////////////////////////////////////////////////
   // Public methods
   ////////////////////////////////////////////////////////////////////////////

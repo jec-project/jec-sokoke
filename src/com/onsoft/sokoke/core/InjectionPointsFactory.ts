@@ -16,19 +16,20 @@
 
 import {InjectParamsEvaluator} from "../utils/reflection/InjectParamsEvaluator";
 import {FileProperties} from "jec-commons";
+import {Bean} from "jec-jdi";
 
 /**
- * The <code>InjectionPointFactory</code> is responsible to create 
- * <code>InjectionPoint</code> objects during the autowiring process.
+ * The <code>InjectionPointsFactory</code> is responsible to create collections
+ * of <code>InjectionPoint</code> objects during the autowiring process.
  */
-export class InjectionPointFactory {
+export class InjectionPointsFactory {
   
   ////////////////////////////////////////////////////////////////////////////
   // Constructor function
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>InjectionPointFactory</code> instance.
+   * Creates a new <code>InjectionPointsFactory</code> instance.
    */
   constructor() {
     this.initObj();
@@ -40,7 +41,7 @@ export class InjectionPointFactory {
 
   /**
    * The <code>InjectParamsEvaluator</code> object associated with this
-   * <code>InjectionPointFactory</code> instance.
+   * <code>InjectionPointsFactory</code> instance.
    */
   private _evaluator:InjectParamsEvaluator = null;
 
@@ -64,7 +65,11 @@ export class InjectionPointFactory {
    * 
    * @param {FileProperties} file 
    */
-  public addFileContext(file:FileProperties):void {
-    this._evaluator.evaluate(file);
+  public create(file:FileProperties, bean:Bean):void {
+    this._evaluator.evaluate(file, bean);
+    /*SokokeLoggerProxy.getInstance().log(
+      SokokeLocaleManager.getInstance().get("injection.evaluated", ???),
+      LogLevel.DEBUG
+    );*/
   }
 }

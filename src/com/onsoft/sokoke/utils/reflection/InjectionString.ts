@@ -15,10 +15,10 @@
 //   limitations under the License.
 
 /**
- * The <code>InjectableParamsString</code> Enum contains convenient strings for
- * evaluating a bean archive file. 
+ * The <code>InjectionString</code> Enum contains convenient strings for
+ * evaluating injections in a bean file. 
  */
-export enum InjectableParamsString {
+export enum InjectionString {
 
   /**
    * A reference to the coma (<code>,</code>) character.

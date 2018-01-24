@@ -16,27 +16,27 @@
 
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
-import { InjectableParamsString } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectableParamsString";
+import { InjectionString } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectionString";
 
-import * as utils  from "../../../../../../utils/test-utils/utilities/InjectableParamsStringTestUtils";
+import * as utils  from "../../../../../../utils/test-utils/utilities/InjectionStringTestUtils";
 
 @TestSuite({
-  description: "Test the InjectableParamsString enum members"
+  description: "Test the InjectionString enum members"
 })
-export class InjectableParamsStringTest {
+export class InjectionStringTest {
 
   @Test({
     description: "COMA should return ','"
   })
   public COMATest():void {
-    expect(InjectableParamsString.COMA).to.equal(utils.COMA);
+    expect(InjectionString.COMA).to.equal(utils.COMA);
   }
 
   @Test({
     description: "DOT should return '.'"
   })
   public DOTTest():void {
-    expect(InjectableParamsString.DOT).to.equal(utils.DOT);
+    expect(InjectionString.DOT).to.equal(utils.DOT);
   }
 
   @Test({
@@ -44,7 +44,7 @@ export class InjectableParamsStringTest {
   })
   public SCOPETYPE_APPLICATIONTest():void {
     expect(
-      InjectableParamsString.SCOPETYPE_APPLICATION
+      InjectionString.SCOPETYPE_APPLICATION
     ).to.equal(utils.SCOPETYPE_APPLICATION);
   }
 
@@ -53,7 +53,7 @@ export class InjectableParamsStringTest {
   })
   public SCOPETYPE_SESSIONTest():void {
     expect(
-      InjectableParamsString.SCOPETYPE_SESSION
+      InjectionString.SCOPETYPE_SESSION
     ).to.equal(utils.SCOPETYPE_SESSION);
   }
 
@@ -62,7 +62,7 @@ export class InjectableParamsStringTest {
   })
   public SCOPETYPE_REQUESTTest():void {
     expect(
-      InjectableParamsString.SCOPETYPE_REQUEST
+      InjectionString.SCOPETYPE_REQUEST
     ).to.equal(utils.SCOPETYPE_REQUEST);
   }
 
@@ -71,7 +71,7 @@ export class InjectableParamsStringTest {
   })
   public SCOPETYPE_DEPENDENTTest():void {
     expect(
-      InjectableParamsString.SCOPETYPE_DEPENDENT
+      InjectionString.SCOPETYPE_DEPENDENT
     ).to.equal(utils.SCOPETYPE_DEPENDENT);
   }
 
@@ -79,41 +79,41 @@ export class InjectableParamsStringTest {
     description: "NULL should return 'null'"
   })
   public NULLTest():void {
-    expect(InjectableParamsString.NULL).to.equal(utils.NULL);
+    expect(InjectionString.NULL).to.equal(utils.NULL);
   }
 
   @Test({
     description: "NAME should return 'name'"
   })
   public NAMETest():void {
-    expect(InjectableParamsString.NAME).to.equal(utils.NAME);
+    expect(InjectionString.NAME).to.equal(utils.NAME);
   }
 
   @Test({
     description: "TYPE should return 'type'"
   })
   public TYPETest():void {
-    expect(InjectableParamsString.TYPE).to.equal(utils.TYPE);
+    expect(InjectionString.TYPE).to.equal(utils.TYPE);
   }
 
   @Test({
     description: "SCOPE should return 'scope'"
   })
   public SCOPETest():void {
-    expect(InjectableParamsString.SCOPE).to.equal(utils.SCOPE);
+    expect(InjectionString.SCOPE).to.equal(utils.SCOPE);
   }
 
   @Test({
     description: "RETENTION should return 'retention'"
   })
   public RETENTIONTest():void {
-    expect(InjectableParamsString.RETENTION).to.equal(utils.RETENTION);
+    expect(InjectionString.RETENTION).to.equal(utils.RETENTION);
   }
 
   @Test({
     description: "RETENTION should return 'qualifier'"
   })
   public QUALIFIERTest():void {
-    expect(InjectableParamsString.QUALIFIER).to.equal(utils.QUALIFIER);
+    expect(InjectionString.QUALIFIER).to.equal(utils.QUALIFIER);
   }
 }

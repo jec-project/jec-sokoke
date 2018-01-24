@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const InjectParamsEvaluator_1 = require("../utils/reflection/InjectParamsEvaluator");
-class InjectionPointFactory {
+class InjectionPointsFactory {
     constructor() {
         this._evaluator = null;
         this.initObj();
@@ -9,8 +9,8 @@ class InjectionPointFactory {
     initObj() {
         this._evaluator = new InjectParamsEvaluator_1.InjectParamsEvaluator();
     }
-    addDecoratedFile(file) {
-        this._evaluator.evaluate(file);
+    create(file, bean) {
+        this._evaluator.evaluate(file, bean);
     }
 }
-exports.InjectionPointFactory = InjectionPointFactory;
+exports.InjectionPointsFactory = InjectionPointsFactory;

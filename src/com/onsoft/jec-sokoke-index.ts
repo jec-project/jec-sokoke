@@ -17,7 +17,7 @@ export {BeanBuilder} from "./sokoke/builders/BeanBuilder";
 export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
 //--> com/onsoft/core
 export {BeanFactory} from "./sokoke/core/BeanFactory";
-export {InjectionPointFactory} from "./sokoke/core/InjectionPointFactory";
+export {InjectionPointsFactory} from "./sokoke/core/InjectionPointsFactory";
 export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
 //--> com/onsoft/exceptions
 export {SokokeError} from "./sokoke/exceptions/SokokeError";
@@ -41,11 +41,11 @@ export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
 //--> com/onsoft/utils/reflection
 export {InjectableParamsEvaluator} from "./sokoke/utils/reflection/InjectableParamsEvaluator";
-export {InjectableParamsRegExp} from "./sokoke/utils/reflection/InjectableParamsRegExp";
-export {InjectableParamsString} from "./sokoke/utils/reflection/InjectableParamsString";
+export {InjectionSanitizer} from "./sokoke/utils/reflection/InjectionSanitizer";
+export {InjectionString} from "./sokoke/utils/reflection/InjectionString";
 export {InjectParamsEvaluator} from "./sokoke/utils/reflection/InjectParamsEvaluator";
-export {InjectParamsRegExp} from "./sokoke/utils/reflection/InjectParamsRegExp";
 export {InjectParamsString} from "./sokoke/utils/reflection/InjectParamsString";
+export {JdiRegExp} from "./sokoke/utils/reflection/JdiRegExp";
 //--> com/onsoft/utils
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

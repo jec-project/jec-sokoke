@@ -21,7 +21,22 @@
 export enum InjectParamsString {
   
   /**
-   * A reference to the <code>"prototype"</code> string.
+   * A reference to the <code>"__decorate(["</code> string.
    */
-  PROTOTYPE = "prototype"
+  DECORATE = "__decorate([",
+  
+  /**
+   * A reference to the <code>");"</code> string.
+   */
+  DECORATE_CLOSING = ");",
+  
+  /**
+   * A reference to the <code>".prototype, \""</code> string.
+   */
+  PROTOTYPE = ".prototype, \"",
+
+  /**
+   * A reference to the <code>".Inject("</code> string.
+   */
+  INJECT = ".Inject("
 }

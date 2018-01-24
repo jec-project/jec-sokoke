@@ -16,10 +16,10 @@
 
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
-import { InjectParamsRegExp } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/InjectParamsRegExp";
+import { JdiRegExp } from "../../../../../../src/com/onsoft/sokoke/utils/reflection/JdiRegExp";
 
 @TestSuite({
-  description: "Test the InjectParamsRegExp class",
+  description: "Test the JdiRegExp class",
   disabled: true
 })
-export class InjectParamsRegExpTest {}
+export class JdiRegExpTest {}

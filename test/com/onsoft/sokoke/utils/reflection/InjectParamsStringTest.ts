@@ -25,10 +25,31 @@ import * as utils  from "../../../../../../utils/test-utils/utilities/InjectPara
 })
 export class InjectParamsStringTest {
 
+  /*@Test({
+    description: "DECORATE should return '__decorate(['"
+  })
+  public DECORATETest():void {
+    expect(InjectParamsString.DECORATE).to.equal(utils.DECORATE);
+  }
+
   @Test({
-    description: "PROTOTYPE should return 'prototype'"
+    description: "DECORATE_CLOSING should return ');'"
+  })
+  public DECORATE_CLOSINGTest():void {
+    expect(InjectParamsString.DECORATE_CLOSING).to.equal(utils.DECORATE_CLOSING);
+  }
+
+  @Test({
+    description: "PROTOTYPE should return '.prototype, \"'"
   })
   public PROTOTYPETest():void {
     expect(InjectParamsString.PROTOTYPE).to.equal(utils.PROTOTYPE);
   }
+  
+  @Test({
+    description: "INJECT should return '.Inject('"
+  })
+  public INJECTTest():void {
+    expect(InjectParamsString.INJECT).to.equal(utils.INJECT);
+  }*/
 }

@@ -1,20 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const jec_jdi_1 = require("jec-jdi");
 const BeanBuilder_1 = require("../../builders/BeanBuilder");
 const jec_commons_1 = require("jec-commons");
-const SokokeLoggerProxy_1 = require("../../logging/SokokeLoggerProxy");
-const SokokeLocaleManager_1 = require("../../i18n/SokokeLocaleManager");
 const ScopeStrategy_1 = require("../../utils/ScopeStrategy");
 const path = require("path");
-const InjectableParamsString_1 = require("./InjectableParamsString");
-const InjectableParamsRegExp_1 = require("./InjectableParamsRegExp");
+const JdiRegExp_1 = require("./JdiRegExp");
+const InjectionSanitizer_1 = require("./InjectionSanitizer");
+const InjectionString_1 = require("./InjectionString");
 class InjectableParamsEvaluator {
     constructor() { }
     getBeanClass(file) {
-        let fileName = file.name + InjectableParamsString_1.InjectableParamsString.DOT + file.extension;
+        let fileName = file.name + InjectionString_1.InjectionString.DOT + file.extension;
         let filePath = path.join(file.path, fileName);
-        let beanClass = require(filePath);
+        let beanClass = jec_commons_1.GlobalClassLoader.getInstance().loadClass(filePath);
         return beanClass;
     }
     buildTypes(beanClass, beanType) {
@@ -24,62 +22,24 @@ class InjectableParamsEvaluator {
             types.add(beanType);
         return types;
     }
-    sanitizesString(value) {
-        let len = value.length - 1;
-        let result = value.lastIndexOf(InjectableParamsString_1.InjectableParamsString.COMA) === len ?
-            value.substr(1, len - 2) : value.substr(1, len - 1);
-        return result;
-    }
-    sanitizeName(params, value) {
-        params.name = this.sanitizesString(value);
-    }
-    sanitizeType(params, value, file) {
-        let len = value.length - 1;
-        let rawType = value.lastIndexOf(InjectableParamsString_1.InjectableParamsString.COMA) === len ?
-            value.substr(0, len) : value;
-        let importRefs = rawType.split(InjectableParamsString_1.InjectableParamsString.DOT);
-        let importRefPath = InjectableParamsRegExp_1.InjectableParamsRegExp.getTypeMatcher(importRefs[0]).exec(file.content)[1];
-        let importPath = path.resolve(file.path, importRefPath);
-        let type = require(importPath)[importRefs[1]];
-        params.type = type;
-    }
-    sanitizeScope(params, value) {
-        if (value.indexOf(InjectableParamsString_1.InjectableParamsString.SCOPETYPE_APPLICATION) !== -1) {
-            params.scope = jec_jdi_1.ScopeType.APPLICATION;
-        }
-        else if (value.indexOf(InjectableParamsString_1.InjectableParamsString.SCOPETYPE_SESSION) !== -1) {
-            params.scope = jec_jdi_1.ScopeType.SESSION;
-        }
-        else if (value.indexOf(InjectableParamsString_1.InjectableParamsString.SCOPETYPE_REQUEST) !== -1) {
-            params.scope = jec_jdi_1.ScopeType.REQUEST;
-        }
-        else if (value.indexOf(InjectableParamsString_1.InjectableParamsString.SCOPETYPE_DEPENDENT) !== -1 ||
-            value.indexOf(InjectableParamsString_1.InjectableParamsString.NULL) !== -1) {
-            params.scope = null;
-        }
-        else {
-            params.scope = this.sanitizesString(value);
-        }
-    }
     extractParams(rawParams, file) {
         let params = {};
         let found = null;
-        while ((found = InjectableParamsRegExp_1.InjectableParamsRegExp.PARAMS_MATCHER.exec(rawParams))
-            !== null) {
+        while ((found = JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
             switch (found[1]) {
-                case InjectableParamsString_1.InjectableParamsString.NAME:
-                    this.sanitizeName(params, found[2]);
+                case InjectionString_1.InjectionString.NAME:
+                    InjectionSanitizer_1.InjectionSanitizer.getInstance().sanitizeName(params, found[2]);
                     break;
-                case InjectableParamsString_1.InjectableParamsString.TYPE:
-                    this.sanitizeType(params, found[2], file);
+                case InjectionString_1.InjectionString.TYPE:
+                    InjectionSanitizer_1.InjectionSanitizer.getInstance().sanitizeType(params, found[2], file);
                     break;
-                case InjectableParamsString_1.InjectableParamsString.SCOPE:
-                    this.sanitizeScope(params, found[2]);
+                case InjectionString_1.InjectionString.SCOPE:
+                    InjectionSanitizer_1.InjectionSanitizer.getInstance().sanitizeScope(params, found[2]);
                     break;
-                case InjectableParamsString_1.InjectableParamsString.RETENTION:
+                case InjectionString_1.InjectionString.RETENTION:
                     console.log("retention detected", found[2]);
                     break;
-                case InjectableParamsString_1.InjectableParamsString.QUALIFIER:
+                case InjectionString_1.InjectionString.QUALIFIER:
                     console.log("qualifier detected", found[2]);
                     break;
             }
@@ -87,7 +47,7 @@ class InjectableParamsEvaluator {
         return params;
     }
     resolveInjectableParams(file) {
-        let found = InjectableParamsRegExp_1.InjectableParamsRegExp.INJECTABLE_MATCHER.exec(file.content);
+        let found = JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
         let rawParams = found[1];
         let params = this.extractParams(rawParams, file);
         return params;
@@ -103,7 +63,6 @@ class InjectableParamsEvaluator {
             .types(this.buildTypes(beanClass, params.type))
             .beanClass(beanClass)
             .build();
-        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()), jec_commons_1.LogLevel.DEBUG);
         return bean;
     }
 }

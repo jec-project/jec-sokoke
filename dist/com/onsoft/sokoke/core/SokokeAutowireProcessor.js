@@ -6,7 +6,7 @@ const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
 const Sokoke_1 = require("../inject/Sokoke");
 const BeanFactory_1 = require("./BeanFactory");
-const InjectionPointFactory_1 = require("../core/InjectionPointFactory");
+const InjectionPointsFactory_1 = require("../core/InjectionPointsFactory");
 class SokokeAutowireProcessor {
     constructor() {
         this._beanFactory = null;
@@ -16,7 +16,7 @@ class SokokeAutowireProcessor {
     initObj() {
         SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         this._beanFactory = new BeanFactory_1.BeanFactory();
-        this._injectPointFactory = new InjectionPointFactory_1.InjectionPointFactory();
+        this._injectPointFactory = new InjectionPointsFactory_1.InjectionPointsFactory();
     }
     processStart(watcher, sourcePath) {
         let locale = watcher.getContainer().getLocale();
@@ -39,6 +39,7 @@ class SokokeAutowireProcessor {
         let i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let fileName = file.name;
         let hasInjectionPoint = false;
+        let bean = null;
         while (len--) {
             decorator = decorators[len];
             classPath = decorator.classPath;
@@ -46,7 +47,7 @@ class SokokeAutowireProcessor {
             if (classPath === SokokeAutowireProcessor.JDI_MASK) {
                 if (decoratorName === SokokeAutowireProcessor.INJECTABLE_MASK) {
                     logger.log(i18n.get("bean.detected", fileName), jec_commons_1.LogLevel.DEBUG);
-                    this._beanFactory.addBeanArchive(file);
+                    bean = this._beanFactory.create(file);
                 }
                 else if (decoratorName === SokokeAutowireProcessor.INJECT_MASK) {
                     hasInjectionPoint = true;
@@ -55,7 +56,7 @@ class SokokeAutowireProcessor {
         }
         if (hasInjectionPoint) {
             logger.log(i18n.get("injection.detected", fileName), jec_commons_1.LogLevel.DEBUG);
-            this._injectPointFactory.addFileContext(file);
+            this._injectPointFactory.create(file, bean);
         }
     }
     processComplete(watcher, sourcePath) {

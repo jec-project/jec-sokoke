@@ -38,5 +38,11 @@ export enum InjectParamsString {
   /**
    * A reference to the <code>".Inject("</code> string.
    */
-  INJECT = ".Inject("
+  INJECT = ".Inject(",
+  
+  /**
+   * A reference to the <code>"\","</code> string.
+   */
+  CLOSING_QUOTE = "\","
+  
 }

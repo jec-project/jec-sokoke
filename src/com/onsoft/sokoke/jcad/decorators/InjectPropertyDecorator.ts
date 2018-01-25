@@ -16,6 +16,7 @@
 
 import {Decorator, ClassLoaderContext} from "jec-commons";
 import {InjectParams} from "jec-jdi";
+import {HashCodeBuilder} from "../..//utils/HashCodeBuilder";
 
 /**
  * The <code>InjectPropertyDecorator</code> class defines the   
@@ -41,11 +42,14 @@ export class InjectPropertyDecorator implements Decorator {
    * @inheritDoc
    */
   public decorate(target:any, key:string, params:InjectParams):any {
+    let hash:number = HashCodeBuilder.getInstance().build(
+      ClassLoaderContext.getInstance().getPath(), key
+    );
     console.log("InjectPropertyDecorator")
     console.log(target.constructor)
     console.log(key)
     console.log(params)
-    console.log(ClassLoaderContext.getInstance().getPath())
+    console.log(hash)
     console.log("---------------------------------")
     return target;
   }

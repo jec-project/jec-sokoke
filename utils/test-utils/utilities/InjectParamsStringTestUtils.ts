@@ -25,3 +25,4 @@ export const DECORATE:string = "__decorate([";
 export const PROTOTYPE:string = ".prototype, \"";
 export const INJECT:string = ".Inject(";
 export const DECORATE_CLOSING:string = ");";
+export const CLOSING_QUOTE:string = "\",";

@@ -61,9 +61,13 @@ export class InjectionPointsFactory {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
+   * Creates and returns a collection that contains references to all injection
+   * points for the specified file.
    * 
-   * 
-   * @param {FileProperties} file 
+   * @param {FileProperties} file the file for which to create injection points.
+   * @param {Bean} bean a reference to the bean that injection points belongs
+   *                    to; or <code>null</code> whether injection points does
+   *                    not belong to a bean.
    */
   public create(file:FileProperties, bean:Bean):void {
     this._evaluator.evaluate(file, bean);

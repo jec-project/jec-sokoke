@@ -48,5 +48,7 @@ var InjectParamsString_1 = require("./sokoke/utils/reflection/InjectParamsString
 exports.InjectParamsString = InjectParamsString_1.InjectParamsString;
 var JdiRegExp_1 = require("./sokoke/utils/reflection/JdiRegExp");
 exports.JdiRegExp = JdiRegExp_1.JdiRegExp;
+var HashCodeBuilder_1 = require("./sokoke/utils/HashCodeBuilder");
+exports.HashCodeBuilder = HashCodeBuilder_1.HashCodeBuilder;
 var ScopeStrategy_1 = require("./sokoke/utils/ScopeStrategy");
 exports.ScopeStrategy = ScopeStrategy_1.ScopeStrategy;

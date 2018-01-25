@@ -51,5 +51,12 @@ export class InjectParamsStringTest {
   })
   public INJECTTest():void {
     expect(InjectParamsString.INJECT).to.equal(utils.INJECT);
+  }
+  
+  @Test({
+    description: "CLOSING_QUOTE should return '\","'"
+  })
+  public CLOSING_QUOTETest():void {
+    expect(InjectParamsString.CLOSING_QUOTE).to.equal(utils.CLOSING_QUOTE);
   }*/
 }

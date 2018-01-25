@@ -44,6 +44,25 @@ export class InjectParamsEvaluator {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
+   * Returns the <code>Field</code> object for the current injection point.
+   * 
+   * @param {string} decorator a string that represents the decorator for the
+   *                           current injection point.
+   * @param {any} beanClass the bean class associated whith the current
+   *                        injection point.
+   * @return {Field} the <code>Field</code> object for the current injection
+   *                 point.
+   */
+  private extractField(decorator:string, beanClass:any):Member {
+    let fieldName:string = decorator.substring(
+      decorator.indexOf(InjectParamsString.PROTOTYPE) + 13,
+      decorator.lastIndexOf(InjectParamsString.CLOSING_QUOTE)
+    );
+    let field:Member = new Field(fieldName, beanClass);
+    return field;
+  }
+
+  /**
    * Extract all parameters of the <code>@Inject</code> decorator for the
    * current bean file and returns the corresponding <code>InjectParams</code>
    * object.
@@ -116,7 +135,7 @@ export class InjectParamsEvaluator {
       if(decorator.indexOf(InjectParamsString.INJECT) !== -1) {
         if(decorator.indexOf(InjectParamsString.PROTOTYPE) !== -1) {
           params = this.resolveInjectParams(file, decorator);
-          //element = new Field(key, beanClass);
+          element = this.extractField(decorator, beanClass);
           injectPoint = InjectionPointBuilder.getInstance()
                                              .clear()
                                              .bean(bean)
@@ -131,10 +150,12 @@ export class InjectParamsEvaluator {
   }
 
   /**
-   * 
+   * Extract all JavaScript decorators from the specified file and return an
+   * array that contains string representations of these decorators.
    * 
    * @param {FileProperties} file the reference to the loaded file.
-   * @return {Array<string>} 
+   * @return {Array<string>} an array that contains string representations of
+   *                         the decorators for the specified file.
    */
   private extractDecorators(file:FileProperties):Array<string> {
     let result:Array<string> = new Array<string>();
@@ -158,12 +179,18 @@ export class InjectParamsEvaluator {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Evaluates the specified file that contains injection points.
+   * Evaluates the specified file that contains injection points and return the .
+   * corresponding array of <code>InjectionPoint</code> objects.
    * 
    * @param {FileProperties} file a file that contains injection points.
-   * @param {Bean} bean 
+   * @param {Bean} bean a reference to the bean that injection points belongs
+   *                    to; or <code>null</code> whether injection points does
+   *                    not belong to a bean.
+   * @return {Array<InjectionPoint>} an array of <code>InjectionPoint</code>
+   *                                 objects for the current file.
    */
-  public evaluate(file:FileProperties, bean:Bean):void {
-    let params:Array<InjectionPoint> = this.resolveInjections(file, bean);
+  public evaluate(file:FileProperties, bean:Bean):Array<InjectionPoint> {
+    let injectPoints:Array<InjectionPoint> = this.resolveInjections(file, bean);
+    return injectPoints;
   }
 }

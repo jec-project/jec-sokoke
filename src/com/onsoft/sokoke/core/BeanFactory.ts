@@ -63,9 +63,10 @@ export class BeanFactory {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
+   * Creates and returns the bean for the specified file.
    * 
-   * 
-   * @param {FileProperties} file 
+   * @param {FileProperties} file a file that contains a valid bean archive.
+   * @return {Bean} a new bean for the specified file.
    */
   public create(file:FileProperties):Bean {
     let bean:Bean = this._evaluator.evaluate(file);

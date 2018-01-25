@@ -6,4 +6,5 @@ var InjectParamsString;
     InjectParamsString["DECORATE_CLOSING"] = ");";
     InjectParamsString["PROTOTYPE"] = ".prototype, \"";
     InjectParamsString["INJECT"] = ".Inject(";
+    InjectParamsString["CLOSING_QUOTE"] = "\",";
 })(InjectParamsString = exports.InjectParamsString || (exports.InjectParamsString = {}));

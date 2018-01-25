@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const jec_commons_1 = require("jec-commons");
 const JdiRegExp_1 = require("./JdiRegExp");
 const InjectParamsString_1 = require("./InjectParamsString");
 const InjectionString_1 = require("./InjectionString");
@@ -7,6 +8,11 @@ const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionPointBuilder_1 = require("../../builders/InjectionPointBuilder");
 class InjectParamsEvaluator {
     constructor() { }
+    extractField(decorator, beanClass) {
+        let fieldName = decorator.substring(decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) + 13, decorator.lastIndexOf(InjectParamsString_1.InjectParamsString.CLOSING_QUOTE));
+        let field = new jec_commons_1.Field(fieldName, beanClass);
+        return field;
+    }
     extractParams(rawParams, file) {
         let params = {};
         let found = null;
@@ -46,6 +52,7 @@ class InjectParamsEvaluator {
             if (decorator.indexOf(InjectParamsString_1.InjectParamsString.INJECT) !== -1) {
                 if (decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) !== -1) {
                     params = this.resolveInjectParams(file, decorator);
+                    element = this.extractField(decorator, beanClass);
                     injectPoint = InjectionPointBuilder_1.InjectionPointBuilder.getInstance()
                         .clear()
                         .bean(bean)
@@ -75,7 +82,8 @@ class InjectParamsEvaluator {
         return result;
     }
     evaluate(file, bean) {
-        let params = this.resolveInjections(file, bean);
+        let injectPoints = this.resolveInjections(file, bean);
+        return injectPoints;
     }
 }
 exports.InjectParamsEvaluator = InjectParamsEvaluator;

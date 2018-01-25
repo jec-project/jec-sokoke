@@ -26,6 +26,7 @@ import {Sokoke} from "../inject/Sokoke";
 import {BeanFactory} from "./BeanFactory";
 import {InjectionPointsFactory} from "../core/InjectionPointsFactory";
 import {Bean} from "jec-jdi";
+import {ClassNameBuilder} from "../utils/ClassNameBuilder";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -106,6 +107,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     let cfg:any = {
       directory: sokokeLocalesPath
     };
+    ClassNameBuilder.getInstance().setDomainPath(watcher.getTarget());
     SokokeLocaleManager.getInstance().init(localeString, cfg);
     SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get("process.start")

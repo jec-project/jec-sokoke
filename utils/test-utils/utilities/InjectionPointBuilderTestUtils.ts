@@ -30,3 +30,4 @@ export const BEAN:Bean = ({
   getName: function():string { return null; }
 } as Bean);
 export const PARAMETER:Parameter = new Parameter("foo");
+export const CLASS_NAME:string = "foo.bar.BeanClass";

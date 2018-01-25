@@ -102,6 +102,11 @@ export class BeanBuilder {
    */
   private _types:Set<any> = null;
 
+  /**
+   * The class name of the the new <code>Bean</code> object.
+   */
+  private _className:string = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Public methods
   ////////////////////////////////////////////////////////////////////////////
@@ -157,6 +162,19 @@ export class BeanBuilder {
   }
 
   /**
+   * Sets the class name of the new <code>Bean</code> object.
+   * 
+   * @param {string} className the class name of the new <code>Bean</code>
+   *                           object.
+   * @return {BeanBuilder} the reference to this <code>BeanBuilder</code>
+   *                       object.
+   */
+  public className(className:string):BeanBuilder {
+    this._className = className;
+    return this;
+  }
+
+  /**
    * Resets the builder to its initial, empty state.
    * 
    * @return {BeanBuilder} the reference to this <code>BeanBuilder</code>
@@ -167,6 +185,7 @@ export class BeanBuilder {
     this._name = null;
     this._beanClass = null;
     this._types = null;
+    this._className = null;
     return this;
   }
 
@@ -179,8 +198,8 @@ export class BeanBuilder {
    */
   public build():Bean {
     let bean:Bean = new SokokeBean(
-                        this._name, this._scope, this._beanClass, this._types
-                      );
+      this._name, this._scope, this._beanClass, this._types, this._className
+    );
     return bean;
   }
 }

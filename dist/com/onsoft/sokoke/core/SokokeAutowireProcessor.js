@@ -7,6 +7,7 @@ const path = require("path");
 const Sokoke_1 = require("../inject/Sokoke");
 const BeanFactory_1 = require("./BeanFactory");
 const InjectionPointsFactory_1 = require("../core/InjectionPointsFactory");
+const ClassNameBuilder_1 = require("../utils/ClassNameBuilder");
 class SokokeAutowireProcessor {
     constructor() {
         this._beanFactory = null;
@@ -25,6 +26,7 @@ class SokokeAutowireProcessor {
         let cfg = {
             directory: sokokeLocalesPath
         };
+        ClassNameBuilder_1.ClassNameBuilder.getInstance().setDomainPath(watcher.getTarget());
         SokokeLocaleManager_1.SokokeLocaleManager.getInstance().init(localeString, cfg);
         SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"));
         Sokoke_1.Sokoke.getInstance();

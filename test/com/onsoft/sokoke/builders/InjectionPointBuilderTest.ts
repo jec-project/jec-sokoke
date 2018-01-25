@@ -103,8 +103,16 @@ export class InjectionPointBuilderTest {
   }
   
   @Test({
-    description: "'getType() should return 'null' as default value",
+    description: "'getQualifiedClassName() should return 'null' as default value",
     order: 7
+  })
+  public getQualifiedClassNameDefaultTest():void {
+    expect(this.result.getQualifiedClassName()).to.be.null;
+  }
+
+  @Test({
+    description: "'getType() should return 'null' as default value",
+    order: 8
   })
   public getTypeDefaultTest():void {
     expect(this.result.getType()).to.be.null;
@@ -112,13 +120,14 @@ export class InjectionPointBuilderTest {
 
   @Test({
     description: "should create an object of the type of 'SokokeInjectionPoint'",
-    order: 8
+    order: 9
   })
   public buildInitializedInstanceTest():void {
     this.result = InjectionPointBuilder.getInstance()
                                        .bean(utils.BEAN)
                                        .element(utils.PARAMETER)
                                        .type(utils.BeanType)
+                                       .className(utils.CLASS_NAME)
                                        .build();
     expect(this.result).to.not.equal(
       InjectionPointBuilder.getInstance().build()
@@ -127,7 +136,7 @@ export class InjectionPointBuilderTest {
 
   @Test({
     description: "should return the same 'Bean' as used to build the injection point",
-    order: 9
+    order: 10
   })
   public getBeanTest():void {
     expect(this.result.getBean()).to.equal(utils.BEAN);
@@ -135,7 +144,7 @@ export class InjectionPointBuilderTest {
   
   @Test({
     description: "should return the same element as used to build the injection point",
-    order: 10
+    order: 11
   })
   public getElementTest():void {
     expect(this.result.getElement()).to.equal(utils.PARAMETER);
@@ -143,15 +152,23 @@ export class InjectionPointBuilderTest {
   
   @Test({
     description: "should return the class type element as used to build the injection point",
-    order: 11
+    order: 12
   })
   public getTypeTest():void {
     expect(this.result.getType()).to.equal(utils.BeanType);
   }
   
   @Test({
+    description: "should return the class name as used to build the injection point",
+    order: 13
+  })
+  publicgetQualifiedClassNameTest():void {
+    expect(this.result.getQualifiedClassName()).to.equal(utils.CLASS_NAME);
+  }
+  
+  @Test({
     description: "should reset the builder to its initial, empty state.",
-    order: 12
+    order: 14
   })
   public clearTest():void {
     expect(InjectionPointBuilder.getInstance().clear()).to.be.OK;
@@ -160,7 +177,7 @@ export class InjectionPointBuilderTest {
 
   @Test({
     description: "'getBean() should return 'null' after a clear() method invocation",
-    order: 13
+    order: 15
   })
   public getBeanClearTest():void {
     expect(this.result.getBean()).to.be.null;
@@ -168,7 +185,7 @@ export class InjectionPointBuilderTest {
   
   @Test({
     description: "'getElement() should return 'null' after a clear() method invocation",
-    order: 14
+    order: 16
   })
   public getElementClearTest():void {
     expect(this.result.getElement()).to.be.null;
@@ -176,9 +193,17 @@ export class InjectionPointBuilderTest {
   
   @Test({
     description: "'getType() should return 'null' after a clear() method invocation",
-    order: 15
+    order: 17
   })
   public getTypeClearTest():void {
     expect(this.result.getType()).to.be.null;
+  }
+  
+  @Test({
+    description: "'getQualifiedClassName() should return 'null' after a clear() method invocation",
+    order: 18
+  })
+  public getQualifiedClassNameClearTest():void {
+    expect(this.result.getQualifiedClassName()).to.be.null;
   }
 }

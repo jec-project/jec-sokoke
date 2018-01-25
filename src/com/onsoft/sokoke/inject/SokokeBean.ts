@@ -33,9 +33,11 @@ export class SokokeBean implements Bean {
    * @param {Scope} scope the scope of the bean.
    * @param {any} beanClass the bean class of the bean.
    * @param {Set<any>} types the bean types of the bean.
+   * @param {string} className the class name of the bean.
    */
-  constructor(name:string, scope:Scope, beanClass:any, types:Set<any>) {
-    this.initObj(name, scope, beanClass, types);
+  constructor(name:string, scope:Scope, beanClass:any, types:Set<any>,
+                                                             className:string) {
+    this.initObj(name, scope, beanClass, types, className);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -62,6 +64,11 @@ export class SokokeBean implements Bean {
    */
   private _types:Set<any> = null;
 
+  /**
+   * The class name for this bean.
+   */
+  private _className:string = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -73,13 +80,15 @@ export class SokokeBean implements Bean {
    * @param {Scope} scope the scope of the bean.
    * @param {any} beanClass the bean class of the bean.
    * @param {Set<any>} types the bean types of the bean.
+   * @param {string} className the class name of the bean.
    */
   private initObj(name:string, scope:Scope, beanClass:any,
-                                                          types:Set<any>):void {
+                                        types:Set<any>, className:string):void {
     this._name = name;
     this._scope = scope;
     this._beanClass = beanClass;
     this._types = types;
+    this._className = className;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -114,10 +123,17 @@ export class SokokeBean implements Bean {
     return this._types;
   }
 
+  /**
+   * @inheritDoc
+   */
+  public getQualifiedClassName():string {
+    return this._className;
+  }
+
   /*
    * @private
    */
   public toString():string {
-    return `[bean: ${this._name || this._beanClass.name}]`;
+    return `[bean: ${this._name || this._className}]`;
   }
 }

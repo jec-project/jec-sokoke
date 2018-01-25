@@ -47,6 +47,7 @@ export {InjectParamsEvaluator} from "./sokoke/utils/reflection/InjectParamsEvalu
 export {InjectParamsString} from "./sokoke/utils/reflection/InjectParamsString";
 export {JdiRegExp} from "./sokoke/utils/reflection/JdiRegExp";
 //--> com/onsoft/utils
+export {ClassNameBuilder} from "./sokoke/utils/ClassNameBuilder";
 export {HashCodeBuilder} from "./sokoke/utils/HashCodeBuilder";
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

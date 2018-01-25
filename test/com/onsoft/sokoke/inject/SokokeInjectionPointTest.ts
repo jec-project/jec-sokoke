@@ -31,8 +31,9 @@ export class SokokeInjectionPointTest {
 
   @BeforeAll()
   public initTest():void {
-    this.injectionPoint =
-          new SokokeInjectionPoint(utils.BEAN, utils.BeanType, utils.PARAMETER);
+    this.injectionPoint = new SokokeInjectionPoint(
+      utils.BEAN, utils.BeanType, utils.PARAMETER, utils.CLASS_NAME
+    );
   }
 
   @AfterAll()
@@ -59,5 +60,14 @@ export class SokokeInjectionPointTest {
   })
   public getTypeTest():void {
     expect(this.injectionPoint.getType()).to.equal(utils.BeanType);
+  }
+  
+  @Test({
+    description: "should return the class name as used to build the injection point"
+  })
+  public getQualifiedClassNameTest():void {
+    expect(
+      this.injectionPoint.getQualifiedClassName()
+    ).to.equal(utils.CLASS_NAME);
   }
 }

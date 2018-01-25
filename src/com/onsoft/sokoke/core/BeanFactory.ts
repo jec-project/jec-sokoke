@@ -14,11 +14,12 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Scope, Bean} from "jec-jdi";
+import {Scope, Bean, BeanManager} from "jec-jdi";
 import {InjectableParamsEvaluator} from "../utils/reflection/InjectableParamsEvaluator";
 import {FileProperties, LogLevel} from "jec-commons";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {Sokoke} from "../inject/Sokoke";
 
 /**
  * The <code>BeanFactory</code> is responsible to create <code>Bean</code>
@@ -47,6 +48,12 @@ export class BeanFactory {
    */
   private _evaluator:InjectableParamsEvaluator = null;
 
+  /**
+   * The reference to the Sokoke <code>BeanManager</code> object for this
+   * <code>BeanFactory</code> instance.
+   */
+  private _beanManager:BeanManager = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
   ////////////////////////////////////////////////////////////////////////////
@@ -56,6 +63,7 @@ export class BeanFactory {
    */
   private initObj():void {
     this._evaluator = new InjectableParamsEvaluator();
+    //this._beanManager = Sokoke.getInstance().getBeanManager();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -63,7 +71,7 @@ export class BeanFactory {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates and returns the bean for the specified file.
+   * Creates the bean for the specified file.
    * 
    * @param {FileProperties} file a file that contains a valid bean archive.
    * @return {Bean} a new bean for the specified file.
@@ -74,6 +82,7 @@ export class BeanFactory {
       SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()),
       LogLevel.DEBUG
     );
+    //this._beanManager.addBean(bean);
     return bean;
   }
 }

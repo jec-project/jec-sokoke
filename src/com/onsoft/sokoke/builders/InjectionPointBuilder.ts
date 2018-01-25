@@ -99,6 +99,12 @@ export class InjectionPointBuilder {
    */
   private _element:Member|Parameter = null;
 
+  /**
+   * The class name of the <code>Bean</code> object associated with the new
+   * <code>InjectionPoint</code> object.
+   */
+  private _className:string = null;
+  
   ////////////////////////////////////////////////////////////////////////////
   // Public methods
   ////////////////////////////////////////////////////////////////////////////
@@ -146,6 +152,19 @@ export class InjectionPointBuilder {
   }
 
   /**
+   * Sets the class name of the new <code>InjectionPoint</code> object.
+   * 
+   * @param {string} className the class name of the new 
+   *                           <code>InjectionPoint</code> object.
+   * @return {InjectionPointBuilder} the reference to this 
+   *                                 <code>InjectionPointBuilder</code> object.
+   */
+  public className(className:string):InjectionPointBuilder {
+    this._className = className;
+    return this;
+  }
+
+  /**
    * Resets the builder to its initial, empty state.
    * 
    * @return {InjectionPointBuilder} the reference to this
@@ -155,6 +174,7 @@ export class InjectionPointBuilder {
     this._bean = null;
     this._type = null;
     this._element = null;
+    this._className = null;
     return this;
   }
 
@@ -167,7 +187,7 @@ export class InjectionPointBuilder {
    */
   public build():InjectionPoint {
     let injectionPoint:InjectionPoint = new SokokeInjectionPoint(
-      this._bean, this._type, this._element
+      this._bean, this._type, this._element, this._className
     );
     return injectionPoint;
   }

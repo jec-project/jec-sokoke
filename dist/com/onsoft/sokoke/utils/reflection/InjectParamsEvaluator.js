@@ -3,11 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
 const JdiRegExp_1 = require("./JdiRegExp");
 const InjectParamsString_1 = require("./InjectParamsString");
+const path = require("path");
 const InjectionString_1 = require("./InjectionString");
 const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionPointBuilder_1 = require("../../builders/InjectionPointBuilder");
+const ClassNameBuilder_1 = require("../../utils/ClassNameBuilder");
 class InjectParamsEvaluator {
     constructor() { }
+    getClassPath(file) {
+        let fileName = file.name + InjectionString_1.InjectionString.DOT + file.extension;
+        let filePath = path.join(file.path, fileName);
+        return filePath;
+    }
     extractField(decorator, beanClass) {
         let fieldName = decorator.substring(decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) + 13, decorator.lastIndexOf(InjectParamsString_1.InjectParamsString.CLOSING_QUOTE));
         let field = new jec_commons_1.Field(fieldName, beanClass);
@@ -46,7 +53,17 @@ class InjectParamsEvaluator {
         let params = null;
         let element = null;
         let injectPoint = null;
-        let beanClass = bean ? bean.getBeanClass() : null;
+        let beanClass = null;
+        let className = null;
+        let result = new Array();
+        if (bean) {
+            beanClass = bean.getBeanClass();
+            className = bean.getQualifiedClassName();
+        }
+        else {
+            className = ClassNameBuilder_1.ClassNameBuilder.getInstance().build(this.getClassPath(file));
+        }
+        ClassNameBuilder_1.ClassNameBuilder.getInstance();
         while (len--) {
             decorator = decorators[len];
             if (decorator.indexOf(InjectParamsString_1.InjectParamsString.INJECT) !== -1) {
@@ -58,12 +75,13 @@ class InjectParamsEvaluator {
                         .bean(bean)
                         .type(params.type)
                         .element(element)
+                        .className(className)
                         .build();
-                    console.log(injectPoint);
+                    result.push(injectPoint);
                 }
             }
         }
-        return null;
+        return result;
     }
     extractDecorators(file) {
         let result = new Array();

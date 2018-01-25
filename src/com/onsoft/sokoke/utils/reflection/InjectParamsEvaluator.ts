@@ -22,6 +22,7 @@ import * as path from "path";
 import {InjectionString} from "./InjectionString";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionPointBuilder} from "../../builders/InjectionPointBuilder";
+import {ClassNameBuilder} from "../../utils/ClassNameBuilder";
 
 /**
  * The <code>InjectParamsEvaluator</code> class allows to evaluate a class
@@ -42,6 +43,18 @@ export class InjectParamsEvaluator {
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
   ////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Returns the class path for the current file.
+   * 
+   * @param {FileProperties} file the reference to the current file.
+   * @return {string} the class path for the current file.
+   */
+  private getClassPath(file:FileProperties):string {
+    let fileName:string = file.name + InjectionString.DOT + file.extension;
+    let filePath:string = path.join(file.path, fileName);
+    return filePath;
+  }
 
   /**
    * Returns the <code>Field</code> object for the current injection point.
@@ -129,7 +142,16 @@ export class InjectParamsEvaluator {
     let params:InjectParams = null;
     let element:Member = null;
     let injectPoint:InjectionPoint = null;
-    let beanClass:any = bean ? bean.getBeanClass() : null;
+    let beanClass:any = null;
+    let className:string = null;
+    let result:Array<InjectionPoint> = new Array<InjectionPoint>();
+    if(bean) {
+      beanClass = bean.getBeanClass();
+      className = bean.getQualifiedClassName();
+    } else {
+      className = ClassNameBuilder.getInstance().build(this.getClassPath(file));
+    }
+    ClassNameBuilder.getInstance();
     while(len--){
       decorator = decorators[len];
       if(decorator.indexOf(InjectParamsString.INJECT) !== -1) {
@@ -141,12 +163,13 @@ export class InjectParamsEvaluator {
                                              .bean(bean)
                                              .type(params.type)
                                              .element(element)
+                                             .className(className)
                                              .build();
-          console.log(injectPoint);
+           result.push(injectPoint);
         }
       }
     }
-    return null;
+    return result;
   }
 
   /**

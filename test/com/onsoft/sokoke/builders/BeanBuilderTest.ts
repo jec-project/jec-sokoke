@@ -118,21 +118,30 @@ export class BeanBuilderTest {
   }
   
   @Test({
-    description: "should create an object of the type of 'SokokeBean'",
+    description: "'getQualifiedClassName() should return 'null' as default value",
     order: 9
+  })
+  public getQualifiedClassNameDefaultTest():void {
+    expect(this.bean.getQualifiedClassName()).to.be.null;
+  }
+  
+  @Test({
+    description: "should create an object of the type of 'SokokeBean'",
+    order: 10
   })
   public buildInitializedInstanceTest():void {
     this.bean = BeanBuilder.getInstance().scope(utils.SCOPE)
                                          .name(utils.NAME)
                                          .beanClass(utils.BeanClass)
                                          .types(utils.TYPES)
+                                         .className(utils.CLASS_NAME)
                                          .build();
     expect(this.bean).to.not.equal(BeanBuilder.getInstance().build());
   }
 
   @Test({
     description: "should return the same 'name' as used to build the bean",
-    order: 10
+    order: 11
   })
   public getNameTest():void {
     expect(this.bean.getName()).to.equal(utils.NAME);
@@ -140,7 +149,7 @@ export class BeanBuilderTest {
   
   @Test({
     description: "should return the same 'Scope' as used to build the bean",
-    order: 11
+    order: 12
   })
   public getScopeTest():void {
     expect(this.bean.getScope()).to.equal(utils.SCOPE);
@@ -148,7 +157,7 @@ export class BeanBuilderTest {
   
   @Test({
     description: "should return the same class as used to build the bean",
-    order: 12
+    order: 13
   })
   public getBeanClassTest():void {
     expect(this.bean.getBeanClass()).to.equal(utils.BeanClass);
@@ -156,15 +165,23 @@ export class BeanBuilderTest {
   
   @Test({
     description: "should return the same types as used to build the bean",
-    order: 13
+    order: 14
   })
   public getTypesTest():void {
     expect(this.bean.getTypes()).to.equal(utils.TYPES);
   }
   
   @Test({
+    description: "should return the same class name as used to build the bean",
+    order: 15
+  })
+  public getQualifiedClassNameTest():void {
+    expect(this.bean.getQualifiedClassName()).to.equal(utils.CLASS_NAME);
+  }
+  
+  @Test({
     description: "should reset the builder to its initial, empty state.",
-    order: 14
+    order: 16
   })
   public clearTest():void {
     expect(BeanBuilder.getInstance().clear()).to.be.OK;
@@ -173,7 +190,7 @@ export class BeanBuilderTest {
 
   @Test({
     description: "'getName() should return 'null' after a clear() method invocation",
-    order: 15
+    order: 17
   })
   public getNameClearTest():void {
     expect(this.bean.getName()).to.be.null;
@@ -181,7 +198,7 @@ export class BeanBuilderTest {
   
   @Test({
     description: "'getScope() should return 'null' after a clear() method invocation",
-    order: 16
+    order: 18
   })
   public getScopeClearTest():void {
     expect(this.bean.getScope()).to.be.null;
@@ -189,7 +206,7 @@ export class BeanBuilderTest {
   
   @Test({
     description: "'getBeanClass() should return 'null' after a clear() method invocation",
-    order: 17
+    order: 19
   })
   public getBeanClassClearTest():void {
     expect(this.bean.getBeanClass()).to.be.null;
@@ -197,9 +214,17 @@ export class BeanBuilderTest {
   
   @Test({
     description: "'getTypes() should return 'null' after a clear() method invocation",
-    order: 17
+    order: 20
   })
   public getTypesClearTest():void {
     expect(this.bean.getTypes()).to.be.null;
+  }
+  
+  @Test({
+    description: "'getQualifiedClassName() should return 'null' after a clear() method invocation",
+    order: 21
+  })
+  publicgetQualifiedClassNameClearTest():void {
+    expect(this.bean.getQualifiedClassName()).to.be.null;
   }
 }

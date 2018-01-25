@@ -38,9 +38,12 @@ export class SokokeInjectionPoint implements InjectionPoint {
    * @param {Member|Parameter} element the type of element associated with this
    *                                   <code>SokokeInjectionPoint</code>
    *                                   instance.
+   * @param {string} className the class name of the <code>Bean</code> object
+   *                           associated with this
+   *                           <code>SokokeInjectionPoint</code> instance.
    */
-  constructor(bean:Bean, type:any, element:Member|Parameter) {
-    this.initObj(bean, type, element);
+  constructor(bean:Bean, type:any, element:Member|Parameter, className:string) {
+    this.initObj(bean, type, element, className);
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -65,6 +68,12 @@ export class SokokeInjectionPoint implements InjectionPoint {
    */
   private _element:Member|Parameter = null;
 
+  /**
+   * The class name <code>Bean</code> object associated with this
+   * <code>SokokeInjectionPoint</code> instance.
+   */
+  private _className:string = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
   ////////////////////////////////////////////////////////////////////////////
@@ -79,11 +88,16 @@ export class SokokeInjectionPoint implements InjectionPoint {
    * @param {Member|Parameter} element the type of element associated with this
    *                                   <code>SokokeInjectionPoint</code>
    *                                   instance.
+   * @param {string} className the class name of the <code>Bean</code> object
+   *                           associated with this
+   *                           <code>SokokeInjectionPoint</code> instance.
    */
-  private initObj(bean:Bean, type:any, element:Member|Parameter):void {
+  private initObj(bean:Bean, type:any, element:Member|Parameter,
+                                                        className:string):void {
     this._bean = bean;
     this._type = type;
     this._element = element;
+    this._className = className;
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -109,5 +123,12 @@ export class SokokeInjectionPoint implements InjectionPoint {
    */
   public getElement():Member|Parameter {
     return this._element;
+  }
+  
+  /**
+   * @inheritDoc
+   */
+  public getQualifiedClassName():string {
+    return this._className;
   }
 }

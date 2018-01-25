@@ -31,7 +31,7 @@ export class SokokeBeanTest {
   @BeforeAll()
   public initTest():void {
     this.bean = new SokokeBean(
-      utils.NAME, utils.SCOPE, utils.BeanClass, utils.TYPES
+      utils.NAME, utils.SCOPE, utils.BeanClass, utils.TYPES, utils.CLASS_NAME
     );
   }
 
@@ -66,5 +66,12 @@ export class SokokeBeanTest {
   })
   public getTypesTest():void {
     expect(this.bean.getTypes()).to.equal(utils.TYPES);
+  }
+  
+  @Test({
+    description: "should return the same class name as passed as constructor parameter"
+  })
+  public getQualifiedClassNameTest():void {
+    expect(this.bean.getQualifiedClassName()).to.equal(utils.CLASS_NAME);
   }
 }

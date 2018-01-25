@@ -7,6 +7,7 @@ const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 class BeanFactory {
     constructor() {
         this._evaluator = null;
+        this._beanManager = null;
         this.initObj();
     }
     initObj() {

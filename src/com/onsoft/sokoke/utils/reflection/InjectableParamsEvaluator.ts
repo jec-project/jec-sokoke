@@ -22,6 +22,7 @@ import * as path from "path";
 import {JdiRegExp} from "./JdiRegExp";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionString} from "./InjectionString";
+import {ClassNameBuilder} from "../ClassNameBuilder";
 
 /**
  * The <code>InjectableParamsEvaluator</code> class allows to evaluate a bean
@@ -43,14 +44,26 @@ export class InjectableParamsEvaluator {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Returns the class for the current bean archive.
+   * Returns the class path for the current bean archive.
    * 
    * @param {FileProperties} file the reference to the file that represents the
    *                              current bean archive.
+   * @return {string} the class path for the current bean archive.
    */
-  private getBeanClass(file:FileProperties):any {
+  private getClassPath(file:FileProperties):string {
     let fileName:string = file.name + InjectionString.DOT + file.extension;
     let filePath:string = path.join(file.path, fileName);
+    return filePath;
+  }
+
+  /**
+   * Returns the class for the current bean archive.
+   * 
+   * @param {FileProperties} filePath the path to the file that represents the
+   *                                  current bean archive.
+   * @return {any} the class for the current bean archive.
+   */
+  private getBeanClass(filePath:string):any {
     let beanClass:any = GlobalClassLoader.getInstance().loadClass(filePath);
     return beanClass;
   }
@@ -141,13 +154,17 @@ export class InjectableParamsEvaluator {
   public evaluate(file:FileProperties):Bean {
     let params:InjectableParams = this.resolveInjectableParams(file);
     let scope:Scope = ScopeStrategy.getInstance().resolve(params.scope);
-    let beanClass:any = this.getBeanClass(file);
+    let classPath:string = this.getClassPath(file);
+    let beanClass:any = this.getBeanClass(classPath);
     let bean:Bean = BeanBuilder.getInstance()
                                .clear()
                                .name(params.name)
                                .scope(scope)
                                .types(this.buildTypes(beanClass, params.type))
                                .beanClass(beanClass)
+                               .className(
+                                 ClassNameBuilder.getInstance().build(classPath)
+                               )
                                .build();
     return bean;
   }

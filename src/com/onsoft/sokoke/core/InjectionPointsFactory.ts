@@ -16,7 +16,9 @@
 
 import {InjectParamsEvaluator} from "../utils/reflection/InjectParamsEvaluator";
 import {FileProperties} from "jec-commons";
-import {Bean} from "jec-jdi";
+import {Bean, InjectionPoint, BeanManager} from "jec-jdi";
+import {Sokoke} from "../inject/Sokoke";
+import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 
 /**
  * The <code>InjectionPointsFactory</code> is responsible to create collections
@@ -45,6 +47,12 @@ export class InjectionPointsFactory {
    */
   private _evaluator:InjectParamsEvaluator = null;
 
+  /**
+   * The reference to the Sokoke <code>BeanManager</code> object for this
+   * <code>BeanFactory</code> instance.
+   */
+  private _beanManager:BeanManager = null;
+
   ////////////////////////////////////////////////////////////////////////////
   // Private methods
   ////////////////////////////////////////////////////////////////////////////
@@ -54,6 +62,7 @@ export class InjectionPointsFactory {
    */
   private initObj():void {
     this._evaluator = new InjectParamsEvaluator();
+    //this._beanManager = Sokoke.getInstance().getBeanManager();
   }
 
   ////////////////////////////////////////////////////////////////////////////
@@ -61,8 +70,7 @@ export class InjectionPointsFactory {
   ////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates and returns a collection that contains references to all injection
-   * points for the specified file.
+   * Creates all injection points for the specified file.
    * 
    * @param {FileProperties} file the file for which to create injection points.
    * @param {Bean} bean a reference to the bean that injection points belongs
@@ -70,7 +78,22 @@ export class InjectionPointsFactory {
    *                    not belong to a bean.
    */
   public create(file:FileProperties, bean:Bean):void {
-    this._evaluator.evaluate(file, bean);
+    let injectPoints:InjectionPoint[] = this._evaluator.evaluate(file, bean);
+    let len:number = injectPoints.length;
+    let injectPoint:InjectionPoint = null;
+    while(len--){
+      injectPoint = injectPoints[len];
+      console.log(injectPoint)
+      console.log(
+        HashCodeBuilder.getInstance()
+                      .build(
+                        injectPoint.getQualifiedClassName(),
+                        injectPoint.getElement().getName()
+                      )
+      );
+      //this._beanManager.addInjectionPoint(injectPoint);
+    }
+    
     /*SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get("injection.evaluated", ???),
       LogLevel.DEBUG

@@ -29,6 +29,7 @@ export const SCOPE:Scope = {
     return null;
   }
 };
+export const CLASS_NAME:string = "utils.BeanClass";
 export class BeanClass {}
 export const TYPES:Set<any> = new Set<any>();
 TYPES.add(BeanType);

@@ -3,11 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const jec_commons_1 = require("jec-commons");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const path = require("path");
 const Sokoke_1 = require("../inject/Sokoke");
 const BeanFactory_1 = require("./BeanFactory");
 const InjectionPointsFactory_1 = require("../core/InjectionPointsFactory");
-const ClassNameBuilder_1 = require("../utils/ClassNameBuilder");
+const SokokeContextBuilder_1 = require("../builders/SokokeContextBuilder");
 class SokokeAutowireProcessor {
     constructor() {
         this._beanFactory = null;
@@ -20,16 +19,11 @@ class SokokeAutowireProcessor {
         this._injectPointFactory = new InjectionPointsFactory_1.InjectionPointsFactory();
     }
     processStart(watcher, sourcePath) {
-        let locale = watcher.getContainer().getLocale();
-        let localeString = locale.toString();
-        let sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
-        let cfg = {
-            directory: sokokeLocalesPath
-        };
-        ClassNameBuilder_1.ClassNameBuilder.getInstance().setDomainPath(watcher.getTarget());
-        SokokeLocaleManager_1.SokokeLocaleManager.getInstance().init(localeString, cfg);
+        let sokoke = Sokoke_1.Sokoke.getInstance();
+        let context = SokokeContextBuilder_1.SokokeContextBuilder.getInstance().build(watcher.getTarget(), watcher.getContainer().getLocale());
+        sokoke.addContext(context);
+        sokoke.setCurrentContext(context);
         SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"));
-        Sokoke_1.Sokoke.getInstance();
     }
     process(file, watcher) {
         let decorators = file.decorators;

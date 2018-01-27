@@ -15,6 +15,8 @@
  //--> com/onsoft/builders
 export {BeanBuilder} from "./sokoke/builders/BeanBuilder";
 export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
+export {JdiContainerFactory} from "./sokoke/builders/JdiContainerFactory";
+export {SokokeContextBuilder} from "./sokoke/builders/SokokeContextBuilder";
 //--> com/onsoft/core
 export {BeanFactory} from "./sokoke/core/BeanFactory";
 export {InjectionPointsFactory} from "./sokoke/core/InjectionPointsFactory";
@@ -28,6 +30,7 @@ export {Sokoke} from "./sokoke/inject/Sokoke";
 export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
 export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
+export {SokokeContext} from "./sokoke/inject/SokokeContext";
 export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
 //--> com/onsoft/jcad/connectors
 export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
@@ -47,7 +50,7 @@ export {InjectParamsEvaluator} from "./sokoke/utils/reflection/InjectParamsEvalu
 export {InjectParamsString} from "./sokoke/utils/reflection/InjectParamsString";
 export {JdiRegExp} from "./sokoke/utils/reflection/JdiRegExp";
 //--> com/onsoft/utils
-export {ClassNameBuilder} from "./sokoke/utils/ClassNameBuilder";
+export {ClassPathBuilder} from "./sokoke/utils/ClassPathBuilder";
 export {HashCodeBuilder} from "./sokoke/utils/HashCodeBuilder";
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 

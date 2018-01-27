@@ -15,36 +15,39 @@
 //   limitations under the License.
 
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {BeanManager} from "jec-jdi";
 import {SingletonError} from "jec-commons";
 import {LocaleManager} from "jec-commons-node";
+import {SokokeBeanManager} from "../inject/SokokeBeanManager";
+import {SokokeContext} from "../inject/SokokeContext";
 
 /**
- * The <code>HashCodeBuilder</code> singleton allows to build Sokoke non-secure  
- * hash code values from strings.
+ * The <code>BeanManagerBuilder</code> singleton allows to build new
+ * <code>BeanManager</code> objects from the specified parameters.
  */
-export class HashCodeBuilder {
+export class BeanManagerBuilder {
   
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>HashCodeBuilder</code> instance.
+   * Creates a new <code>BeanManagerBuilder</code> instance.
    */
   constructor() {
     let msg:string = null;
     let i18n:LocaleManager = null;
-    if(HashCodeBuilder._locked || HashCodeBuilder.INSTANCE) {
+    if(BeanManagerBuilder._locked || BeanManagerBuilder.INSTANCE) {
       i18n = SokokeLocaleManager.getInstance();
       if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "HashCodeBuilder");
+        msg = i18n.get("errors.singleton", "BeanManagerBuilder");
       } else {
-        msg = "You cannot create a HashCodeBuilder instance; " +
+        msg = "You cannot create a BeanManagerBuilder instance; " +
               "use getInstance() instead.";
       }
       throw new SingletonError(msg);
     }
-    HashCodeBuilder._locked = true;
+    BeanManagerBuilder._locked = true;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -52,27 +55,27 @@ export class HashCodeBuilder {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Prevents <code>HashCodeBuilder</code> illegal instanciations.
+   * Prevents <code>BeanManagerBuilder</code> illegal instanciations.
    */
   private static _locked:boolean = true;
 
   /**
-   * The <code>HashCodeBuilder</code> singleton instance reference.
+   * The <code>BeanManagerBuilder</code> singleton instance reference.
    */
-  private static INSTANCE:HashCodeBuilder = null;
+  private static INSTANCE:BeanManagerBuilder = null;
 
   /**
-   * Returns a reference to the <code>HashCodeBuilder</code> singleton.
+   * Returns a reference to the <code>BeanManagerBuilder</code> singleton.
    *
-   * @return {HashCodeBuilder} a reference to the <code>HashCodeBuilder</code>
-   *                         singleton.
+   * @return {BeanManagerBuilder} a reference to the
+   *                              <code>BeanManagerBuilder</code> singleton.
    */
-  public static getInstance():HashCodeBuilder {
-    if(HashCodeBuilder.INSTANCE === null) {
-      HashCodeBuilder._locked = false;
-      HashCodeBuilder.INSTANCE = new HashCodeBuilder();
+  public static getInstance():BeanManagerBuilder {
+    if(BeanManagerBuilder.INSTANCE === null) {
+      BeanManagerBuilder._locked = false;
+      BeanManagerBuilder.INSTANCE = new BeanManagerBuilder();
     }
-    return HashCodeBuilder.INSTANCE;
+    return BeanManagerBuilder.INSTANCE;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -80,22 +83,14 @@ export class HashCodeBuilder {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Returns a numerical, 32bit integer, hash code for the specified string
-   * values.
+   * Creates and returns a new <code>BeanManager</code> object.
    * 
-   * @param {string[]} values the string values for which to create hash code.
-   * @return {number} a numerical, 32bit integer, hash code.
+   * @param {SokokeContext} context the context associated with the new
+   *                                <code>SokokeContext</code> object.
+   * @return {BeanManager} a new <code>BeanManager</code> object.
    */
-  public build(...values:string[]):number {
-    let value:string = values.join();
-    let hash:number = 0;
-    let char:number = null;
-    let len:number = value.length;
-    while(len--) {
-      char = value.charCodeAt(len);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
+  public build(context:SokokeContext):BeanManager {
+    let beanManager:BeanManager = new SokokeBeanManager(context);
+    return beanManager;
   }
 }

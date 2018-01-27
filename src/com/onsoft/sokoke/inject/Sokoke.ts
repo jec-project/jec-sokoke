@@ -18,6 +18,11 @@ import {LocaleManager} from "jec-commons-node";
 import {SingletonError} from "jec-commons";
 import {JDI, JdiContainer, BeanManager} from "jec-jdi";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {SokokeContainer} from "./SokokeContainer";
+import * as path from "path";
+import {JdiContainerFactory} from "../builders/JdiContainerFactory";
+import {SokokeContext} from "./SokokeContext";
+import {BeanManagerBuilder} from "../builders/BeanManagerBuilder";
 
 /**
  * The <code>Sokoke</code> singleton is the main entry point of Sokoke
@@ -81,9 +86,24 @@ export class Sokoke implements JDI {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * The <code>JdiContainer</code> instance managerd by this Sokoke object.
+   * The <code>SokokeContainer</code> instance managed by this Sokoke object.
    */
-  private _container:JdiContainer = null;
+  private _container:SokokeContainer = null;
+
+  /**
+   * The configuration object for this Sokoke object.
+   */
+  private _localeCongig:any = null;
+
+  /**
+   * The current <code>SokokeContext</code> object.
+   */
+  private _currContext:SokokeContext = null;
+
+  /**
+   * The list that is used to store Sokoke contexts.
+   */
+  private _contextList:Set<SokokeContext> = null;
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -93,11 +113,17 @@ export class Sokoke implements JDI {
    * Initializes this object.
    */
   private initObj():void {
-    //this._container = new JdiContainerBuilder().build();
+    let factory:JdiContainerFactory = new JdiContainerFactory();
+    this._container = (factory.create() as SokokeContainer);
+    let sokokeLocalesPath:string = path.join(
+      process.cwd(), "node_modules/jec-sokoke/public/locales/"
+    );
+    this._localeCongig = { directory: sokokeLocalesPath };
+    this._contextList = new Set<SokokeContext>();
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Public methods
+  // Public JDI methods
   //////////////////////////////////////////////////////////////////////////////
 
   /**
@@ -111,6 +137,71 @@ export class Sokoke implements JDI {
    * @inheritDoc
    */
   public getBeanManager():BeanManager {
-    throw new Error("Method not implemented.");
+    return this._container.getBeanManager();
+  }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  // Public Sokoke methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Adds the specified context to this SPI manager.
+   * 
+   * @param {SokokeContext} context the new context to add to this SPI manager.
+   */
+  public addContext(context:SokokeContext):void {
+    let beanManager:BeanManager = BeanManagerBuilder.getInstance()
+                                                    .build(context);
+    this._contextList.add(context);
+    this._container.setBeanManager(beanManager);
+  }
+  
+  /**
+   * Sets the current Sokoke context.
+   * 
+   * @param {SokokeContext} context the current Sokoke context.
+   */
+  public setCurrentContext(context:SokokeContext):void {
+    if(this._currContext !== context) {
+      this._currContext = context;
+      (this._container as SokokeContainer).contextChange(context);
+      SokokeLocaleManager.getInstance().init(
+        context.getLocale().toString(),
+        this._localeCongig
+      );
+    }
+  }
+  
+  /**
+   * Gets the current Sokoke context.
+   * 
+   * @return {SokokeContext} the current Sokoke context.
+   */
+  public getCurrentContext():SokokeContext {
+    return this._currContext;
+  } 
+
+  /**
+   * Gets the a Sokoke context depending on the specified file path.
+   * 
+   * @param {string} path the path for which to retreive the Sokoke context.
+   * @return {SokokeContext} the Sokoke context that is associated with the
+   *                         specified file path.
+   */
+  public getContextByPath(path:string):SokokeContext {
+    const it:IterableIterator<[SokokeContext, SokokeContext]> =
+                                                    this._contextList.entries();
+    let domainPath:string = path;
+    let context:SokokeContext = null;
+    let result:SokokeContext = null;
+    for(let entry of it) {
+      context = entry[0];
+      domainPath = context.getDomainPath();
+      if(path.indexOf(domainPath) === 0) {
+        result = context;
+        break;
+      }
+    }
+    return result;
   }
 }

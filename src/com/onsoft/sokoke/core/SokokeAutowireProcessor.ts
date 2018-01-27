@@ -16,17 +16,16 @@
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {LoggerProxy, FilePreProcessor, FileProperties, DecoratorProperties,
-        Locale,
         LogLevel} from "jec-commons";
 import {LocaleManager} from "jec-commons-node";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeError} from "../exceptions/SokokeError";
-import * as path from "path";
 import {Sokoke} from "../inject/Sokoke";
 import {BeanFactory} from "./BeanFactory";
 import {InjectionPointsFactory} from "../core/InjectionPointsFactory";
 import {Bean} from "jec-jdi";
-import {ClassNameBuilder} from "../utils/ClassNameBuilder";
+import {SokokeContextBuilder} from "../builders/SokokeContextBuilder";
+import {SokokeContext} from "../inject/SokokeContext";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -34,9 +33,9 @@ import {ClassNameBuilder} from "../utils/ClassNameBuilder";
  */
 export class SokokeAutowireProcessor implements FilePreProcessor {
   
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Creates a new <code>SokokeAutowireProcessor</code> instance.
@@ -45,9 +44,9 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     this.initObj();
   }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Private properties
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * The mask used to detect the <code>jec-jdi</code> imports in a file.
@@ -78,9 +77,9 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    */
   private _injectPointFactory:InjectionPointsFactory = null;
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Private methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   
   /**
    * Initialize this object.
@@ -91,28 +90,23 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     this._injectPointFactory = new InjectionPointsFactory();
   }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Public methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * @inheritDoc
    */
   public processStart(watcher:any, sourcePath:string):void {
-    let locale:Locale = watcher.getContainer().getLocale();
-    let localeString:string = locale.toString();
-    let sokokeLocalesPath:string = path.join(
-      process.cwd(), "node_modules/jec-sokoke/public/locales/"
+    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    let context:SokokeContext = SokokeContextBuilder.getInstance().build(
+      watcher.getTarget(), watcher.getContainer().getLocale()
     );
-    let cfg:any = {
-      directory: sokokeLocalesPath
-    };
-    ClassNameBuilder.getInstance().setDomainPath(watcher.getTarget());
-    SokokeLocaleManager.getInstance().init(localeString, cfg);
+    sokoke.addContext(context);
+    sokoke.setCurrentContext(context);
     SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get("process.start")
     );
-    Sokoke.getInstance();
   }
 
   /**

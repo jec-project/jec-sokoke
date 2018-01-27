@@ -11,7 +11,7 @@ import { Injectable, Inject, InjectableParams, InjectParams, Scope,
          BeanManager, Bean, InjectionPoint, JdiContainer, JDI } from "jec-jdi";
 import { FileProperties, FilePreProcessor, Decorator, AbstractLoggerProxy,
          AbstractDecoratorConnector, LoggerProxy, JcadContext, Member,
-         Parameter } from "jec-commons";
+         Parameter, Locale } from "jec-commons";
 import { LocaleManager } from "jec-commons-node";
 
 /*PLACEHOLDER*/}

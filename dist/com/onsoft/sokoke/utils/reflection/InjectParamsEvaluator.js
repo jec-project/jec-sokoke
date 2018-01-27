@@ -3,18 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
 const JdiRegExp_1 = require("./JdiRegExp");
 const InjectParamsString_1 = require("./InjectParamsString");
-const path = require("path");
 const InjectionString_1 = require("./InjectionString");
 const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionPointBuilder_1 = require("../../builders/InjectionPointBuilder");
-const ClassNameBuilder_1 = require("../../utils/ClassNameBuilder");
+const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectParamsEvaluator {
     constructor() { }
-    getClassPath(file) {
-        let fileName = file.name + InjectionString_1.InjectionString.DOT + file.extension;
-        let filePath = path.join(file.path, fileName);
-        return filePath;
-    }
     extractField(decorator, beanClass) {
         let fieldName = decorator.substring(decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) + 13, decorator.lastIndexOf(InjectParamsString_1.InjectParamsString.CLOSING_QUOTE));
         let field = new jec_commons_1.Field(fieldName, beanClass);
@@ -23,6 +17,7 @@ class InjectParamsEvaluator {
     extractParams(rawParams, file) {
         let params = {};
         let found = null;
+        JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
         while ((found = JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
             switch (found[1]) {
                 case InjectionString_1.InjectionString.NAME:
@@ -42,8 +37,11 @@ class InjectParamsEvaluator {
         return params;
     }
     resolveInjectParams(file, rawDecorator) {
-        let found = JdiRegExp_1.JdiRegExp.INJECT_MATCHER.exec(rawDecorator);
-        let params = this.extractParams(found[1], file);
+        let found = null;
+        let params = null;
+        JdiRegExp_1.JdiRegExp.INJECT_MATCHER.lastIndex = 0;
+        found = JdiRegExp_1.JdiRegExp.INJECT_MATCHER.exec(rawDecorator);
+        params = this.extractParams(found[1], file);
         return params;
     }
     resolveInjections(file, bean) {
@@ -61,9 +59,8 @@ class InjectParamsEvaluator {
             className = bean.getQualifiedClassName();
         }
         else {
-            className = ClassNameBuilder_1.ClassNameBuilder.getInstance().build(this.getClassPath(file));
+            className = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
         }
-        ClassNameBuilder_1.ClassNameBuilder.getInstance();
         while (len--) {
             decorator = decorators[len];
             if (decorator.indexOf(InjectParamsString_1.InjectParamsString.INJECT) !== -1) {

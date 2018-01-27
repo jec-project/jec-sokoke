@@ -3,18 +3,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const BeanBuilder_1 = require("../../builders/BeanBuilder");
 const jec_commons_1 = require("jec-commons");
 const ScopeStrategy_1 = require("../../utils/ScopeStrategy");
-const path = require("path");
 const JdiRegExp_1 = require("./JdiRegExp");
 const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionString_1 = require("./InjectionString");
-const ClassNameBuilder_1 = require("../ClassNameBuilder");
+const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectableParamsEvaluator {
     constructor() { }
-    getClassPath(file) {
-        let fileName = file.name + InjectionString_1.InjectionString.DOT + file.extension;
-        let filePath = path.join(file.path, fileName);
-        return filePath;
-    }
     getBeanClass(filePath) {
         let beanClass = jec_commons_1.GlobalClassLoader.getInstance().loadClass(filePath);
         return beanClass;
@@ -29,6 +23,7 @@ class InjectableParamsEvaluator {
     extractParams(rawParams, file) {
         let params = {};
         let found = null;
+        JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
         while ((found = JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
             switch (found[1]) {
                 case InjectionString_1.InjectionString.NAME:
@@ -51,6 +46,7 @@ class InjectableParamsEvaluator {
         return params;
     }
     resolveInjectableParams(file) {
+        JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.lastIndex = 0;
         let found = JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
         let rawParams = found[1];
         let params = this.extractParams(rawParams, file);
@@ -59,7 +55,7 @@ class InjectableParamsEvaluator {
     evaluate(file) {
         let params = this.resolveInjectableParams(file);
         let scope = ScopeStrategy_1.ScopeStrategy.getInstance().resolve(params.scope);
-        let classPath = this.getClassPath(file);
+        let classPath = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
         let beanClass = this.getBeanClass(classPath);
         let bean = BeanBuilder_1.BeanBuilder.getInstance()
             .clear()
@@ -67,7 +63,7 @@ class InjectableParamsEvaluator {
             .scope(scope)
             .types(this.buildTypes(beanClass, params.type))
             .beanClass(beanClass)
-            .className(ClassNameBuilder_1.ClassNameBuilder.getInstance().build(classPath))
+            .className(classPath)
             .build();
         return bean;
     }

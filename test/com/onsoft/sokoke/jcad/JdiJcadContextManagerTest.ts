@@ -22,7 +22,7 @@ import { JcadContextError, JcadContextFactory, JcadContext } from "jec-commons";
 @TestSuite({
   description: "Test the JdiContextManager class methods"
 })
-export class JdiContextManagerTest {
+export class JdiJcadContextManagerTest {
   
   @Test({
     description: "should throw a JcadContextError excpetion when nor context have been created before"

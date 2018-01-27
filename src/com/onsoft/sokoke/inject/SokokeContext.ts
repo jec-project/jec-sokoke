@@ -14,22 +14,31 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
+import {Locale} from "jec-commons";
+
 /**
- * The <code>SokokeError</code> class represents a core exception thrown by a 
- * Sokoke container.
+ * The <code>SokokeContext</code> interface provides a JDI context for each 
+ * domain container in the Sokoke framework.
  */
-export class SokokeError extends Error {
+export interface SokokeContext {
 
   //////////////////////////////////////////////////////////////////////////////
-  // Constructor function
+  // Public methods
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>SokokeError</code> instance.
+   * Returns the path to the local directory where the domain associated with
+   * this context is deployed.
    * 
-   * @param {string} message the error message that describes this error.
+   * @return {string} the path to the domain local directory.
    */
-  constructor(message:string) {
-    super(message);
-  }
+  getDomainPath():string;
+  
+  /**
+   * Returns the <code>Locale</code> object associated with this context.
+   * 
+   * @return {Locale} the <code>Locale</code> object associated with this
+   *                  context.
+   */
+  getLocale():Locale;
 }

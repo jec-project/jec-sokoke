@@ -15,9 +15,10 @@
 //   limitations under the License.
 
 import {Decorator, ClassLoaderContext} from "jec-commons";
-import {InjectParams} from "jec-jdi";
+import {InjectParams, BeanManager} from "jec-jdi";
 import {HashCodeBuilder} from "../../utils/HashCodeBuilder";
-import {ClassNameBuilder} from "../../utils/ClassNameBuilder";
+import {Sokoke} from "../../inject/Sokoke";
+import {SokokeContext} from "../../inject/SokokeContext";
 
 /**
  * The <code>InjectPropertyDecorator</code> class defines the   
@@ -26,32 +27,36 @@ import {ClassNameBuilder} from "../../utils/ClassNameBuilder";
  */
 export class InjectPropertyDecorator implements Decorator {
   
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Creates a new <code>InjectPropertyDecorator</code> instance.
    */
   constructor() {}
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // public methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * @inheritDoc
    */
   public decorate(target:any, key:string, params:InjectParams):any {
-    let classPath:string = ClassNameBuilder.getInstance().build(
-      ClassLoaderContext.getInstance().getPath()
-    );
+    let beanManager:BeanManager = null;
+    let classPath:string = ClassLoaderContext.getInstance().getPath();
     let hash:number = HashCodeBuilder.getInstance().build(classPath, key);
+    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    let context:SokokeContext = sokoke.getContextByPath(classPath);
+    sokoke.setCurrentContext(context);
+    beanManager = sokoke.getBeanManager();
     console.log("InjectPropertyDecorator")
     console.log(target.constructor)
     console.log(key)
     console.log(params)
     console.log(hash)
+    console.log(context)
     console.log("---------------------------------")
     return target;
   }

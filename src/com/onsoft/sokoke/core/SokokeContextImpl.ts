@@ -14,29 +14,27 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
-import {BeanManager, InjectionPoint, Bean} from "jec-jdi";
-import {SokokeError} from "../exceptions/SokokeError";
-import {SokokeContext} from "./SokokeContext";
+import {Locale} from "jec-commons";
 
 /**
- * The <code>SokokeBeanManager</code> class is the Sokoke framework 
- * implementation of the <code>BeanManager</code> interface.
+ * The <code>SokokeContextImpl</code> class is the default implementation of the
+ * <code>SokokeContext</code> interface.
  */
-export class SokokeBeanManager implements BeanManager {
-  
+export class SokokeContextImpl {
+
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>SokokeBeanManager</code> instance.
+   * Creates a new <code>SokokeContextImpl</code> instance.
    * 
-   * @param {SokokeContext} context the context associated with this
-   *                                <code>SokokeContext</code> object.
+   * @param {string} domainPath the path to the domain associated with this
+   *                            context.
+   * @param {Locale} locale the locale associated with this context.
    */
-  constructor(context:SokokeContext) {
-    this.initObj(context);
+  constructor(domainPath:string, locale:Locale) {
+    this.initObj(domainPath, locale);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -44,9 +42,14 @@ export class SokokeBeanManager implements BeanManager {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * The context associated with this <code>SokokeContext</code> object.
+   * The path to the domain associated with this context.
    */
-  private _context:SokokeContext = null;
+  private _domainPath:string = null;
+
+  /**
+   * The locale associated with this context.
+   */
+  private _locale:Locale = null;
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -55,11 +58,13 @@ export class SokokeBeanManager implements BeanManager {
   /**
    * Initializes this object.
    * 
-   * @param {SokokeContext} context the context associated with this
-   *                                <code>SokokeContext</code> object.
+   * @param {string} domainPath the path to the domain associated with this
+   *                            context.
+   * @param {Locale} locale the locale associated with this context.
    */
-  private initObj(context:SokokeContext):void {
-    this._context = context;
+  private initObj(domainPath:string, locale:Locale):void {
+    this._domainPath = domainPath;
+    this._locale = locale;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -69,26 +74,14 @@ export class SokokeBeanManager implements BeanManager {
   /**
    * @inheritDoc
    */
-  public addBean(bean:Bean):void {
-    //TODO
-  }
-
-  /**
-   * @inheritDoc
-   */
-  public getBeans(injectionPoint:InjectionPoint):Set<Bean> {
-    let result:Set<Bean> = new Set<Bean>();
-    //TODO
-    return result;
+  public getDomainPath():string {
+    return this._domainPath;
   }
   
   /**
-   * Gets the context associated with this <code>SokokeContext</code> object.
-   * 
-   * @return {SokokeContext} the context associated with this
-   *                         <code>SokokeContext</code> object.
+   * @inheritDoc
    */
-  public getContext():SokokeContext {
-    return this._context;
+  public getLocale():Locale {
+    return this._locale;
   }
 }

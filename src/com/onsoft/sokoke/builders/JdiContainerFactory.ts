@@ -14,22 +14,35 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-/**
- * The <code>SokokeError</code> class represents a core exception thrown by a 
- * Sokoke container.
- */
-export class SokokeError extends Error {
+import {JdiContainer} from "jec-jdi";
+import {SokokeContainer} from "../inject/SokokeContainer";
 
+/**
+ * The <code>JdiContainerFactory</code> creates new <code>JdiContainer</code>
+ * objects.
+ */
+export class JdiContainerFactory {
+  
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>SokokeError</code> instance.
-   * 
-   * @param {string} message the error message that describes this error.
+   * Creates a new <code>JdiContainerFactory</code> instance.
    */
-  constructor(message:string) {
-    super(message);
+  constructor() {}
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Public methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Creates and returns a new <code>JdiContainer</code> object.
+   * 
+   * @return {JdiContainer} a new <code>JdiContainer</code> object.
+   */
+  public create():JdiContainer {
+    let container:JdiContainer = new SokokeContainer();
+    return container;
   }
 }

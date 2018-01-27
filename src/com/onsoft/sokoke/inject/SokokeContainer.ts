@@ -16,6 +16,9 @@
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {BeanManager, JdiContainer} from "jec-jdi";
+import {GlobalGuidGenerator} from "jec-commons";
+import {SokokeBeanManager} from "./SokokeBeanManager";
+import {SokokeContext} from "./SokokeContext";
 
 /**
  * The <code>JdiContainer</code> class is the Sokoke framework 
@@ -23,9 +26,9 @@ import {BeanManager, JdiContainer} from "jec-jdi";
  */
 export class SokokeContainer implements JdiContainer {
   
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Creates a new <code>SokokeContainer</code> instance.
@@ -34,39 +37,76 @@ export class SokokeContainer implements JdiContainer {
     this.initObj();
   }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Private properties
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * The unique identifier for this container.
+   */
+  private _id:string = null;
+
+  /**
+   * A map of <code>BeanManager</code> objects managed by this container.
+   */
+  private _beanManagerMap:Map<string, BeanManager> = null;
+
+  /**
+   * The reference to the current domain path, as specified by the current
+   * context.
+   */
+  private _currentDomainPath:string = null;
+
+  //////////////////////////////////////////////////////////////////////////////
   // Private methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Initializes this object.
    */
   private initObj():void {
-
+    this._id = GlobalGuidGenerator.getInstance().generate();
+    this._beanManagerMap = new Map<string, BeanManager>();
   }
 
-  ////////////////////////////////////////////////////////////////////////////
-  // Public methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Public JdiContainer methods
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * @inheritDoc
    */
   public getId():string {
-    throw new Error("Method not implemented.");
+    return this._id;
   }
 
   /**
    * @inheritDoc
    */
-  public getBeanManager(key:string):BeanManager {
-    throw new Error("Method not implemented.");
+  public getBeanManager():BeanManager {
+    return this._beanManagerMap.get(this._currentDomainPath);
   }
   
   /**
    * @inheritDoc
    */
-  public setBeanManager(beanManager:BeanManager, key:string):void {
-    throw new Error("Method not implemented.");
+  public setBeanManager(beanManager:BeanManager):void {
+    let key:string = (beanManager as SokokeBeanManager).getContext()
+                                                       .getDomainPath();
+    this._beanManagerMap.set(key, beanManager);
   }
+  
+  //////////////////////////////////////////////////////////////////////////////
+  // Public SokokeContainer methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Notifies the container that the current context changed.
+   * 
+   * @param {SokokeContext} context the reference to the current context.
+   */
+  public contextChange(context:SokokeContext):void {
+    this._currentDomainPath = context.getDomainPath();
+  }
+
 }

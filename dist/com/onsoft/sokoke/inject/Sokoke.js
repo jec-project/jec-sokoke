@@ -2,9 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
+const path = require("path");
+const JdiContainerFactory_1 = require("../builders/JdiContainerFactory");
+const BeanManagerBuilder_1 = require("../builders/BeanManagerBuilder");
 class Sokoke {
     constructor() {
         this._container = null;
+        this._localeCongig = null;
+        this._currContext = null;
+        this._contextList = null;
         let msg = null;
         let i18n = null;
         if (Sokoke._locked || Sokoke.INSTANCE) {
@@ -29,12 +35,48 @@ class Sokoke {
         return Sokoke.INSTANCE;
     }
     initObj() {
+        let factory = new JdiContainerFactory_1.JdiContainerFactory();
+        this._container = factory.create();
+        let sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
+        this._localeCongig = { directory: sokokeLocalesPath };
+        this._contextList = new Set();
     }
     getContainer() {
         return this._container;
     }
     getBeanManager() {
-        throw new Error("Method not implemented.");
+        return this._container.getBeanManager();
+    }
+    addContext(context) {
+        let beanManager = BeanManagerBuilder_1.BeanManagerBuilder.getInstance()
+            .build(context);
+        this._contextList.add(context);
+        this._container.setBeanManager(beanManager);
+    }
+    setCurrentContext(context) {
+        if (this._currContext !== context) {
+            this._currContext = context;
+            this._container.contextChange(context);
+            SokokeLocaleManager_1.SokokeLocaleManager.getInstance().init(context.getLocale().toString(), this._localeCongig);
+        }
+    }
+    getCurrentContext() {
+        return this._currContext;
+    }
+    getContextByPath(path) {
+        const it = this._contextList.entries();
+        let domainPath = path;
+        let context = null;
+        let result = null;
+        for (let entry of it) {
+            context = entry[0];
+            domainPath = context.getDomainPath();
+            if (path.indexOf(domainPath) === 0) {
+                result = context;
+                break;
+            }
+        }
+        return result;
     }
 }
 Sokoke._locked = true;

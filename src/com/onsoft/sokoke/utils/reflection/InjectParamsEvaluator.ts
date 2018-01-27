@@ -22,7 +22,7 @@ import * as path from "path";
 import {InjectionString} from "./InjectionString";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionPointBuilder} from "../../builders/InjectionPointBuilder";
-import {ClassNameBuilder} from "../../utils/ClassNameBuilder";
+import {ClassPathBuilder} from "../../utils/ClassPathBuilder";
 
 /**
  * The <code>InjectParamsEvaluator</code> class allows to evaluate a class
@@ -31,30 +31,18 @@ import {ClassNameBuilder} from "../../utils/ClassNameBuilder";
  */
 export class InjectParamsEvaluator {
   
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Creates a new <code>InjectParamsEvaluator</code> instance.
    */
   constructor() { }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Private methods
-  ////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Returns the class path for the current file.
-   * 
-   * @param {FileProperties} file the reference to the current file.
-   * @return {string} the class path for the current file.
-   */
-  private getClassPath(file:FileProperties):string {
-    let fileName:string = file.name + InjectionString.DOT + file.extension;
-    let filePath:string = path.join(file.path, fileName);
-    return filePath;
-  }
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Returns the <code>Field</code> object for the current injection point.
@@ -89,6 +77,7 @@ export class InjectParamsEvaluator {
   private extractParams(rawParams:string, file:FileProperties):InjectParams{
     let params:InjectParams = { };
     let found:RegExpMatchArray = null;
+    JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
     while((found = JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
       switch(found[1]) {
         case InjectionString.NAME:
@@ -120,8 +109,11 @@ export class InjectParamsEvaluator {
    */
   private resolveInjectParams(file:FileProperties,
                                              rawDecorator:string):InjectParams {
-    let found:RegExpMatchArray = JdiRegExp.INJECT_MATCHER.exec(rawDecorator);
-    let params:InjectParams = this.extractParams(found[1], file);
+    let found:RegExpMatchArray = null;
+    let params:InjectParams = null;
+    JdiRegExp.INJECT_MATCHER.lastIndex = 0;
+    found = JdiRegExp.INJECT_MATCHER.exec(rawDecorator);
+    params = this.extractParams(found[1], file);
     return params;
   }
 
@@ -149,9 +141,8 @@ export class InjectParamsEvaluator {
       beanClass = bean.getBeanClass();
       className = bean.getQualifiedClassName();
     } else {
-      className = ClassNameBuilder.getInstance().build(this.getClassPath(file));
+      className = ClassPathBuilder.getInstance().build(file);
     }
-    ClassNameBuilder.getInstance();
     while(len--){
       decorator = decorators[len];
       if(decorator.indexOf(InjectParamsString.INJECT) !== -1) {
@@ -197,9 +188,9 @@ export class InjectParamsEvaluator {
     return result;
   }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Public methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Evaluates the specified file that contains injection points and return the .

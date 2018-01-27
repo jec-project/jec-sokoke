@@ -22,7 +22,7 @@ import * as path from "path";
 import {JdiRegExp} from "./JdiRegExp";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionString} from "./InjectionString";
-import {ClassNameBuilder} from "../ClassNameBuilder";
+import {ClassPathBuilder} from "../../utils/ClassPathBuilder";
 
 /**
  * The <code>InjectableParamsEvaluator</code> class allows to evaluate a bean
@@ -30,31 +30,18 @@ import {ClassNameBuilder} from "../ClassNameBuilder";
  */
 export class InjectableParamsEvaluator {
   
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Constructor function
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Creates a new <code>InjectableParamsEvaluator</code> instance.
    */
   constructor() { }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Private methods
-  ////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Returns the class path for the current bean archive.
-   * 
-   * @param {FileProperties} file the reference to the file that represents the
-   *                              current bean archive.
-   * @return {string} the class path for the current bean archive.
-   */
-  private getClassPath(file:FileProperties):string {
-    let fileName:string = file.name + InjectionString.DOT + file.extension;
-    let filePath:string = path.join(file.path, fileName);
-    return filePath;
-  }
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Returns the class for the current bean archive.
@@ -98,6 +85,7 @@ export class InjectableParamsEvaluator {
   private extractParams(rawParams:string, file:FileProperties):InjectableParams{
     let params:InjectableParams = { };
     let found:RegExpMatchArray = null;
+    JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
     while((found = JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
       switch(found[1]) {
         case InjectionString.NAME:
@@ -132,6 +120,7 @@ export class InjectableParamsEvaluator {
    *                            archive.
    */
   private resolveInjectableParams(file:FileProperties):InjectableParams {
+    JdiRegExp.INJECTABLE_MATCHER.lastIndex = 0;
     let found:RegExpMatchArray = 
                                 JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
     let rawParams:string = found[1];
@@ -139,9 +128,9 @@ export class InjectableParamsEvaluator {
     return params;
   }
 
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   // Public methods
-  ////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
 
   /**
    * Evaluates the file that represents a valid bean archive and returns the
@@ -154,7 +143,7 @@ export class InjectableParamsEvaluator {
   public evaluate(file:FileProperties):Bean {
     let params:InjectableParams = this.resolveInjectableParams(file);
     let scope:Scope = ScopeStrategy.getInstance().resolve(params.scope);
-    let classPath:string = this.getClassPath(file);
+    let classPath:string = ClassPathBuilder.getInstance().build(file);
     let beanClass:any = this.getBeanClass(classPath);
     let bean:Bean = BeanBuilder.getInstance()
                                .clear()
@@ -162,9 +151,7 @@ export class InjectableParamsEvaluator {
                                .scope(scope)
                                .types(this.buildTypes(beanClass, params.type))
                                .beanClass(beanClass)
-                               .className(
-                                 ClassNameBuilder.getInstance().build(classPath)
-                               )
+                               .className(classPath)
                                .build();
     return bean;
   }

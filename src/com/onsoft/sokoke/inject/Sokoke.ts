@@ -16,13 +16,15 @@
 
 import {LocaleManager} from "jec-commons-node";
 import {SingletonError} from "jec-commons";
-import {JDI, JdiContainer, BeanManager} from "jec-jdi";
+import {JDI, JdiContainer, BeanManager, InjectionPoint} from "jec-jdi";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeContainer} from "./SokokeContainer";
 import * as path from "path";
 import {JdiContainerFactory} from "../builders/JdiContainerFactory";
 import {SokokeContext} from "./SokokeContext";
 import {BeanManagerBuilder} from "../builders/BeanManagerBuilder";
+import {HashCodeBuilder} from "../utils/HashCodeBuilder";
+import {SokokeBeanManager} from "./SokokeBeanManager";
 
 /**
  * The <code>Sokoke</code> singleton is the main entry point of Sokoke
@@ -184,7 +186,7 @@ export class Sokoke implements JDI {
   /**
    * Gets the a Sokoke context depending on the specified file path.
    * 
-   * @param {string} path the path for which to retreive the Sokoke context.
+   * @param {string} path the path for which to retrieve the Sokoke context.
    * @return {SokokeContext} the Sokoke context that is associated with the
    *                         specified file path.
    */
@@ -203,5 +205,22 @@ export class Sokoke implements JDI {
       }
     }
     return result;
+  }
+
+  /**
+   * Retruns the injection point for the specified class path and class member.
+   * 
+   * @param {string} classPath the path to the class for which to find an
+   *                           injection point.
+   * @param {string} member the class member on which the injection point is
+   *                        declared.
+   * @return {InjectionPoint} the injection point for the specified parameters.
+   */
+  public resolveInjectionPoint(classPath:string, member:string):InjectionPoint {
+    let hash:number = HashCodeBuilder.getInstance().build(classPath, member);
+    let injectPoint:InjectionPoint = null;
+    let beanManager:SokokeBeanManager = 
+                        (this._container.getBeanManager() as SokokeBeanManager);
+    return beanManager.getInjectionPoint(hash);
   }
 }

@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const InjectParamsEvaluator_1 = require("../utils/reflection/InjectParamsEvaluator");
-const HashCodeBuilder_1 = require("../utils/HashCodeBuilder");
+const jec_commons_1 = require("jec-commons");
+const Sokoke_1 = require("../inject/Sokoke");
+const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
+const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 class InjectionPointsFactory {
     constructor() {
         this._evaluator = null;
-        this._beanManager = null;
         this.initObj();
     }
     initObj() {
@@ -15,11 +17,15 @@ class InjectionPointsFactory {
         let injectPoints = this._evaluator.evaluate(file, bean);
         let len = injectPoints.length;
         let injectPoint = null;
+        let showTrace = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance()
+            .getLogger()
+            .getLogLevel() <= jec_commons_1.LogLevel.DEBUG;
         while (len--) {
             injectPoint = injectPoints[len];
-            console.log(injectPoint);
-            console.log(HashCodeBuilder_1.HashCodeBuilder.getInstance()
-                .build(injectPoint.getQualifiedClassName(), injectPoint.getElement().getName()));
+            if (showTrace) {
+                SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("injection.evaluated", String(injectPoint)), jec_commons_1.LogLevel.DEBUG);
+                Sokoke_1.Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
+            }
         }
     }
 }

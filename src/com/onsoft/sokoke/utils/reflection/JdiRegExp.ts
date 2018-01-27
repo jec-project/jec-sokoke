@@ -51,7 +51,7 @@ export class JdiRegExp {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates and return a dynamic regex to retreive the import statement for the
+   * Creates and return a dynamic regex to retrieve the import statement for the
    * specified import reference.
    * 
    * @param {string} impRef the compiled reference to the import statement.

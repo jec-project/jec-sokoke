@@ -18,6 +18,7 @@ import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {BeanManager, InjectionPoint, Bean} from "jec-jdi";
 import {SokokeError} from "../exceptions/SokokeError";
 import {SokokeContext} from "./SokokeContext";
+import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 
@@ -48,6 +49,11 @@ export class SokokeBeanManager implements BeanManager {
    */
   private _context:SokokeContext = null;
 
+  /**
+   * Stores references to all injection points.
+   */
+  private _injectionPointMap:Map<number, InjectionPoint> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -60,10 +66,11 @@ export class SokokeBeanManager implements BeanManager {
    */
   private initObj(context:SokokeContext):void {
     this._context = context;
+    this._injectionPointMap = new Map<number, InjectionPoint>();
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  // Public methods
+  // Public BeanManager methods
   //////////////////////////////////////////////////////////////////////////////
 
   /**
@@ -81,7 +88,23 @@ export class SokokeBeanManager implements BeanManager {
     //TODO
     return result;
   }
+
+  /**
+   * @inheritDoc
+   */
+  public addInjectionPoint(injectionPoint:InjectionPoint):void {
+    let key:number = HashCodeBuilder.getInstance()
+                                    .build(
+                                      injectionPoint.getQualifiedClassName(),
+                                      injectionPoint.getElement().getName()
+                                    );
+    this._injectionPointMap.set(key, injectionPoint);
+  }
   
+  //////////////////////////////////////////////////////////////////////////////
+  // Public SokokeBeanManager methods
+  //////////////////////////////////////////////////////////////////////////////
+
   /**
    * Gets the context associated with this <code>SokokeContext</code> object.
    * 
@@ -90,5 +113,15 @@ export class SokokeBeanManager implements BeanManager {
    */
   public getContext():SokokeContext {
     return this._context;
+  }
+
+  /**
+   * Gets the injection point with the specified reference.
+   * 
+   * @param {number} ref the reference of the injection point to retrieve.
+   * @return {InjectionPoint} the injection point with the specified reference.
+   */
+  public getInjectionPoint(ref:number):InjectionPoint {
+    return this._injectionPointMap.get(ref);
   }
 }

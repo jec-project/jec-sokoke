@@ -17,6 +17,7 @@
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {InjectionPoint, Bean} from "jec-jdi";
 import {Member, Parameter} from "jec-commons";
+import {Sokoke} from "./Sokoke";
 
 /**
  * The <code>SokokeInjectionPoint</code> class is the implementation of the
@@ -130,5 +131,15 @@ export class SokokeInjectionPoint implements InjectionPoint {
    */
   public getQualifiedClassName():string {
     return this._className;
+  }
+
+  /*
+   * @private
+   */
+  public toString():string {
+    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    let domainPath:string = sokoke.getCurrentContext().getDomainPath();
+    let classPath:string = this._className.substr(domainPath.length);
+    return `[injection point: class='${classPath}', element='${this._element.getName()}']`;
   }
 }

@@ -5,6 +5,7 @@ const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
 const JdiContainerFactory_1 = require("../builders/JdiContainerFactory");
 const BeanManagerBuilder_1 = require("../builders/BeanManagerBuilder");
+const HashCodeBuilder_1 = require("../utils/HashCodeBuilder");
 class Sokoke {
     constructor() {
         this._container = null;
@@ -77,6 +78,12 @@ class Sokoke {
             }
         }
         return result;
+    }
+    resolveInjectionPoint(classPath, member) {
+        let hash = HashCodeBuilder_1.HashCodeBuilder.getInstance().build(classPath, member);
+        let injectPoint = null;
+        let beanManager = this._container.getBeanManager();
+        return beanManager.getInjectionPoint(hash);
     }
 }
 Sokoke._locked = true;

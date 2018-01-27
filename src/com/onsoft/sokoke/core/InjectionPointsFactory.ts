@@ -15,10 +15,11 @@
 //   limitations under the License.
 
 import {InjectParamsEvaluator} from "../utils/reflection/InjectParamsEvaluator";
-import {FileProperties} from "jec-commons";
+import {FileProperties, LogLevel} from "jec-commons";
 import {Bean, InjectionPoint, BeanManager} from "jec-jdi";
 import {Sokoke} from "../inject/Sokoke";
-import {HashCodeBuilder} from "../utils/HashCodeBuilder";
+import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 
 /**
  * The <code>InjectionPointsFactory</code> is responsible to create collections
@@ -47,12 +48,6 @@ export class InjectionPointsFactory {
    */
   private _evaluator:InjectParamsEvaluator = null;
 
-  /**
-   * The reference to the Sokoke <code>BeanManager</code> object for this
-   * <code>BeanFactory</code> instance.
-   */
-  private _beanManager:BeanManager = null;
-
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -62,7 +57,6 @@ export class InjectionPointsFactory {
    */
   private initObj():void {
     this._evaluator = new InjectParamsEvaluator();
-    //this._beanManager = Sokoke.getInstance().getBeanManager();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -81,22 +75,20 @@ export class InjectionPointsFactory {
     let injectPoints:InjectionPoint[] = this._evaluator.evaluate(file, bean);
     let len:number = injectPoints.length;
     let injectPoint:InjectionPoint = null;
+    let showTrace:boolean = SokokeLoggerProxy.getInstance()
+                                             .getLogger()
+                                             .getLogLevel() <= LogLevel.DEBUG;
     while(len--){
       injectPoint = injectPoints[len];
-      console.log(injectPoint)
-      console.log(
-        HashCodeBuilder.getInstance()
-                      .build(
-                        injectPoint.getQualifiedClassName(),
-                        injectPoint.getElement().getName()
-                      )
-      );
-      //this._beanManager.addInjectionPoint(injectPoint);
+      if(showTrace) {
+        SokokeLoggerProxy.getInstance().log(
+          SokokeLocaleManager.getInstance().get(
+            "injection.evaluated", String(injectPoint)
+          ),
+          LogLevel.DEBUG
+        );
+        Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
+      }
     }
-    
-    /*SokokeLoggerProxy.getInstance().log(
-      SokokeLocaleManager.getInstance().get("injection.evaluated", ???),
-      LogLevel.DEBUG
-    );*/
   }
 }

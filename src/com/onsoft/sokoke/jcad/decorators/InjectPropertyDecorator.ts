@@ -15,8 +15,7 @@
 //   limitations under the License.
 
 import {Decorator, ClassLoaderContext} from "jec-commons";
-import {InjectParams, BeanManager} from "jec-jdi";
-import {HashCodeBuilder} from "../../utils/HashCodeBuilder";
+import {InjectParams, InjectionPoint} from "jec-jdi";
 import {Sokoke} from "../../inject/Sokoke";
 import {SokokeContext} from "../../inject/SokokeContext";
 
@@ -44,19 +43,18 @@ export class InjectPropertyDecorator implements Decorator {
    * @inheritDoc
    */
   public decorate(target:any, key:string, params:InjectParams):any {
-    let beanManager:BeanManager = null;
     let classPath:string = ClassLoaderContext.getInstance().getPath();
-    let hash:number = HashCodeBuilder.getInstance().build(classPath, key);
     let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     let context:SokokeContext = sokoke.getContextByPath(classPath);
+    let injectPoint:InjectionPoint = null;
     sokoke.setCurrentContext(context);
-    beanManager = sokoke.getBeanManager();
+    injectPoint = sokoke.resolveInjectionPoint(classPath, key);
+    //beanManager = sokoke.getBeanManager();
     console.log("InjectPropertyDecorator")
-    console.log(target.constructor)
+    /*console.log(target.constructor)
     console.log(key)
-    console.log(params)
-    console.log(hash)
-    console.log(context)
+    console.log(params)*/
+    console.log(injectPoint)
     console.log("---------------------------------")
     return target;
   }

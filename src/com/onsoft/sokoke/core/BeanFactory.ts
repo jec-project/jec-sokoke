@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Scope, Bean, BeanManager} from "jec-jdi";
+import {Scope, Bean} from "jec-jdi";
 import {InjectableParamsEvaluator} from "../utils/reflection/InjectableParamsEvaluator";
 import {FileProperties, LogLevel} from "jec-commons";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
@@ -48,12 +48,6 @@ export class BeanFactory {
    */
   private _evaluator:InjectableParamsEvaluator = null;
 
-  /**
-   * The reference to the Sokoke <code>BeanManager</code> object for this
-   * <code>BeanFactory</code> instance.
-   */
-  private _beanManager:BeanManager = null;
-
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -63,7 +57,6 @@ export class BeanFactory {
    */
   private initObj():void {
     this._evaluator = new InjectableParamsEvaluator();
-    //this._beanManager = Sokoke.getInstance().getBeanManager();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -82,7 +75,7 @@ export class BeanFactory {
       SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()),
       LogLevel.DEBUG
     );
-    //this._beanManager.addBean(bean);
+    Sokoke.getInstance().getBeanManager().addBean(bean);
     return bean;
   }
 }

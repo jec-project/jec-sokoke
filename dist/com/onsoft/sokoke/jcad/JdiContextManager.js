@@ -5,7 +5,7 @@ const jec_jdi_1 = require("jec-jdi");
 const JdiConnector_1 = require("./connectors/JdiConnector");
 const InjectableDecorator_1 = require("./decorators/InjectableDecorator");
 const InjectParameterDecorator_1 = require("./decorators/InjectParameterDecorator");
-const InjectPropertyDecorator_1 = require("./decorators/InjectPropertyDecorator");
+const InjectFieldDecorator_1 = require("./decorators/InjectFieldDecorator");
 class JdiContextManager {
     constructor() {
         this._jcadContext = null;
@@ -27,12 +27,12 @@ class JdiContextManager {
     createContext(jcadContext) {
         this._jcadContext = jcadContext,
             this.initContext(jec_jdi_1.JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF, InjectParameterDecorator_1.InjectParameterDecorator);
-        this.initContext(jec_jdi_1.JdiConnectorRefs.INJECT_PROPERTY_CONNECTOR_REF, InjectPropertyDecorator_1.InjectPropertyDecorator);
+        this.initContext(jec_jdi_1.JdiConnectorRefs.INJECT_FIELD_CONNECTOR_REF, InjectFieldDecorator_1.InjectFieldDecorator);
         this.initContext(jec_jdi_1.JdiConnectorRefs.INJECTABLE_CONNECTOR_REF, InjectableDecorator_1.InjectableDecorator);
     }
     deleteContext() {
         this.removeContext(jec_jdi_1.JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF);
-        this.removeContext(jec_jdi_1.JdiConnectorRefs.INJECT_PROPERTY_CONNECTOR_REF);
+        this.removeContext(jec_jdi_1.JdiConnectorRefs.INJECT_FIELD_CONNECTOR_REF);
         this.removeContext(jec_jdi_1.JdiConnectorRefs.INJECTABLE_CONNECTOR_REF);
         this._jcadContext = null;
     }

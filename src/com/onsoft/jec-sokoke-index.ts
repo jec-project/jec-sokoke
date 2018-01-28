@@ -36,8 +36,8 @@ export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
 export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
 //--> com/onsoft/jcad/decorators
 export {InjectableDecorator} from "./sokoke/jcad/decorators/InjectableDecorator";
+export {InjectFieldDecorator} from "./sokoke/jcad/decorators/InjectFieldDecorator";
 export {InjectParameterDecorator} from "./sokoke/jcad/decorators/InjectParameterDecorator";
-export {InjectPropertyDecorator} from "./sokoke/jcad/decorators/InjectPropertyDecorator";
 //--> com/onsoft/jcad
 export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 //--> com/onsoft/logging

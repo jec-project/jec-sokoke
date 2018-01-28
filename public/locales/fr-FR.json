@@ -13,6 +13,11 @@
 		"evaluated": "point d'injection évalué : %s"
 	},
 	"errors": {
-		"singleton": "Vous ne pouvez pas créer une instance de %s; utilisez getInstance() à la place."
+		"singleton": "Vous ne pouvez pas créer une instance de %s; utilisez getInstance() à la place.",
+		"beanOverride": "le bean a déjà été enregistré: '%s'",
+		"unsatisfied": {
+			"name": "Erreur durant la création du bean avec le nom '%s' defini dans le fichier [%s]",
+			"type": "Erreur durant la création du bean avec le type '%s' defini dans le fichier [%s]"
+		}
 	}
 }

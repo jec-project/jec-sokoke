@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
+const jec_jdi_1 = require("jec-jdi");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const path = require("path");
 const JdiContainerFactory_1 = require("../builders/JdiContainerFactory");
@@ -41,6 +42,32 @@ class Sokoke {
         let sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
         this._localeCongig = { directory: sokokeLocalesPath };
         this._contextList = new Set();
+    }
+    getBeanList(context, injectionPoint) {
+        let beans = null;
+        let beanList = null;
+        let manager = this._container.getBeanManager();
+        let name = context.name;
+        let type = context.type;
+        let msg = name;
+        if (name) {
+            beans = manager.getBeansByName(name);
+        }
+        if (type && !beans || beans.size === 0) {
+            beans = manager.getBeansByType(type);
+        }
+        if (!beans || beans.size === 0) {
+            beans = manager.getBeansByInjectionPoint(injectionPoint);
+        }
+        if (beans.size === 0) {
+            msg = name ? "errors.unsatisfied.name" : "errors.unsatisfied.type";
+            msg = SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get(msg, name || type, injectionPoint.getQualifiedClassName());
+            throw new jec_jdi_1.UnsatisfiedDependencyError(msg);
+        }
+        else {
+            beanList = Array.from(beans);
+        }
+        return beanList;
     }
     getContainer() {
         return this._container;
@@ -84,6 +111,12 @@ class Sokoke {
         let injectPoint = null;
         let beanManager = this._container.getBeanManager();
         return beanManager.getInjectionPoint(hash);
+    }
+    getInjectableReference(context, injectionPoint) {
+        let beanList = this.getBeanList(context, injectionPoint);
+        let bean = beanList[0];
+        let result = this._container.getBeanManager().getReference(bean);
+        return result;
     }
 }
 Sokoke._locked = true;

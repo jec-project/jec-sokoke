@@ -20,7 +20,7 @@ import {JdiConnectorRefs} from "jec-jdi";
 import {JdiConnector} from "./connectors/JdiConnector";
 import {InjectableDecorator} from "./decorators/InjectableDecorator";
 import {InjectParameterDecorator} from "./decorators/InjectParameterDecorator";
-import {InjectPropertyDecorator} from "./decorators/InjectPropertyDecorator";
+import {InjectFieldDecorator} from "./decorators/InjectFieldDecorator";
 
 /**
  * A helper class that is used to manage desciptor contexts for the JDI
@@ -97,7 +97,7 @@ export class JdiContextManager {
       JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF, InjectParameterDecorator
     );
     this.initContext(
-      JdiConnectorRefs.INJECT_PROPERTY_CONNECTOR_REF, InjectPropertyDecorator
+      JdiConnectorRefs.INJECT_FIELD_CONNECTOR_REF, InjectFieldDecorator
     );
     this.initContext(
       JdiConnectorRefs.INJECTABLE_CONNECTOR_REF, InjectableDecorator
@@ -109,7 +109,7 @@ export class JdiContextManager {
     */
   public deleteContext(): void {
     this.removeContext(JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF);
-    this.removeContext(JdiConnectorRefs.INJECT_PROPERTY_CONNECTOR_REF);
+    this.removeContext(JdiConnectorRefs.INJECT_FIELD_CONNECTOR_REF);
     this.removeContext(JdiConnectorRefs.INJECTABLE_CONNECTOR_REF);
     this._jcadContext = null;
   }

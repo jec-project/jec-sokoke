@@ -16,7 +16,8 @@
 
 import {LocaleManager} from "jec-commons-node";
 import {SingletonError} from "jec-commons";
-import {JDI, JdiContainer, BeanManager, InjectionPoint} from "jec-jdi";
+import {JDI, JdiContainer, BeanManager, InjectionPoint, Bean, InjectParams,
+        UnsatisfiedDependencyError} from "jec-jdi";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeContainer} from "./SokokeContainer";
 import * as path from "path";
@@ -124,6 +125,43 @@ export class Sokoke implements JDI {
     this._contextList = new Set<SokokeContext>();
   }
 
+  /**
+   * Returns a list of beans for a certain injection context.
+   * 
+   * @param {InjectParams} context the context used to resolve the bean list.
+   * @param {InjectionPoint} injectionPoint the injection point used to resolve  
+   *                                        the bean list.
+   * @return {Array<Bean>} a list of beans for the injection context.
+   */
+  private getBeanList(context:InjectParams,
+                                    injectionPoint:InjectionPoint):Array<Bean> {
+    let beans:Set<Bean> = null;
+    let beanList:Array<Bean> = null;
+    let manager:BeanManager = this._container.getBeanManager();
+    let name:string = context.name;
+    let type:any = context.type;
+    let msg:string = name;
+    if(name) {
+      beans = manager.getBeansByName(name);
+    }
+    if(type && !beans || beans.size === 0) {
+      beans = manager.getBeansByType(type);
+    }
+    if(!beans || beans.size === 0) {
+      beans = manager.getBeansByInjectionPoint(injectionPoint);
+    }
+    if(beans.size === 0) {
+      msg = name ? "errors.unsatisfied.name" : "errors.unsatisfied.type";
+      msg = SokokeLocaleManager.getInstance().get(
+        msg, name || type, injectionPoint.getQualifiedClassName()
+      );
+      throw new UnsatisfiedDependencyError(msg);
+    } else {
+      beanList = Array.from(beans);
+    }
+    return beanList;
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Public JDI methods
   //////////////////////////////////////////////////////////////////////////////
@@ -222,5 +260,21 @@ export class Sokoke implements JDI {
     let beanManager:SokokeBeanManager = 
                         (this._container.getBeanManager() as SokokeBeanManager);
     return beanManager.getInjectionPoint(hash);
+  }
+
+  /**
+   * Obtains an injectable reference for a certain injection context.
+   * 
+   * @param {InjectParams} context the context used to resolve the injectable
+   *                               reference.
+   * @param {InjectionPoint} injectionPoint the injection point used to resolve  
+   *                                        the injectable reference.
+   */
+  public getInjectableReference(context:InjectParams,
+                                injectionPoint:InjectionPoint):any {
+    let beanList:Array<Bean> = this.getBeanList(context, injectionPoint);
+    let bean:Bean = beanList[0];
+    let result:any = this._container.getBeanManager().getReference(bean);
+    return result;
   }
 }

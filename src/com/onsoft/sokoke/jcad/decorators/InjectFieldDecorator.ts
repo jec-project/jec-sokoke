@@ -20,18 +20,18 @@ import {Sokoke} from "../../inject/Sokoke";
 import {SokokeContext} from "../../inject/SokokeContext";
 
 /**
- * The <code>InjectPropertyDecorator</code> class defines the   
+ * The <code>InjectFieldDecorator</code> class defines the   
  * <code>Decorator</code> implementation for the JDI <code>@Inject</code>
- * decorator when it is used to inject bean through a class member.
+ * decorator when it is used to inject bean through a field member.
  */
-export class InjectPropertyDecorator implements Decorator {
+export class InjectFieldDecorator implements Decorator {
   
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>InjectPropertyDecorator</code> instance.
+   * Creates a new <code>InjectFieldDecorator</code> instance.
    */
   constructor() {}
 
@@ -47,15 +47,14 @@ export class InjectPropertyDecorator implements Decorator {
     let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     let context:SokokeContext = sokoke.getContextByPath(classPath);
     let injectPoint:InjectionPoint = null;
+    let injection:any = null;
     sokoke.setCurrentContext(context);
     injectPoint = sokoke.resolveInjectionPoint(classPath, key);
-    //beanManager = sokoke.getBeanManager();
-    console.log("InjectPropertyDecorator")
-    /*console.log(target.constructor)
-    console.log(key)
-    console.log(params)*/
-    console.log(injectPoint)
-    console.log("---------------------------------")
+    injection = sokoke.getInjectableReference(params, injectPoint);
+    Object.defineProperty(target, key, { value: injection });
+    /*console.log("InjectFieldDecorator")
+    console.log(injection)
+    console.log("---------------------------------")*/
     return target;
   }
 }

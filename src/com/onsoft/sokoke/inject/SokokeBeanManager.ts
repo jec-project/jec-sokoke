@@ -15,10 +15,12 @@
 //   limitations under the License.
 
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
-import {BeanManager, InjectionPoint, Bean} from "jec-jdi";
+import {BeanManager, InjectionPoint, Bean, Scope, ApplicationScoped,
+        JdiError} from "jec-jdi";
 import {SokokeError} from "../exceptions/SokokeError";
 import {SokokeContext} from "./SokokeContext";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
+import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 
@@ -54,6 +56,16 @@ export class SokokeBeanManager implements BeanManager {
    */
   private _injectionPointMap:Map<number, InjectionPoint> = null;
 
+  /**
+   * Stores references to all <code>Bean</code> objects.
+   */
+  private _beanList:Array<Bean> = null;
+
+  /**
+   * Stores references to all <code>ApplicationScoped</code> objects.
+   */
+  private _applicationManagedBeanList:Array<Bean> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -67,6 +79,8 @@ export class SokokeBeanManager implements BeanManager {
   private initObj(context:SokokeContext):void {
     this._context = context;
     this._injectionPointMap = new Map<number, InjectionPoint>();
+    this._beanList = new Array<Bean>();
+    this._applicationManagedBeanList = new Array<Bean>();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -77,15 +91,89 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public addBean(bean:Bean):void {
-    //TODO
+    let scope:Scope = null;
+    if(this._beanList.indexOf(bean) !== -1) {
+      throw new JdiError(
+        SokokeLocaleManager.getInstance().get(
+          "error.beanOverride", String(bean)
+        )
+      );
+    }
+    scope = bean.getScope();
+    if(!scope) this._beanList.push(bean);
+    else {
+      if(scope instanceof ApplicationScoped) {
+        this._applicationManagedBeanList.push(bean);
+      }
+    }
   }
 
   /**
    * @inheritDoc
    */
-  public getBeans(injectionPoint:InjectionPoint):Set<Bean> {
+  public getBeans():Set<Bean> {
     let result:Set<Bean> = new Set<Bean>();
-    //TODO
+    let len:number = this._beanList.length;
+    while(len--) {
+      result.add(this._beanList[len]);
+    }
+    len = this._applicationManagedBeanList.length;
+    while(len--) {
+      result.add(this._applicationManagedBeanList[len]);
+    }
+    return result;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getBeansByName(name:string):Set<Bean> {
+    let result:Set<Bean> = new Set<Bean>();
+    let len:number = this._beanList.length;
+    let bean:Bean = null;
+    while(len--) {
+      bean = this._beanList[len];
+      if(bean.getName() === name) result.add(bean);
+    }
+    len = this._applicationManagedBeanList.length;
+    while(len--) {
+      bean = this._applicationManagedBeanList[len];
+      if(bean.getName() === name) result.add(bean);
+    }
+    return result;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getBeansByType(type:any):Set<Bean> {
+    let result:Set<Bean> = new Set<Bean>();
+    let len:number = this._beanList.length;
+    let bean:Bean = null;
+    while(len--) {
+      bean = this._beanList[len];
+      if(bean.getTypes().has(type)) result.add(bean);
+    }
+    len = this._applicationManagedBeanList.length;
+    while(len--) {
+      bean = this._applicationManagedBeanList[len];
+      if(bean.getTypes().has(type)) result.add(bean);
+    }
+    return result;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getBeansByInjectionPoint(injectionPoint:InjectionPoint):Set<Bean> {
+    let result:Set<Bean> = null;
+    let bean:Bean = injectionPoint.getBean();
+    if(bean) {
+      result = new Set<Bean>();
+      result.add(bean);
+    } else {
+      result = this.getBeansByType(injectionPoint.getType());
+    }
     return result;
   }
 
@@ -99,6 +187,25 @@ export class SokokeBeanManager implements BeanManager {
                                       injectionPoint.getElement().getName()
                                     );
     this._injectionPointMap.set(key, injectionPoint);
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getReference(bean:Bean):any {
+    let result:any = null;
+    let scope:Scope = bean.getScope();
+    let len:number;
+    let Constructor:any = null;
+    if(!scope) {
+      Constructor = bean.getBeanClass();
+      result = new Constructor();
+    } else {
+      if(scope instanceof ApplicationScoped) {
+        
+      }
+    }
+    return result;
   }
   
   //////////////////////////////////////////////////////////////////////////////

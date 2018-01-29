@@ -26,9 +26,6 @@ class InjectParamsEvaluator {
                 case InjectionString_1.InjectionString.TYPE:
                     InjectionSanitizer_1.InjectionSanitizer.getInstance().sanitizeType(params, found[2], file);
                     break;
-                case InjectionString_1.InjectionString.RETENTION:
-                    console.log("retention detected", found[2]);
-                    break;
                 case InjectionString_1.InjectionString.QUALIFIER:
                     console.log("qualifier detected", found[2]);
                     break;
@@ -73,6 +70,8 @@ class InjectParamsEvaluator {
                         .type(params.type)
                         .element(element)
                         .className(className)
+                        .ref(params.name)
+                        .qualifiers(params.qualifiers)
                         .build();
                     result.push(injectPoint);
                 }

@@ -9,6 +9,8 @@ class InjectionPointBuilder {
         this._type = null;
         this._element = null;
         this._className = null;
+        this._beanRef = null;
+        this._qualifiers = null;
         let msg = null;
         let i18n = null;
         if (InjectionPointBuilder._locked || InjectionPointBuilder.INSTANCE) {
@@ -47,15 +49,25 @@ class InjectionPointBuilder {
         this._className = className;
         return this;
     }
+    ref(beanRef) {
+        this._beanRef = beanRef;
+        return this;
+    }
+    qualifiers(qualifiers) {
+        this._qualifiers = qualifiers;
+        return this;
+    }
     clear() {
         this._bean = null;
         this._type = null;
         this._element = null;
         this._className = null;
+        this._beanRef = null;
+        this._qualifiers = null;
         return this;
     }
     build() {
-        let injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className);
+        let injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className, this._beanRef, this._qualifiers);
         return injectionPoint;
     }
 }

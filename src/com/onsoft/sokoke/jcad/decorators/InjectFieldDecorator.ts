@@ -14,10 +14,12 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator, ClassLoaderContext} from "jec-commons";
+import {Decorator, ClassLoaderContext, LogLevel} from "jec-commons";
 import {InjectParams, InjectionPoint} from "jec-jdi";
 import {Sokoke} from "../../inject/Sokoke";
 import {SokokeContext} from "../../inject/SokokeContext";
+import {SokokeLoggerProxy} from "../../logging/SokokeLoggerProxy";
+import {SokokeLocaleManager} from "../../i18n/SokokeLocaleManager";
 
 /**
  * The <code>InjectFieldDecorator</code> class defines the   
@@ -50,11 +52,21 @@ export class InjectFieldDecorator implements Decorator {
     let injection:any = null;
     sokoke.setCurrentContext(context);
     injectPoint = sokoke.resolveInjectionPoint(classPath, key);
-    injection = sokoke.getInjectableReference(params, injectPoint);
+    injection = sokoke.getInjectableReference(injectPoint);
     Object.defineProperty(target, key, { value: injection });
-    /*console.log("InjectFieldDecorator")
-    console.log(injection)
-    console.log("---------------------------------")*/
+    if(SokokeLoggerProxy.getInstance()
+                        .getLogger()
+                        .getLogLevel() <= LogLevel.DEBUG) {
+      SokokeLoggerProxy.getInstance().log(
+        SokokeLocaleManager.getInstance().get(
+          "bean.injected.field",
+          target.constructor.name,
+          key,
+          injection.constructor.name
+        ),
+        LogLevel.DEBUG
+      );
+    }
     return target;
   }
 }

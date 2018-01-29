@@ -42,9 +42,16 @@ export class SokokeInjectionPoint implements InjectionPoint {
    * @param {string} className the class name of the <code>Bean</code> object
    *                           associated with this
    *                           <code>SokokeInjectionPoint</code> instance.
+   * @param {string} beanRef the name of the <code>Bean</code> object associated 
+   *                         with this <code>SokokeInjectionPoint</code>
+   *                         instance.
+   * @param {Array<string>} qualifiers the list of qualifiers associated with 
+   *                                   this <code>SokokeInjectionPoint</code>
+   *                                   instance.
    */
-  constructor(bean:Bean, type:any, element:Member|Parameter, className:string) {
-    this.initObj(bean, type, element, className);
+  constructor(bean:Bean, type:any, element:Member|Parameter, className:string,
+              beanRef:string, qualifiers:Array<string>) {
+    this.initObj(bean, type, element, className, beanRef, qualifiers);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -75,6 +82,18 @@ export class SokokeInjectionPoint implements InjectionPoint {
    */
   private _className:string = null;
 
+  /**
+   * The reference to the name of the <code>Bean</code> object associated with 
+   * this <code>SokokeInjectionPoint</code> instance.
+   */
+  private _beanRef:string = null;
+
+  /**
+   * The list of qualifiers associated with this
+   * <code>SokokeInjectionPoint</code> instance.
+   */
+  private _qualifiers:Array<string> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -92,13 +111,22 @@ export class SokokeInjectionPoint implements InjectionPoint {
    * @param {string} className the class name of the <code>Bean</code> object
    *                           associated with this
    *                           <code>SokokeInjectionPoint</code> instance.
+   * @param {string} beanRef the name of the <code>Bean</code> object associated 
+   *                         with this <code>SokokeInjectionPoint</code>
+   *                         instance.
+   * @param {Array<string>} qualifiers the list of qualifiers associated with 
+   *                                   this <code>SokokeInjectionPoint</code>
+   *                                   instance.
    */
   private initObj(bean:Bean, type:any, element:Member|Parameter,
-                                                        className:string):void {
+                  className:string, beanRef:string,
+                  qualifiers:Array<string>):void {
     this._bean = bean;
     this._type = type;
     this._element = element;
     this._className = className;
+    this._beanRef = beanRef;
+    this._qualifiers = qualifiers;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -131,6 +159,20 @@ export class SokokeInjectionPoint implements InjectionPoint {
    */
   public getQualifiedClassName():string {
     return this._className;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getRef():string {
+    return this._beanRef;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getQualifiers():Array<string> {
+    return this._qualifiers;
   }
 
   /*

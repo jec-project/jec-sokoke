@@ -16,7 +16,7 @@
 
 import {LocaleManager} from "jec-commons-node";
 import {SingletonError} from "jec-commons";
-import {JDI, JdiContainer, BeanManager, InjectionPoint, Bean, InjectParams,
+import {JDI, JdiContainer, BeanManager, InjectionPoint, Bean,
         UnsatisfiedDependencyError} from "jec-jdi";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeContainer} from "./SokokeContainer";
@@ -126,20 +126,18 @@ export class Sokoke implements JDI {
   }
 
   /**
-   * Returns a list of beans for a certain injection context.
+   * Returns a list of beans for a certain injection point.
    * 
-   * @param {InjectParams} context the context used to resolve the bean list.
    * @param {InjectionPoint} injectionPoint the injection point used to resolve  
    *                                        the bean list.
-   * @return {Array<Bean>} a list of beans for the injection context.
+   * @return {Array<Bean>} a list of beans for the injection point.
    */
-  private getBeanList(context:InjectParams,
-                                    injectionPoint:InjectionPoint):Array<Bean> {
+  private getBeanList(injectionPoint:InjectionPoint):Array<Bean> {
     let beans:Set<Bean> = null;
     let beanList:Array<Bean> = null;
     let manager:BeanManager = this._container.getBeanManager();
-    let name:string = context.name;
-    let type:any = context.type;
+    let name:string = injectionPoint.getRef();
+    let type:any = injectionPoint.getType();
     let msg:string = name;
     if(name) {
       beans = manager.getBeansByName(name);
@@ -160,6 +158,25 @@ export class Sokoke implements JDI {
       beanList = Array.from(beans);
     }
     return beanList;
+  }
+
+  /**
+   * Returns the beast bean, for a certain injection point, found in the
+   * specified list of beans.
+   * 
+   * @return {Array<Bean>} a list of beans for the injection point.
+   * @param {InjectionPoint} injectionPoint the context used to resolve beans in
+   *                                        the bean specified list.
+   * @return {Bean} the beast bean for the specified injection point.
+   */
+  private resolveBean(beanList:Bean[],  injectionPoint:InjectionPoint):Bean {
+    let bean:Bean = null;
+    let len:number = beanList.length;
+    if(len === 0) bean = beanList[0];
+    else {
+      bean = beanList[0];
+    }
+    return bean;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -263,18 +280,16 @@ export class Sokoke implements JDI {
   }
 
   /**
-   * Obtains an injectable reference for a certain injection context.
+   * Obtains an injectable reference for a certain injection point.
    * 
-   * @param {InjectParams} context the context used to resolve the injectable
-   *                               reference.
    * @param {InjectionPoint} injectionPoint the injection point used to resolve  
    *                                        the injectable reference.
+   * @return {any} the reference to the object resolved from the specified
+   *               injection point.
    */
-  public getInjectableReference(context:InjectParams,
-                                injectionPoint:InjectionPoint):any {
-    let beanList:Array<Bean> = this.getBeanList(context, injectionPoint);
-    let bean:Bean = beanList[0];
-    let result:any = this._container.getBeanManager().getReference(bean);
-    return result;
+  public getInjectableReference(injectionPoint:InjectionPoint):any {
+    let beanList:Array<Bean> = this.getBeanList(injectionPoint);
+    let bean:Bean = this.resolveBean(beanList, injectionPoint);
+    return this._container.getBeanManager().getReference(bean);
   }
 }

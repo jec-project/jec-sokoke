@@ -43,12 +43,12 @@ class Sokoke {
         this._localeCongig = { directory: sokokeLocalesPath };
         this._contextList = new Set();
     }
-    getBeanList(context, injectionPoint) {
+    getBeanList(injectionPoint) {
         let beans = null;
         let beanList = null;
         let manager = this._container.getBeanManager();
-        let name = context.name;
-        let type = context.type;
+        let name = injectionPoint.getRef();
+        let type = injectionPoint.getType();
         let msg = name;
         if (name) {
             beans = manager.getBeansByName(name);
@@ -68,6 +68,16 @@ class Sokoke {
             beanList = Array.from(beans);
         }
         return beanList;
+    }
+    resolveBean(beanList, injectionPoint) {
+        let bean = null;
+        let len = beanList.length;
+        if (len === 0)
+            bean = beanList[0];
+        else {
+            bean = beanList[0];
+        }
+        return bean;
     }
     getContainer() {
         return this._container;
@@ -112,11 +122,10 @@ class Sokoke {
         let beanManager = this._container.getBeanManager();
         return beanManager.getInjectionPoint(hash);
     }
-    getInjectableReference(context, injectionPoint) {
-        let beanList = this.getBeanList(context, injectionPoint);
-        let bean = beanList[0];
-        let result = this._container.getBeanManager().getReference(bean);
-        return result;
+    getInjectableReference(injectionPoint) {
+        let beanList = this.getBeanList(injectionPoint);
+        let bean = this.resolveBean(beanList, injectionPoint);
+        return this._container.getBeanManager().getReference(bean);
     }
 }
 Sokoke._locked = true;

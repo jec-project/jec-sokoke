@@ -31,9 +31,10 @@ class InjectionSanitizer {
         return InjectionSanitizer.INSTANCE;
     }
     sanitizesString(value) {
-        let len = value.length - 1;
-        let result = value.lastIndexOf(InjectionString_1.InjectionString.COMA) === len ?
-            value.substr(1, len - 2) : value.substr(1, len - 1);
+        let result = value.trimRight();
+        let len = result.length - 1;
+        result = result.lastIndexOf(InjectionString_1.InjectionString.COMA) === len ?
+            result.substr(1, len - 2) : result.substr(1, len - 1);
         return result;
     }
     sanitizeName(params, value) {

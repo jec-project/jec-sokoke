@@ -105,6 +105,18 @@ export class InjectionPointBuilder {
    */
   private _className:string = null;
   
+  /**
+   * The reference to the name of the <code>Bean</code> object associated with 
+   * the new <code>SokokeInjectionPoint</code> instance.
+   */
+  private _beanRef:string = null;
+
+  /**
+   * The list of qualifiers associated with the new
+   * <code>SokokeInjectionPoint</code> instance.
+   */
+  private _qualifiers:Array<string> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Public methods
   //////////////////////////////////////////////////////////////////////////////
@@ -165,6 +177,33 @@ export class InjectionPointBuilder {
   }
 
   /**
+   * Sets the reference to the name of the <code>Bean</code> object associated  
+   * with the new <code>SokokeInjectionPoint</code> instance.
+   * 
+   * @param {string} beanRef the name of the <code>Bean</code> object associated
+   *                         with the new <code>InjectionPoint</code> object.
+   * @return {InjectionPointBuilder} the reference to this 
+   *                                 <code>InjectionPointBuilder</code> object.
+   */
+  public ref(beanRef:string):InjectionPointBuilder {
+    this._beanRef = beanRef;
+    return this;
+  }
+
+  /**
+   * Sets the qualifiers for the new <code>InjectionPoint</code> object.
+   * 
+   * @param {string} qualifiers the qualifiers for the new 
+   *                            <code>InjectionPoint</code> object.
+   * @return {InjectionPointBuilder} the reference to this 
+   *                                 <code>InjectionPointBuilder</code> object.
+   */
+  public qualifiers(qualifiers:Array<string>):InjectionPointBuilder {
+    this._qualifiers = qualifiers;
+    return this;
+  }
+
+  /**
    * Resets the builder to its initial, empty state.
    * 
    * @return {InjectionPointBuilder} the reference to this
@@ -175,6 +214,8 @@ export class InjectionPointBuilder {
     this._type = null;
     this._element = null;
     this._className = null;
+    this._beanRef = null;
+    this._qualifiers = null;
     return this;
   }
 
@@ -187,7 +228,8 @@ export class InjectionPointBuilder {
    */
   public build():InjectionPoint {
     let injectionPoint:InjectionPoint = new SokokeInjectionPoint(
-      this._bean, this._type, this._element, this._className
+      this._bean, this._type, this._element, this._className, this._beanRef,
+      this._qualifiers
     );
     return injectionPoint;
   }

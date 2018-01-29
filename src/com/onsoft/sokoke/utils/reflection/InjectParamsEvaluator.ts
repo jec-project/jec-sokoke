@@ -86,10 +86,7 @@ export class InjectParamsEvaluator {
         case InjectionString.TYPE:
           InjectionSanitizer.getInstance().sanitizeType(params, found[2], file);
           break;
-        // TODO: create extractions for the following parameters
-        case InjectionString.RETENTION:
-          console.log("retention detected", found[2]);
-          break;
+        // TODO: create extractions for qualifiers
         case InjectionString.QUALIFIER:
           console.log("qualifier detected", found[2]);
           break;
@@ -155,6 +152,8 @@ export class InjectParamsEvaluator {
                                              .type(params.type)
                                              .element(element)
                                              .className(className)
+                                             .ref(params.name)
+                                             .qualifiers(params.qualifiers)
                                              .build();
            result.push(injectPoint);
         }

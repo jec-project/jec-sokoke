@@ -90,9 +90,10 @@ export class InjectionSanitizer {
    * @return {string} the sanitized string value.
    */
   private sanitizesString(value:string):string {
-    let len:number = value.length - 1;
-    let result:string = value.lastIndexOf(InjectionString.COMA) === len ?
-                        value.substr(1, len - 2) : value.substr(1, len - 1);
+    let result:string = value.trimRight();
+    let len:number = result.length - 1;
+    result = result.lastIndexOf(InjectionString.COMA) === len ?
+             result.substr(1, len - 2) : result.substr(1, len - 1);
     return result;
   }
 

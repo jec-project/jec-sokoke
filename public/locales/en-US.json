@@ -6,7 +6,10 @@
 	"bean": {
 		"detected": "managed bean detected: source file='%s'",
 		"instantiated": "managed bean instantiated: class='%s', scope='%s'",
-		"evaluated": "managed bean evaluated: %s"
+		"evaluated": "managed bean evaluated: %s",
+		"injected": {
+			"field": "managed bean injected: class='%s', field='%s', bean='%s'"
+		}
 	},
 	"injection": {
 		"detected": "injection points detected: source file='%s'",

@@ -31,3 +31,5 @@ export const BEAN:Bean = ({
 } as Bean);
 export const PARAMETER:Parameter = new Parameter("foo");
 export const CLASS_NAME:string = "foo.bar.BeanClass";
+export const BEAN_REF:string = "foobar";
+export const QUALIFIERS:Array<string> = ["DEV", "TEST", "PROD"];

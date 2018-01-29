@@ -15,20 +15,31 @@ class SokokeBeanManager {
         this._context = context;
         this._injectionPointMap = new Map();
         this._beanList = new Array();
-        this._applicationManagedBeanList = new Map();
+        this._applicationManagedBeanList = new Array();
     }
     addBean(bean) {
         let scope = null;
         if (this._beanList.indexOf(bean) !== -1) {
             throw new jec_jdi_1.JdiError(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("error.beanOverride", String(bean)));
         }
-        this._beanList.push(bean);
+        scope = bean.getScope();
+        if (!scope)
+            this._beanList.push(bean);
+        else {
+            if (scope instanceof jec_jdi_1.ApplicationScoped) {
+                this._applicationManagedBeanList.push(bean);
+            }
+        }
     }
     getBeans() {
         let result = new Set();
         let len = this._beanList.length;
         while (len--) {
             result.add(this._beanList[len]);
+        }
+        len = this._applicationManagedBeanList.length;
+        while (len--) {
+            result.add(this._applicationManagedBeanList[len]);
         }
         return result;
     }
@@ -41,6 +52,12 @@ class SokokeBeanManager {
             if (bean.getName() === name)
                 result.add(bean);
         }
+        len = this._applicationManagedBeanList.length;
+        while (len--) {
+            bean = this._applicationManagedBeanList[len];
+            if (bean.getName() === name)
+                result.add(bean);
+        }
         return result;
     }
     getBeansByType(type) {
@@ -49,6 +66,12 @@ class SokokeBeanManager {
         let bean = null;
         while (len--) {
             bean = this._beanList[len];
+            if (bean.getTypes().has(type))
+                result.add(bean);
+        }
+        len = this._applicationManagedBeanList.length;
+        while (len--) {
+            bean = this._applicationManagedBeanList[len];
             if (bean.getTypes().has(type))
                 result.add(bean);
         }

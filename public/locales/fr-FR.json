@@ -6,7 +6,10 @@
 	"bean": {
 		"detected": "bean autoconfiguré détecté : fichier source='%s'",
 		"instantiated": "bean autoconfiguré instancié: classe='%s', scope='%s'",
-		"evaluated": "bean autoconfiguré évalué: %s"
+		"evaluated": "bean autoconfiguré évalué: %s",
+		"injected": {
+			"field": "bean bean injecté : classe='%s', propriété='%s', bean='%s'"
+		}
 	},
 	"injection": {
 		"detected": "points d'injection détectés : fichier source='%s'",

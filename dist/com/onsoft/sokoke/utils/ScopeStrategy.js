@@ -1,22 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
 const jec_jdi_1 = require("jec-jdi");
-const jec_commons_1 = require("jec-commons");
+const SingletonErrorFactory_1 = require("./SingletonErrorFactory");
 class ScopeStrategy {
     constructor() {
-        let msg = null;
-        let i18n = null;
         if (ScopeStrategy._locked || ScopeStrategy.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "ScopeStrategy");
-            }
-            else {
-                msg = "You cannot create a ScopeStrategy instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(ScopeStrategy);
         }
         ScopeStrategy._locked = true;
     }

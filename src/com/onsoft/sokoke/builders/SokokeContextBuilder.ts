@@ -14,11 +14,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
-import {SingletonError, Locale} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
+import {Locale} from "jec-commons";
 import {SokokeContext} from "../inject/SokokeContext";
 import {SokokeContextImpl} from "../core/SokokeContextImpl";
+import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
  * The <code>SokokeContextBuilder</code> singleton allows to build new 
@@ -34,17 +33,8 @@ export class SokokeContextBuilder {
    * Creates a new <code>SokokeContextBuilder</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(SokokeContextBuilder._locked || SokokeContextBuilder.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "SokokeContextBuilder");
-      } else {
-        msg = "You cannot create a SokokeContextBuilder instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(SokokeContextBuilder);
     }
     SokokeContextBuilder._locked = true;
   }

@@ -15,12 +15,11 @@
 //   limitations under the License.
 
 import {Scope, InjectableParams, ScopeType, InjectParams} from "jec-jdi";
-import {FileProperties, LoggerProxy, SingletonError, GlobalClassLoader} from "jec-commons";
+import {FileProperties, LoggerProxy, GlobalClassLoader} from "jec-commons";
 import * as path from "path";
 import {InjectionString} from "./InjectionString";
 import {JdiRegExp} from "./JdiRegExp";
-import {LocaleManager} from "jec-commons-node";
-import {SokokeLocaleManager} from "../../i18n/SokokeLocaleManager";
+import {SingletonErrorFactory} from "../SingletonErrorFactory";
 
 /**
  * The <code>InjectionSanitizer</code> singleton allows to evaluate objects
@@ -36,17 +35,8 @@ export class InjectionSanitizer {
    * Creates a new <code>InjectionSanitizer</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(InjectionSanitizer._locked || InjectionSanitizer.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "Sokoke");
-      } else {
-        msg = "You cannot create a Sokoke instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(InjectionSanitizer);
     }
     InjectionSanitizer._locked = true;
   }

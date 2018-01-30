@@ -7,6 +7,7 @@ const Sokoke_1 = require("../inject/Sokoke");
 const BeanFactory_1 = require("./BeanFactory");
 const InjectionPointsFactory_1 = require("../core/InjectionPointsFactory");
 const SokokeContextBuilder_1 = require("../builders/SokokeContextBuilder");
+const BeanInjectionValidator_1 = require("../utils/validators/BeanInjectionValidator");
 class SokokeAutowireProcessor {
     constructor() {
         this._beanFactory = null;
@@ -23,7 +24,7 @@ class SokokeAutowireProcessor {
         let context = SokokeContextBuilder_1.SokokeContextBuilder.getInstance().build(watcher.getTarget(), watcher.getContainer().getLocale());
         sokoke.addContext(context);
         sokoke.setCurrentContext(context);
-        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"));
+        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"), jec_commons_1.LogLevel.DEBUG);
     }
     process(file, watcher) {
         let decorators = file.decorators;
@@ -36,6 +37,7 @@ class SokokeAutowireProcessor {
         let fileName = file.name;
         let hasInjectionPoint = false;
         let bean = null;
+        let injectPoints = null;
         while (len--) {
             decorator = decorators[len];
             classPath = decorator.classPath;
@@ -52,11 +54,12 @@ class SokokeAutowireProcessor {
         }
         if (hasInjectionPoint) {
             logger.log(i18n.get("injection.detected", fileName), jec_commons_1.LogLevel.DEBUG);
-            this._injectPointFactory.create(file, bean);
+            injectPoints = this._injectPointFactory.create(file, bean);
+            BeanInjectionValidator_1.BeanInjectionValidator.getInstance().validate(bean, injectPoints);
         }
     }
     processComplete(watcher, sourcePath) {
-        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.complete"));
+        SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.complete"), jec_commons_1.LogLevel.DEBUG);
     }
 }
 SokokeAutowireProcessor.JDI_MASK = "jec-jdi";

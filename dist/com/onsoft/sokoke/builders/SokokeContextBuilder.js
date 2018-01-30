@@ -1,22 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const jec_commons_1 = require("jec-commons");
 const SokokeContextImpl_1 = require("../core/SokokeContextImpl");
+const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 class SokokeContextBuilder {
     constructor() {
-        let msg = null;
-        let i18n = null;
         if (SokokeContextBuilder._locked || SokokeContextBuilder.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "SokokeContextBuilder");
-            }
-            else {
-                msg = "You cannot create a SokokeContextBuilder instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(SokokeContextBuilder);
         }
         SokokeContextBuilder._locked = true;
     }

@@ -14,12 +14,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator, ClassLoaderContext, LogLevel} from "jec-commons";
-import {InjectParams, InjectionPoint} from "jec-jdi";
-import {Sokoke} from "../../inject/Sokoke";
-import {SokokeContext} from "../../inject/SokokeContext";
-import {SokokeLoggerProxy} from "../../logging/SokokeLoggerProxy";
-import {SokokeLocaleManager} from "../../i18n/SokokeLocaleManager";
+import {Decorator} from "jec-commons";
+import {SokokeInjector} from "../../core/SokokeInjector";
+import {InjectParams, TargetContext, DecoratedType} from "jec-jdi";
+import {TargetContextBuilder} from "../../builders/TargetContextBuilder";
 
 /**
  * The <code>InjectFieldDecorator</code> class defines the   
@@ -45,28 +43,9 @@ export class InjectFieldDecorator implements Decorator {
    * @inheritDoc
    */
   public decorate(target:any, key:string, params:InjectParams):any {
-    let classPath:string = ClassLoaderContext.getInstance().getPath();
-    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    let context:SokokeContext = sokoke.getContextByPath(classPath);
-    let injectPoint:InjectionPoint = null;
-    let injection:any = null;
-    sokoke.setCurrentContext(context);
-    injectPoint = sokoke.resolveInjectionPoint(classPath, key);
-    injection = sokoke.getInjectableReference(injectPoint);
-    Object.defineProperty(target, key, { value: injection });
-    if(SokokeLoggerProxy.getInstance()
-                        .getLogger()
-                        .getLogLevel() <= LogLevel.DEBUG) {
-      SokokeLoggerProxy.getInstance().log(
-        SokokeLocaleManager.getInstance().get(
-          "bean.injected.field",
-          target.constructor.name,
-          key,
-          injection.constructor.name
-        ),
-        LogLevel.DEBUG
-      );
-    }
+    let context:TargetContext = 
+     TargetContextBuilder.getInstance().build(target, key, DecoratedType.FIELD);
+    SokokeInjector.getInstance().inject(context);
     return target;
   }
 }

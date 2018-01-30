@@ -54,11 +54,12 @@ export class JdiContextManager {
   /**
    * Initializes the context for the specified reference.
    * 
-   * @param {string} jcadReference the reference to the context to initialize.
+   * @param {JdiConnectorRefs} jcadReference the reference to the context to
+   *                                         initialize.
    * @param {Class} decoratorClass the reference to the decorator class
    *                               associated whith the context to initialize.
    */
-  private initContext(jcadReference: string, decoratorClass: any): void {
+  private initContext(jcadReference:JdiConnectorRefs, decoratorClass:any):void {
     let ctxManager: JcadContextManager = JcadContextManager.getInstance();
     let connManager: DecoratorConnectorManager =
       DecoratorConnectorManager.getInstance();
@@ -72,9 +73,10 @@ export class JdiContextManager {
   /**
    * Removes the context with the specified reference.
    * 
-   * @param {string} jcadReference the reference of the context to remove.
+   * @param {JdiConnectorRefs} jcadReference the reference of the context to
+   *                                         remove.
    */
-  private removeContext(jcadReference: string): void {
+  private removeContext(jcadReference:JdiConnectorRefs):void {
     let ctxManager: JcadContextManager = JcadContextManager.getInstance();
     let connManager: DecoratorConnectorManager =
       DecoratorConnectorManager.getInstance();
@@ -91,7 +93,7 @@ export class JdiContextManager {
     * 
     * @param {JcadContext} jcadContext the context of the current JEC container.
     */
-  public createContext(jcadContext:JcadContext): void {
+  public createContext(jcadContext:JcadContext):void {
     this._jcadContext = jcadContext,
     this.initContext(
       JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF, InjectParameterDecorator
@@ -107,7 +109,7 @@ export class JdiContextManager {
   /**
     * Finalizes the JCAD context associated with this object.
     */
-  public deleteContext(): void {
+  public deleteContext():void {
     this.removeContext(JdiConnectorRefs.INJECT_PARAMETER_CONNECTOR_REF);
     this.removeContext(JdiConnectorRefs.INJECT_FIELD_CONNECTOR_REF);
     this.removeContext(JdiConnectorRefs.INJECTABLE_CONNECTOR_REF);

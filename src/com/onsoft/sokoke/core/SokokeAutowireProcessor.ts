@@ -23,9 +23,10 @@ import {SokokeError} from "../exceptions/SokokeError";
 import {Sokoke} from "../inject/Sokoke";
 import {BeanFactory} from "./BeanFactory";
 import {InjectionPointsFactory} from "../core/InjectionPointsFactory";
-import {Bean} from "jec-jdi";
+import {Bean, InjectionPoint} from "jec-jdi";
 import {SokokeContextBuilder} from "../builders/SokokeContextBuilder";
 import {SokokeContext} from "../inject/SokokeContext";
+import {BeanInjectionValidator} from "../utils/validators/BeanInjectionValidator";
 
 /**
  * The <code>SokokeAutowireProcessor</code> class allows to find all Sokoke  
@@ -105,7 +106,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     sokoke.addContext(context);
     sokoke.setCurrentContext(context);
     SokokeLoggerProxy.getInstance().log(
-      SokokeLocaleManager.getInstance().get("process.start")
+      SokokeLocaleManager.getInstance().get("process.start"), LogLevel.DEBUG
     );
   }
 
@@ -123,6 +124,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
     let fileName:string = file.name;
     let hasInjectionPoint:boolean = false;
     let bean:Bean = null;
+    let injectPoints:Array<InjectionPoint> = null;
     while(len--) {
       decorator = decorators[len];
       classPath = decorator.classPath;
@@ -141,7 +143,8 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
         i18n.get("injection.detected", fileName),
         LogLevel.DEBUG
       );
-      this._injectPointFactory.create(file, bean);
+      injectPoints = this._injectPointFactory.create(file, bean);
+      BeanInjectionValidator.getInstance().validate(bean, injectPoints);
     }
   }
 
@@ -150,7 +153,7 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    */
   public processComplete(watcher:any, sourcePath:string) {
     SokokeLoggerProxy.getInstance().log(
-      SokokeLocaleManager.getInstance().get("process.complete")
+      SokokeLocaleManager.getInstance().get("process.complete"), LogLevel.DEBUG
     );
   }
 }

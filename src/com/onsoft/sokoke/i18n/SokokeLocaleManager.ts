@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import {LocaleManagerBase, LocaleManager} from "jec-commons-node";
-import {SingletonError} from "jec-commons";
+import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
  * The <code>SokokeLocaleManager</code> singleton allows to manage the  
@@ -31,18 +31,9 @@ export class SokokeLocaleManager {
    * Creates a new <code>SokokeLocaleManager</code> instance.
    */
   constructor() {
-    let msg:string = null;
     let isInstanciated:boolean = SokokeLocaleManager.INSTANCE !== null;
     if(SokokeLocaleManager._locked || isInstanciated) {
-      if(isInstanciated && SokokeLocaleManager.INSTANCE.isInitialized()) {
-        msg = SokokeLocaleManager.getInstance().get(
-          "errors.singleton", "SokokeLocaleManager"
-        );
-      } else {
-        msg = "You cannot create a SokokeLocaleManager instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(SokokeLocaleManager);
     }
     SokokeLocaleManager._locked = true;
   }

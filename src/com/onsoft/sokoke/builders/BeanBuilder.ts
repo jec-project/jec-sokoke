@@ -14,11 +14,9 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {Scope, Bean} from "jec-jdi";
-import {SingletonError} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
 import {SokokeBean} from "../inject/SokokeBean";
+import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
  * The <code>BeanBuilder</code> singleton allows to build new <code>Bean</code>
@@ -34,17 +32,8 @@ export class BeanBuilder {
    * Creates a new <code>BeanBuilder</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(BeanBuilder._locked || BeanBuilder.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "BeanBuilder");
-      } else {
-        msg = "You cannot create a BeanBuilder instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(BeanBuilder);
     }
     BeanBuilder._locked = true;
   }

@@ -7,24 +7,16 @@ const path = require("path");
 const JdiContainerFactory_1 = require("../builders/JdiContainerFactory");
 const BeanManagerBuilder_1 = require("../builders/BeanManagerBuilder");
 const HashCodeBuilder_1 = require("../utils/HashCodeBuilder");
+const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
+const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 class Sokoke {
     constructor() {
         this._container = null;
         this._localeCongig = null;
         this._currContext = null;
         this._contextList = null;
-        let msg = null;
-        let i18n = null;
         if (Sokoke._locked || Sokoke.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "Sokoke");
-            }
-            else {
-                msg = "You cannot create a Sokoke instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(Sokoke);
         }
         this.initObj();
         Sokoke._locked = true;
@@ -126,6 +118,12 @@ class Sokoke {
         let beanList = this.getBeanList(injectionPoint);
         let bean = this.resolveBean(beanList, injectionPoint);
         return this._container.getBeanManager().getReference(bean);
+    }
+    isDebugMode() {
+        let debugMode = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance()
+            .getLogger()
+            .getLogLevel() <= jec_commons_1.LogLevel.DEBUG;
+        return debugMode;
     }
 }
 Sokoke._locked = true;

@@ -70,14 +70,14 @@ export class InjectionPointsFactory {
    * @param {Bean} bean a reference to the bean that injection points belongs
    *                    to; or <code>null</code> whether injection points does
    *                    not belong to a bean.
+   * @return {Array<InjectionPoint>} an array that contains all injection points
+   *                                 for the specified file.
    */
-  public create(file:FileProperties, bean:Bean):void {
+  public create(file:FileProperties, bean:Bean):Array<InjectionPoint> {
     let injectPoints:InjectionPoint[] = this._evaluator.evaluate(file, bean);
     let len:number = injectPoints.length;
     let injectPoint:InjectionPoint = null;
-    let showTrace:boolean = SokokeLoggerProxy.getInstance()
-                                             .getLogger()
-                                             .getLogLevel() <= LogLevel.DEBUG;
+    let showTrace:boolean = (Sokoke.getInstance() as Sokoke).isDebugMode();
     while(len--){
       injectPoint = injectPoints[len];
       if(showTrace) {
@@ -87,8 +87,9 @@ export class InjectionPointsFactory {
           ),
           LogLevel.DEBUG
         );
-        Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
       }
+      Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
     }
+    return injectPoints;
   }
 }

@@ -14,29 +14,38 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator, DecoratorConnector, AbstractDecoratorConnector} from "jec-commons";
+import {Scope, Bean} from "jec-jdi";
 
 /**
- * The <code>JdiConnector</code> class defines the 
- * <code>DecoratorConnector</code> implementation for the JDI decorators in the
- * Sokoke framework.
+ * The <code>BeanStore</code> class provides the structure for storing bean
+ * instances.
  */
-export class JdiConnector extends AbstractDecoratorConnector {
+export class BeanStore {
   
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>JdiConnector</code> instance.
-   * 
-   * @param {string} jcadReference the JCAD reference associated with this
-   *                               connector. Valid values are the members of
-   *                               the <code>JdiConnectorRefs</code> enum.
-   * @param {Decorator} decorator the decorator associated with the specified
-   *                              JCAD reference.
+   * Creates a new <code>BeanStore</code> instance.
    */
-  constructor(jcadReference:string, decorator:Decorator) {
-    super(jcadReference, decorator);
+  constructor() {
+    this.initObj();
   }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Private methods
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Initializes this object.
+   */
+  private initObj():void {
+    
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  // Public methods
+  //////////////////////////////////////////////////////////////////////////////
+
 }

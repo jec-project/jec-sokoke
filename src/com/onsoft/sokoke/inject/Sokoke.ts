@@ -14,8 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {LocaleManager} from "jec-commons-node";
-import {SingletonError} from "jec-commons";
+import {LogLevel} from "jec-commons";
 import {JDI, JdiContainer, BeanManager, InjectionPoint, Bean,
         UnsatisfiedDependencyError} from "jec-jdi";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
@@ -26,6 +25,8 @@ import {SokokeContext} from "./SokokeContext";
 import {BeanManagerBuilder} from "../builders/BeanManagerBuilder";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 import {SokokeBeanManager} from "./SokokeBeanManager";
+import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
+import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
  * The <code>Sokoke</code> singleton is the main entry point of Sokoke
@@ -41,17 +42,8 @@ export class Sokoke implements JDI {
    * Creates a new <code>Sokoke</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(Sokoke._locked || Sokoke.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "Sokoke");
-      } else {
-        msg = "You cannot create a Sokoke instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(Sokoke);
     }
     this.initObj();
     Sokoke._locked = true;
@@ -291,5 +283,21 @@ export class Sokoke implements JDI {
     let beanList:Array<Bean> = this.getBeanList(injectionPoint);
     let bean:Bean = this.resolveBean(beanList, injectionPoint);
     return this._container.getBeanManager().getReference(bean);
+  }
+
+  /**
+   * Returns a boolean that indicates whether the current log level is
+   * <code>LogLevel.DEBUG</code> (<code>true</code>), or not
+   * (<code>false</code>).
+   * 
+   * @return {boolean} <code>true</code> whether the current log level is
+   *                   <code>LogLevel.DEBUG</code>; <code>false</code>
+   *                   otherwise.
+   */
+  public isDebugMode():boolean {
+    let debugMode:boolean = SokokeLoggerProxy.getInstance()
+                                             .getLogger()
+                                             .getLogLevel() <= LogLevel.DEBUG;
+    return debugMode;
   }
 }

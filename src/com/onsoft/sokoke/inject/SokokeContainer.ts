@@ -108,5 +108,4 @@ export class SokokeContainer implements JdiContainer {
   public contextChange(context:SokokeContext):void {
     this._currentDomainPath = context.getDomainPath();
   }
-
 }

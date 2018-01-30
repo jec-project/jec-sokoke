@@ -84,4 +84,11 @@ export class SokokeContextImpl {
   public getLocale():Locale {
     return this._locale;
   }
+
+  /*
+   * @private
+   */
+  public toString():string {
+    return `[SokokeContext: domain='${this._domainPath}']`
+  }
 }

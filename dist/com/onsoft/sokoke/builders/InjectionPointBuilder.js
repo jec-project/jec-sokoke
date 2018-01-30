@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const jec_commons_1 = require("jec-commons");
 const SokokeInjectionPoint_1 = require("../inject/SokokeInjectionPoint");
+const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 class InjectionPointBuilder {
     constructor() {
         this._bean = null;
@@ -11,18 +10,8 @@ class InjectionPointBuilder {
         this._className = null;
         this._beanRef = null;
         this._qualifiers = null;
-        let msg = null;
-        let i18n = null;
         if (InjectionPointBuilder._locked || InjectionPointBuilder.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "InjectionPointBuilder");
-            }
-            else {
-                msg = "You cannot create a InjectionPointBuilder instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(InjectionPointBuilder);
         }
         InjectionPointBuilder._locked = true;
     }

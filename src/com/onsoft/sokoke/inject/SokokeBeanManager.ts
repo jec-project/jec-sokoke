@@ -21,6 +21,7 @@ import {SokokeError} from "../exceptions/SokokeError";
 import {SokokeContext} from "./SokokeContext";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {LogLevel} from "jec-commons";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 

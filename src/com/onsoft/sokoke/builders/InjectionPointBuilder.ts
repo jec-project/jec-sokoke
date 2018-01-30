@@ -14,11 +14,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {InjectionPoint, Bean} from "jec-jdi";
-import {Member, Parameter, SingletonError} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
+import {Member, Parameter} from "jec-commons";
 import {SokokeInjectionPoint} from "../inject/SokokeInjectionPoint";
+import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
  * The <code>InjectionPointBuilder</code> singleton allows to build new  
@@ -34,17 +33,8 @@ export class InjectionPointBuilder {
    * Creates a new <code>InjectionPointBuilder</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(InjectionPointBuilder._locked || InjectionPointBuilder.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "InjectionPointBuilder");
-      } else {
-        msg = "You cannot create a InjectionPointBuilder instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(InjectionPointBuilder);
     }
     InjectionPointBuilder._locked = true;
   }

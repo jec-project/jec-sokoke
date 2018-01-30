@@ -1,21 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const jec_commons_1 = require("jec-commons");
+const SingletonErrorFactory_1 = require("./SingletonErrorFactory");
 class HashCodeBuilder {
     constructor() {
-        let msg = null;
-        let i18n = null;
         if (HashCodeBuilder._locked || HashCodeBuilder.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "HashCodeBuilder");
-            }
-            else {
-                msg = "You cannot create a HashCodeBuilder instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(HashCodeBuilder);
         }
         HashCodeBuilder._locked = true;
     }

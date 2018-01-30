@@ -14,10 +14,8 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {Scope, ScopeType, ApplicationScoped, RequestScoped, SessionScoped} from "jec-jdi";
-import {SingletonError} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
+import {SingletonErrorFactory} from "./SingletonErrorFactory";
 
 /**
  * The <code>ScopeStrategy</code> singleton allows to build new  
@@ -33,17 +31,8 @@ export class ScopeStrategy {
    * Creates a new <code>ScopeStrategy</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(ScopeStrategy._locked || ScopeStrategy.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "ScopeStrategy");
-      } else {
-        msg = "You cannot create a ScopeStrategy instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(ScopeStrategy);
     }
     ScopeStrategy._locked = true;
   }

@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const jec_commons_1 = require("jec-commons");
 const SokokeBean_1 = require("../inject/SokokeBean");
+const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 class BeanBuilder {
     constructor() {
         this._scope = null;
@@ -10,18 +9,8 @@ class BeanBuilder {
         this._beanClass = null;
         this._types = null;
         this._className = null;
-        let msg = null;
-        let i18n = null;
         if (BeanBuilder._locked || BeanBuilder.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "BeanBuilder");
-            }
-            else {
-                msg = "You cannot create a BeanBuilder instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(BeanBuilder);
         }
         BeanBuilder._locked = true;
     }

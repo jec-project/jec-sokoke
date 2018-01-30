@@ -5,21 +5,11 @@ const jec_commons_1 = require("jec-commons");
 const path = require("path");
 const InjectionString_1 = require("./InjectionString");
 const JdiRegExp_1 = require("./JdiRegExp");
-const SokokeLocaleManager_1 = require("../../i18n/SokokeLocaleManager");
+const SingletonErrorFactory_1 = require("../SingletonErrorFactory");
 class InjectionSanitizer {
     constructor() {
-        let msg = null;
-        let i18n = null;
         if (InjectionSanitizer._locked || InjectionSanitizer.INSTANCE) {
-            i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
-            if (i18n.isInitialized()) {
-                msg = i18n.get("errors.singleton", "Sokoke");
-            }
-            else {
-                msg = "You cannot create a Sokoke instance; " +
-                    "use getInstance() instead.";
-            }
-            throw new jec_commons_1.SingletonError(msg);
+            new SingletonErrorFactory_1.SingletonErrorFactory().throw(InjectionSanitizer);
         }
         InjectionSanitizer._locked = true;
     }

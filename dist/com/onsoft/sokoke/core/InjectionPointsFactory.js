@@ -17,16 +17,15 @@ class InjectionPointsFactory {
         let injectPoints = this._evaluator.evaluate(file, bean);
         let len = injectPoints.length;
         let injectPoint = null;
-        let showTrace = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance()
-            .getLogger()
-            .getLogLevel() <= jec_commons_1.LogLevel.DEBUG;
+        let showTrace = Sokoke_1.Sokoke.getInstance().isDebugMode();
         while (len--) {
             injectPoint = injectPoints[len];
             if (showTrace) {
                 SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("injection.evaluated", String(injectPoint)), jec_commons_1.LogLevel.DEBUG);
-                Sokoke_1.Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
             }
+            Sokoke_1.Sokoke.getInstance().getBeanManager().addInjectionPoint(injectPoint);
         }
+        return injectPoints;
     }
 }
 exports.InjectionPointsFactory = InjectionPointsFactory;

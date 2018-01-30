@@ -14,9 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
-import {SingletonError} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
+import {SingletonErrorFactory} from "./SingletonErrorFactory";
 
 /**
  * The <code>HashCodeBuilder</code> singleton allows to build Sokoke non-secure  
@@ -32,17 +30,8 @@ export class HashCodeBuilder {
    * Creates a new <code>HashCodeBuilder</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(HashCodeBuilder._locked || HashCodeBuilder.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "HashCodeBuilder");
-      } else {
-        msg = "You cannot create a HashCodeBuilder instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(HashCodeBuilder);
     }
     HashCodeBuilder._locked = true;
   }

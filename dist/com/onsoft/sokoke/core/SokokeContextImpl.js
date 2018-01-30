@@ -16,5 +16,8 @@ class SokokeContextImpl {
     getLocale() {
         return this._locale;
     }
+    toString() {
+        return `[SokokeContext: domain='${this._domainPath}']`;
+    }
 }
 exports.SokokeContextImpl = SokokeContextImpl;

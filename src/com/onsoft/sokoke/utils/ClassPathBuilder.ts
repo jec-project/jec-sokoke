@@ -14,9 +14,8 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
-import {SingletonError, FileProperties} from "jec-commons";
-import {LocaleManager} from "jec-commons-node";
+import {SingletonErrorFactory} from "./SingletonErrorFactory";
+import {FileProperties} from "jec-commons";
 import * as path from "path";
 
 /**
@@ -33,17 +32,8 @@ export class ClassPathBuilder {
    * Creates a new <code>ClassPathBuilder</code> instance.
    */
   constructor() {
-    let msg:string = null;
-    let i18n:LocaleManager = null;
     if(ClassPathBuilder._locked || ClassPathBuilder.INSTANCE) {
-      i18n = SokokeLocaleManager.getInstance();
-      if(i18n.isInitialized()) {
-        msg = i18n.get("errors.singleton", "ClassPathBuilder");
-      } else {
-        msg = "You cannot create a ClassPathBuilder instance; " +
-              "use getInstance() instead.";
-      }
-      throw new SingletonError(msg);
+      new SingletonErrorFactory().throw(ClassPathBuilder);
     }
     ClassPathBuilder._locked = true;
   }

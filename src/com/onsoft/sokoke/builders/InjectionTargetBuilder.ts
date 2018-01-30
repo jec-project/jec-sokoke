@@ -14,27 +14,27 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {TargetContext, DecoratedType} from "jec-jdi";
+import {InjectionTarget, DecoratedType} from "jec-jdi";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**
- * The <code>TargetContextBuilder</code> singleton allows to build new 
- * <code>TargetContext</code> objects from the specified parameters.
+ * The <code>InjectionTargetBuilder</code> singleton allows to build new 
+ * <code>InjectionTarget</code> objects from the specified parameters.
  */
-export class TargetContextBuilder {
+export class InjectionTargetBuilder {
   
   //////////////////////////////////////////////////////////////////////////////
   // Constructor function
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Creates a new <code>TargetContextBuilder</code> instance.
+   * Creates a new <code>InjectionTargetBuilder</code> instance.
    */
   constructor() {
-    if(TargetContextBuilder._locked || TargetContextBuilder.INSTANCE) {
-      new SingletonErrorFactory().throw(TargetContextBuilder);
+    if(InjectionTargetBuilder._locked || InjectionTargetBuilder.INSTANCE) {
+      new SingletonErrorFactory().throw(InjectionTargetBuilder);
     }
-    TargetContextBuilder._locked = true;
+    InjectionTargetBuilder._locked = true;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -42,27 +42,28 @@ export class TargetContextBuilder {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Prevents <code>TargetContextBuilder</code> illegal instanciations.
+   * Prevents <code>InjectionTargetBuilder</code> illegal instanciations.
    */
   private static _locked:boolean = true;
 
   /**
-   * The <code>TargetContextBuilder</code> singleton instance reference.
+   * The <code>InjectionTargetBuilder</code> singleton instance reference.
    */
-  private static INSTANCE:TargetContextBuilder = null;
+  private static INSTANCE:InjectionTargetBuilder = null;
 
   /**
-   * Returns a reference to the <code>TargetContextBuilder</code> singleton.
+   * Returns a reference to the <code>InjectionTargetBuilder</code> singleton.
    *
-   * @return {TargetContextBuilder} a reference to the 
-   *                             <code>TargetContextBuilder</code> singleton.
+   * @return {InjectionTargetBuilder} a reference to the 
+   *                                  <code>InjectionTargetBuilder</code>
+   *                                  singleton.
    */
-  public static getInstance():TargetContextBuilder {
-    if(TargetContextBuilder.INSTANCE === null) {
-      TargetContextBuilder._locked = false;
-      TargetContextBuilder.INSTANCE = new TargetContextBuilder();
+  public static getInstance():InjectionTargetBuilder {
+    if(InjectionTargetBuilder.INSTANCE === null) {
+      InjectionTargetBuilder._locked = false;
+      InjectionTargetBuilder.INSTANCE = new InjectionTargetBuilder();
     }
-    return TargetContextBuilder.INSTANCE;
+    return InjectionTargetBuilder.INSTANCE;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -70,13 +71,13 @@ export class TargetContextBuilder {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Returns a new <code>TargetContext</code> object, built from the specified
+   * Returns a new <code>InjectionTarget</code> object, built from the specified
    * parameters.
    * 
    * @param {any} target the target associated whith the new
-   *                     <code>TargetContext</code> object.
+   *                     <code>InjectionTarget</code> object.
    * @param {string|Symbol} key the name of the target member associated whith 
-   *                            the new <code>TargetContext</code> object.
+   *                            the new <code>InjectionTarget</code> object.
    * @param {DecoratedType} decoratedType the type of decorator used to perform
    *                                      the current dependency injection.
    * @param {number} parameterIndex the index position of the parameter if
@@ -84,8 +85,8 @@ export class TargetContextBuilder {
    *                                <code>DecoratedType.PARAMETER</code>.
    */
   public build(target:any, key:string|Symbol, decoratedType:DecoratedType,
-                                     parameterIndex:number = -1):TargetContext {
-    let context:TargetContext = {
+                                   parameterIndex:number = -1):InjectionTarget {
+    let context:InjectionTarget = {
       target: target,
       key: key,
       parameterIndex: parameterIndex,

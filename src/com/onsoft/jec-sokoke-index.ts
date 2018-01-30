@@ -16,9 +16,9 @@
 export {BeanBuilder} from "./sokoke/builders/BeanBuilder";
 export {BeanManagerBuilder} from "./sokoke/builders/BeanManagerBuilder";
 export {InjectionPointBuilder} from "./sokoke/builders/InjectionPointBuilder";
+export {InjectionTargetBuilder} from "./sokoke/builders/InjectionTargetBuilder";
 export {JdiContainerFactory} from "./sokoke/builders/JdiContainerFactory";
 export {SokokeContextBuilder} from "./sokoke/builders/SokokeContextBuilder";
-export {TargetContextBuilder} from "./sokoke/builders/TargetContextBuilder";
 //--> com/onsoft/core
 export {BeanFactory} from "./sokoke/core/BeanFactory";
 export {BeanStore} from "./sokoke/core/BeanStore";

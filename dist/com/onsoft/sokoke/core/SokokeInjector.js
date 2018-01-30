@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_commons_1 = require("jec-commons");
+const jec_jdi_1 = require("jec-jdi");
 const Sokoke_1 = require("../inject/Sokoke");
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
@@ -34,7 +35,14 @@ class SokokeInjector {
         }
     }
     inject(context) {
-        this.injectField(context.target, String(context.key));
+        let decoratedType = context.decoratedType;
+        if (decoratedType === jec_jdi_1.DecoratedType.FIELD) {
+            this.injectField(context.target, String(context.key));
+        }
+        else if (decoratedType === jec_jdi_1.DecoratedType.PARAMETER) {
+        }
+    }
+    dispose(context) {
     }
 }
 SokokeInjector.INSTANCE = null;

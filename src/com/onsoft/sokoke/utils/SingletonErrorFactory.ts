@@ -15,7 +15,6 @@
 //   limitations under the License.
 
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
-import {Scope, ScopeType, ApplicationScoped, RequestScoped, SessionScoped} from "jec-jdi";
 import {SingletonError} from "jec-commons";
 import {LocaleManager} from "jec-commons-node";
 

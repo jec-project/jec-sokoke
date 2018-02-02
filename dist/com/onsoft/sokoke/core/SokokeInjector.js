@@ -41,6 +41,8 @@ class SokokeInjector {
         }
         else if (decoratedType === jec_jdi_1.DecoratedType.PARAMETER) {
         }
+        else {
+        }
     }
     dispose(context) {
     }

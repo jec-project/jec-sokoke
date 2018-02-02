@@ -80,7 +80,7 @@ export class SokokeInjector {
    * @param {any} target the object for which to perform dependency injection.
    * @param {string} key the field on which to perform dependency injection.
    */
-  public injectField(target:any, key:string):void {
+  private injectField(target:any, key:string):void {
     let classPath:string = ClassLoaderContext.getInstance().getPath();
     let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     let context:SokokeContext = sokoke.getContextByPath(classPath);
@@ -116,6 +116,8 @@ export class SokokeInjector {
       this.injectField(context.target, String(context.key));
     } else if(decoratedType === DecoratedType.PARAMETER) {
 
+    } else {
+      
     }
     
   }

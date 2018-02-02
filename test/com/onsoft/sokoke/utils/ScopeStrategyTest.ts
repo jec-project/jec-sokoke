@@ -17,7 +17,7 @@
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
 import { ScopeStrategy } from "../../../../../src/com/onsoft/sokoke/utils/ScopeStrategy";
-import { Scope, ApplicationScoped, SessionScoped, RequestScoped } from "jec-jdi";
+import { Scope, ApplicationScoped, SessionScoped, RequestScoped, ScopeType } from "jec-jdi";
 import { SingletonError } from "jec-commons";
 
 @TestSuite({
@@ -69,7 +69,7 @@ export class ScopeStrategyTest {
     description: "should return 'null'"
   })
   public dependentTest():void {
-    expect(ScopeStrategy.getInstance().resolve("dependent")).to.be.null;
+    expect(ScopeStrategy.getInstance().resolve(ScopeType.DEPENDENT)).to.be.null;
   }
   
   @Test({
@@ -77,7 +77,7 @@ export class ScopeStrategyTest {
   })
   public applicationTest():void {
     expect(
-      ScopeStrategy.getInstance().resolve("application")
+      ScopeStrategy.getInstance().resolve(ScopeType.APPLICATION)
     ).to.be.an.instanceOf(ApplicationScoped);
   }
   
@@ -86,7 +86,7 @@ export class ScopeStrategyTest {
   })
   public sessionTest():void {
     expect(
-      ScopeStrategy.getInstance().resolve("session")
+      ScopeStrategy.getInstance().resolve(ScopeType.SESSION)
     ).to.be.an.instanceOf(SessionScoped);
   }
   
@@ -95,7 +95,7 @@ export class ScopeStrategyTest {
   })
   public requestTest():void {
     expect(
-      ScopeStrategy.getInstance().resolve("request")
+      ScopeStrategy.getInstance().resolve(ScopeType.REQUEST)
     ).to.be.an.instanceOf(RequestScoped);
   }
 }

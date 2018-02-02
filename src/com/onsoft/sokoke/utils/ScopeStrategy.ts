@@ -73,12 +73,12 @@ export class ScopeStrategy {
    * Returns a new <code>Scope</code> object, depending on the specified
    * <code>scope</code> parameter.
    * 
-   * @param {string} scope the reference used to create a new <code>Scope</code>
-   *                       object.
+   * @param {ScopeType} scope the <code>ScopeType</code value used to create a 
+   *                          new <code>Scope</code> object.
    * @return {Scope} a new <code>Scope</code> object, depending on the specified
    *                 <code>scope</code> parameter.
    */
-  public resolve(scope:string):Scope {
+  public resolve(scope:ScopeType):Scope {
     let resolved:Scope = null;
     switch(scope) {
       case ScopeType.APPLICATION :

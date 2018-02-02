@@ -142,7 +142,7 @@ export class InjectionSanitizer {
               value.indexOf(InjectionString.NULL) !== -1) {
       params.scope = null;
     } else {
-      params.scope = this.sanitizesString(value);
+      params.scope = (this.sanitizesString(value) as ScopeType);
     }
   }
 }

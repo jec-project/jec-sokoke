@@ -18,7 +18,7 @@ import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {BeanManager, InjectionPoint, Bean, Scope, ApplicationScoped,
         JdiError} from "jec-jdi";
 import {SokokeError} from "../exceptions/SokokeError";
-import {SokokeContext} from "./SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {LogLevel} from "jec-commons";

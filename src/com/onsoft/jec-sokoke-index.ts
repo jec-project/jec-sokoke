@@ -21,11 +21,10 @@ export {JdiContainerFactory} from "./sokoke/builders/JdiContainerFactory";
 export {SokokeContextBuilder} from "./sokoke/builders/SokokeContextBuilder";
 //--> com/onsoft/core
 export {BeanFactory} from "./sokoke/core/BeanFactory";
-export {BeanStore} from "./sokoke/core/BeanStore";
 export {InjectionPointsFactory} from "./sokoke/core/InjectionPointsFactory";
 export {SokokeAutowireProcessor} from "./sokoke/core/SokokeAutowireProcessor";
+export {SokokeContext} from "./sokoke/core/SokokeContext";
 export {SokokeContextImpl} from "./sokoke/core/SokokeContextImpl"
-export {SokokeInjector} from "./sokoke/core/SokokeInjector";
 //--> com/onsoft/exceptions
 export {SokokeError} from "./sokoke/exceptions/SokokeError";
 //--> com/onsoft/i18n
@@ -35,8 +34,8 @@ export {Sokoke} from "./sokoke/inject/Sokoke";
 export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
 export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
-export {SokokeContext} from "./sokoke/inject/SokokeContext";
 export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
+export {SokokeInjector} from "./sokoke/inject/SokokeInjector";
 //--> com/onsoft/jcad/connectors
 export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
 //--> com/onsoft/jcad/decorators

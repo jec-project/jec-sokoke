@@ -25,7 +25,7 @@ import {BeanFactory} from "./BeanFactory";
 import {InjectionPointsFactory} from "../core/InjectionPointsFactory";
 import {Bean, InjectionPoint} from "jec-jdi";
 import {SokokeContextBuilder} from "../builders/SokokeContextBuilder";
-import {SokokeContext} from "../inject/SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {BeanInjectionValidator} from "../utils/validators/BeanInjectionValidator";
 
 /**

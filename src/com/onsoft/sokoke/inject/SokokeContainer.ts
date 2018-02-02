@@ -18,7 +18,7 @@ import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {BeanManager, JdiContainer} from "jec-jdi";
 import {GlobalGuidGenerator} from "jec-commons";
 import {SokokeBeanManager} from "./SokokeBeanManager";
-import {SokokeContext} from "./SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 
 /**
  * The <code>JdiContainer</code> class is the Sokoke framework 

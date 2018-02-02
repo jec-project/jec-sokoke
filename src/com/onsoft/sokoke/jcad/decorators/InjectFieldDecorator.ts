@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import {Decorator} from "jec-commons";
-import {SokokeInjector} from "../../core/SokokeInjector";
+import {SokokeInjector} from "../../inject/SokokeInjector";
 import {InjectParams, InjectionTarget, DecoratedType} from "jec-jdi";
 import {InjectionTargetBuilder} from "../../builders/InjectionTargetBuilder";
 

@@ -16,7 +16,7 @@
 
 import {BeanManager} from "jec-jdi";
 import {SokokeBeanManager} from "../inject/SokokeBeanManager";
-import {SokokeContext} from "../inject/SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 
 /**

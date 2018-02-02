@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import {Locale} from "jec-commons";
-import {SokokeContext} from "../inject/SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {SokokeContextImpl} from "../core/SokokeContextImpl";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 

@@ -17,6 +17,9 @@
 import {Scope, Bean} from "jec-jdi";
 import {SokokeBean} from "../inject/SokokeBean";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
+import {Sokoke} from "../inject/Sokoke";
+import {SokokeContext} from "../core/SokokeContext";
+import {SokokeMetadataInjector} from "../metadata/SokokeMetadataInjector";
 
 /**
  * The <code>BeanBuilder</code> singleton allows to build new <code>Bean</code>
@@ -186,9 +189,12 @@ export class BeanBuilder {
    *                properties.
    */
   public build():Bean {
+    let context:SokokeContext =
+                           (Sokoke.getInstance() as Sokoke).getCurrentContext();
     let bean:Bean = new SokokeBean(
       this._name, this._scope, this._beanClass, this._types, this._className
     );
+    SokokeMetadataInjector.getInstance().inject(bean, context);
     return bean;
   }
 }

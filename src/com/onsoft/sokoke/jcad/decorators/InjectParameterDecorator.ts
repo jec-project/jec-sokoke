@@ -14,8 +14,10 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
-import {InjectParams} from "jec-jdi";
+import {Decorator, Interface} from "jec-commons";
+import {InjectParams, InjectionTarget, DecoratedType} from "jec-jdi";
+import {InjectionTargetBuilder} from "../../builders/InjectionTargetBuilder";
+import {SokokeInjector} from "../../inject/SokokeInjector";
 
 /**
  * The <code>InjectParameterDecorator</code> class defines the   
@@ -40,14 +42,13 @@ export class InjectParameterDecorator implements Decorator {
   /**
    * @inheritDoc
    */
-  public decorate(target:any, propertyKey:string|symbol,
-                               parameterIndex:number, params:InjectParams):any {
-    console.log("InjectParameterDecorator")
-    console.log(target)
-    console.log(propertyKey)
-    console.log(parameterIndex)
-    console.log(params)
-    console.log("---------------------------------")
+  public decorate(target:any, propertyKey:string|symbol, parameterIndex:number,
+                                    context:string|Interface|InjectParams):any {
+    let injectionTarget:InjectionTarget =
+    InjectionTargetBuilder.getInstance().build(
+      target, propertyKey, DecoratedType.PARAMETER, parameterIndex
+    );
+    SokokeInjector.getInstance().inject(injectionTarget);
     return target;
   }
 }

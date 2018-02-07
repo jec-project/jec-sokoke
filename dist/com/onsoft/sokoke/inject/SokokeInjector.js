@@ -20,7 +20,7 @@ class SokokeInjector {
         }
         return SokokeInjector.INSTANCE;
     }
-    injectField(target, key) {
+    resovelInjection(key) {
         let classPath = jec_commons_1.ClassLoaderContext.getInstance().getPath();
         let sokoke = Sokoke_1.Sokoke.getInstance();
         let context = sokoke.getContextByPath(classPath);
@@ -29,10 +29,19 @@ class SokokeInjector {
         sokoke.setCurrentContext(context);
         injectPoint = sokoke.resolveInjectionPoint(classPath, key);
         injection = sokoke.getInjectableReference(injectPoint);
+        return injection;
+    }
+    injectField(target, key) {
+        let injection = this.resovelInjection(key);
+        let sokoke = Sokoke_1.Sokoke.getInstance();
         Object.defineProperty(target, key, { value: injection });
         if (sokoke.isDebugMode()) {
             SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.injected.field", target.constructor.name, key, injection.constructor.name), jec_commons_1.LogLevel.DEBUG);
         }
+    }
+    injectParam(target, key, index) {
+        console.log("InjectParameterDecorator");
+        console.log(target.constructor.name, key, index);
     }
     inject(context) {
         let decoratedType = context.decoratedType;
@@ -40,6 +49,7 @@ class SokokeInjector {
             this.injectField(context.target, String(context.key));
         }
         else if (decoratedType === jec_jdi_1.DecoratedType.PARAMETER) {
+            this.injectParam(context.target, String(context.key), context.parameterIndex);
         }
         else {
         }

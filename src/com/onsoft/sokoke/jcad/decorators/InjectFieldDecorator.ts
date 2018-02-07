@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Decorator} from "jec-commons";
+import {Decorator, Interface} from "jec-commons";
 import {SokokeInjector} from "../../inject/SokokeInjector";
 import {InjectParams, InjectionTarget, DecoratedType} from "jec-jdi";
 import {InjectionTargetBuilder} from "../../builders/InjectionTargetBuilder";
@@ -42,11 +42,13 @@ export class InjectFieldDecorator implements Decorator {
   /**
    * @inheritDoc
    */
-  public decorate(target:any, key:string, params:InjectParams):any {
-    let context:InjectionTarget = InjectionTargetBuilder.getInstance().build(
-      target, key, DecoratedType.FIELD
-    );
-    SokokeInjector.getInstance().inject(context);
+  public decorate(target:any, key:string,
+                                    context:string|Interface|InjectParams):any {
+    let injectionTarget:InjectionTarget =
+      InjectionTargetBuilder.getInstance().build(
+        target, key, DecoratedType.FIELD
+      );
+    SokokeInjector.getInstance().inject(injectionTarget);
     return target;
   }
 }

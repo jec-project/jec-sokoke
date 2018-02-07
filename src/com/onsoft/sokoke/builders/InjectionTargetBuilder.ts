@@ -16,6 +16,8 @@
 
 import {InjectionTarget, DecoratedType} from "jec-jdi";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
+import {SokokeInjectionTarget} from "../inject/SokokeInjectionTarget";
+import { GlobalGuidGenerator } from "jec-commons";
 
 /**
  * The <code>InjectionTargetBuilder</code> singleton allows to build new 
@@ -86,12 +88,21 @@ export class InjectionTargetBuilder {
    */
   public build(target:any, key:string|Symbol, decoratedType:DecoratedType,
                                    parameterIndex:number = -1):InjectionTarget {
-    let context:InjectionTarget = {
+    let context:SokokeInjectionTarget = {
       target: target,
       key: key,
       parameterIndex: parameterIndex,
-      decoratedType: decoratedType
+      decoratedType: decoratedType,
+      getId: function() {
+        return this._id;
+      }
     };
+    Object.defineProperty(context, "_id", {
+      value: GlobalGuidGenerator.getInstance().generate(),
+      enumerable: false,
+      configurable: false,
+      writable: false
+    });
     return context;
   }
 }

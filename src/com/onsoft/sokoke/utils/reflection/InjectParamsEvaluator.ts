@@ -38,7 +38,7 @@ export class InjectParamsEvaluator {
   /**
    * Creates a new <code>InjectParamsEvaluator</code> instance.
    */
-  constructor() { }
+  constructor() {}
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -155,7 +155,7 @@ export class InjectParamsEvaluator {
                                              .ref(params.name)
                                              .qualifiers(params.qualifiers)
                                              .build();
-           result.push(injectPoint);
+          result.push(injectPoint);
         }
       }
     }

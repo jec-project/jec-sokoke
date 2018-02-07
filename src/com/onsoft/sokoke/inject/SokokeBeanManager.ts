@@ -201,6 +201,7 @@ export class SokokeBeanManager implements BeanManager {
     if(!scope) {
       Constructor = bean.getBeanClass();
       result = new Constructor();
+      //
     } else {
       if(scope instanceof ApplicationScoped) {
         

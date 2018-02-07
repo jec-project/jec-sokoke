@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
+const jec_commons_1 = require("jec-commons");
 class InjectionTargetBuilder {
     constructor() {
         if (InjectionTargetBuilder._locked || InjectionTargetBuilder.INSTANCE) {
@@ -20,8 +21,17 @@ class InjectionTargetBuilder {
             target: target,
             key: key,
             parameterIndex: parameterIndex,
-            decoratedType: decoratedType
+            decoratedType: decoratedType,
+            getId: function () {
+                return this._id;
+            }
         };
+        Object.defineProperty(context, "_id", {
+            value: jec_commons_1.GlobalGuidGenerator.getInstance().generate(),
+            enumerable: false,
+            configurable: false,
+            writable: false
+        });
         return context;
     }
 }

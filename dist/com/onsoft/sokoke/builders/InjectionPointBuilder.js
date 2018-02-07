@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const SokokeInjectionPoint_1 = require("../inject/SokokeInjectionPoint");
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
+const Sokoke_1 = require("../inject/Sokoke");
+const SokokeMetadataInjector_1 = require("../metadata/SokokeMetadataInjector");
 class InjectionPointBuilder {
     constructor() {
         this._bean = null;
@@ -56,7 +58,9 @@ class InjectionPointBuilder {
         return this;
     }
     build() {
+        let context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
         let injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className, this._beanRef, this._qualifiers);
+        SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance().inject(injectionPoint, context);
         return injectionPoint;
     }
 }

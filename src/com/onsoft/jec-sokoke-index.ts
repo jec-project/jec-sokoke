@@ -1,6 +1,6 @@
 /*!
  * JEC Sokoke Node Module
- * Copyright(c) 2017 Pascal ECHEMANN
+ * Copyright(c) 2017-2018 Pascal ECHEMANN
  * Apache 2.0 Licensed
  * This is a part of the JEC Projects: <https://github.com/pechemann/JEC>
  */
@@ -35,6 +35,7 @@ export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
 export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
 export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
+export {SokokeInjectionTarget} from "./sokoke/inject/SokokeInjectionTarget";
 export {SokokeInjector} from "./sokoke/inject/SokokeInjector";
 //--> com/onsoft/jcad/connectors
 export {JdiConnector} from "./sokoke/jcad/connectors/JdiConnector";
@@ -46,6 +47,10 @@ export {InjectParameterDecorator} from "./sokoke/jcad/decorators/InjectParameter
 export {JdiContextManager} from "./sokoke/jcad/JdiContextManager";
 //--> com/onsoft/logging
 export {SokokeLoggerProxy} from "./sokoke/logging/SokokeLoggerProxy";
+//--> com/onsoft/metadata
+export {SokokeMetadataInjector} from "./sokoke/metadata/SokokeMetadataInjector";
+export {SokokeMetadataExtractor} from "./sokoke/metadata/SokokeMetadataExtractor";
+export {SokokeMetadataRefs} from "./sokoke/metadata/SokokeMetadataRefs";
 //--> com/onsoft/utils/reflection
 export {InjectableParamsEvaluator} from "./sokoke/utils/reflection/InjectableParamsEvaluator";
 export {InjectionSanitizer} from "./sokoke/utils/reflection/InjectionSanitizer";

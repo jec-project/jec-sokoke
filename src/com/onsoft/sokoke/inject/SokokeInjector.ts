@@ -73,14 +73,7 @@ export class SokokeInjector {
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
 
-  /**
-   * A visitor function that performs dependency injection upon the given
-   * object for the specified field.
-   * 
-   * @param {any} target the object for which to perform dependency injection.
-   * @param {string} key the field on which to perform dependency injection.
-   */
-  private injectField(target:any, key:string):void {
+  private resovelInjection(key:string):any {
     let classPath:string = ClassLoaderContext.getInstance().getPath();
     let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     let context:SokokeContext = sokoke.getContextByPath(classPath);
@@ -89,6 +82,19 @@ export class SokokeInjector {
     sokoke.setCurrentContext(context);
     injectPoint = sokoke.resolveInjectionPoint(classPath, key);
     injection = sokoke.getInjectableReference(injectPoint);
+    return injection;
+  }
+
+  /**
+   * A visitor function that performs dependency injection upon the given
+   * object for the specified field.
+   * 
+   * @param {any} target the object for which to perform dependency injection.
+   * @param {string} key the field on which to perform dependency injection.
+   */
+  private injectField(target:any, key:string):void {
+    let injection:any = this.resovelInjection(key);
+    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     Object.defineProperty(target, key, { value: injection });
     if(sokoke.isDebugMode()) {
       SokokeLoggerProxy.getInstance().log(
@@ -103,6 +109,34 @@ export class SokokeInjector {
     }
   }
 
+  /**
+   * A visitor function that performs dependency injection upon the given
+   * object for the specified parameter.
+   * 
+   * @param {any} target the object for which to perform dependency injection.
+   * @param {string} key the parameter on which to perform dependency injection.
+   * @param {number} index the parameter index.
+   */
+  private injectParam(target:any, key:string, index:number):void {
+    console.log("InjectParameterDecorator")
+    console.log(target.constructor.name, key, index)
+    /*let injection:any = this.resovelInjection(key);
+    //let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    let descriptor:PropertyDescriptor = 
+                                   Object.getOwnPropertyDescriptor(target, key);
+    let originalMethod:Function = descriptor.value;
+    descriptor.value = function():void {
+      let args:any[] = new Array<any>();
+      let len:number = arguments.length;
+      while(len--) {
+          args[len] = arguments[len];
+      }
+      args[index] = injection;
+      originalMethod.apply(this, args);
+      console.log(args)
+    };*/
+  }
+
   //////////////////////////////////////////////////////////////////////////////
   // Public methods
   //////////////////////////////////////////////////////////////////////////////
@@ -115,7 +149,9 @@ export class SokokeInjector {
     if(decoratedType === DecoratedType.FIELD) {
       this.injectField(context.target, String(context.key));
     } else if(decoratedType === DecoratedType.PARAMETER) {
-
+      this.injectParam(
+        context.target, String(context.key), context.parameterIndex
+      );
     } else {
       
     }

@@ -18,6 +18,9 @@ import {InjectionPoint, Bean} from "jec-jdi";
 import {Member, Parameter} from "jec-commons";
 import {SokokeInjectionPoint} from "../inject/SokokeInjectionPoint";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
+import {SokokeContext} from "../core/SokokeContext";
+import {Sokoke} from "../inject/Sokoke";
+import {SokokeMetadataInjector} from "../metadata/SokokeMetadataInjector";
 
 /**
  * The <code>InjectionPointBuilder</code> singleton allows to build new  
@@ -217,10 +220,13 @@ export class InjectionPointBuilder {
    *                          from the specified properties.
    */
   public build():InjectionPoint {
+    let context:SokokeContext =
+                           (Sokoke.getInstance() as Sokoke).getCurrentContext();
     let injectionPoint:InjectionPoint = new SokokeInjectionPoint(
       this._bean, this._type, this._element, this._className, this._beanRef,
       this._qualifiers
     );
+    SokokeMetadataInjector.getInstance().inject(injectionPoint, context);
     return injectionPoint;
   }
 }

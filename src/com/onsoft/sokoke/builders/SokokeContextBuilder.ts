@@ -82,7 +82,7 @@ export class SokokeContextBuilder {
    *                         from the specified parameters.
    */
   public build(domainPath:string, locale:Locale):SokokeContext {
-    let context:SokokeContext = new SokokeContextImpl(domainPath, locale);
+    const context:SokokeContext = new SokokeContextImpl(domainPath, locale);
     return context;
   }
 }

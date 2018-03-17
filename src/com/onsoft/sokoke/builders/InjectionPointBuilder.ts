@@ -220,9 +220,9 @@ export class InjectionPointBuilder {
    *                          from the specified properties.
    */
   public build():InjectionPoint {
-    let context:SokokeContext =
+    const context:SokokeContext =
                            (Sokoke.getInstance() as Sokoke).getCurrentContext();
-    let injectionPoint:InjectionPoint = new SokokeInjectionPoint(
+    const injectionPoint:InjectionPoint = new SokokeInjectionPoint(
       this._bean, this._type, this._element, this._className, this._beanRef,
       this._qualifiers
     );

@@ -4,7 +4,7 @@ const SokokeContainer_1 = require("../inject/SokokeContainer");
 class JdiContainerFactory {
     constructor() { }
     create() {
-        let container = new SokokeContainer_1.SokokeContainer();
+        const container = new SokokeContainer_1.SokokeContainer();
         return container;
     }
 }

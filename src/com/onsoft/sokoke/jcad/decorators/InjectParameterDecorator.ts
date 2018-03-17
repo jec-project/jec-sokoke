@@ -44,7 +44,7 @@ export class InjectParameterDecorator implements Decorator {
    */
   public decorate(target:any, propertyKey:string|symbol, parameterIndex:number,
                                     context:string|Interface|InjectParams):any {
-    let injectionTarget:InjectionTarget =
+    const injectionTarget:InjectionTarget =
     InjectionTargetBuilder.getInstance().build(
       target, propertyKey, DecoratedType.PARAMETER, parameterIndex
     );

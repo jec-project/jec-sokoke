@@ -74,10 +74,10 @@ export class InjectionPointsFactory {
    *                                 for the specified file.
    */
   public create(file:FileProperties, bean:Bean):Array<InjectionPoint> {
-    let injectPoints:InjectionPoint[] = this._evaluator.evaluate(file, bean);
+    const injectPoints:InjectionPoint[] = this._evaluator.evaluate(file, bean);
+    const showTrace:boolean = (Sokoke.getInstance() as Sokoke).isDebugMode();
     let len:number = injectPoints.length;
     let injectPoint:InjectionPoint = null;
-    let showTrace:boolean = (Sokoke.getInstance() as Sokoke).isDebugMode();
     while(len--){
       injectPoint = injectPoints[len];
       if(showTrace) {

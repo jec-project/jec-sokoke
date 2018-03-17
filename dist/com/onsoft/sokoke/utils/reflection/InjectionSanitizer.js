@@ -22,7 +22,7 @@ class InjectionSanitizer {
     }
     sanitizesString(value) {
         let result = value.trimRight();
-        let len = result.length - 1;
+        const len = result.length - 1;
         result = result.lastIndexOf(InjectionString_1.InjectionString.COMA) === len ?
             result.substr(1, len - 2) : result.substr(1, len - 1);
         return result;
@@ -31,13 +31,13 @@ class InjectionSanitizer {
         params.name = this.sanitizesString(value);
     }
     sanitizeType(params, value, file) {
-        let len = value.length - 1;
-        let rawType = value.lastIndexOf(InjectionString_1.InjectionString.COMA) === len ?
+        const len = value.length - 1;
+        const rawType = value.lastIndexOf(InjectionString_1.InjectionString.COMA) === len ?
             value.substr(0, len) : value;
-        let importRef = rawType.substr(0, rawType.lastIndexOf(InjectionString_1.InjectionString.DOT));
-        let importRefPath = JdiRegExp_1.JdiRegExp.getTypeMatcher(importRef).exec(file.content)[1];
-        let importPath = path.resolve(file.path, importRefPath);
-        let type = jec_commons_1.GlobalClassLoader.getInstance().loadClass(importPath);
+        const importRef = rawType.substr(0, rawType.lastIndexOf(InjectionString_1.InjectionString.DOT));
+        const importRefPath = JdiRegExp_1.JdiRegExp.getTypeMatcher(importRef).exec(file.content)[1];
+        const importPath = path.resolve(file.path, importRefPath);
+        const type = jec_commons_1.GlobalClassLoader.getInstance().loadClass(importPath);
         params.type = type;
     }
     sanitizeScope(params, value) {

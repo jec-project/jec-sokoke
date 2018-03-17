@@ -14,7 +14,7 @@ class BeanFactory {
         this._evaluator = new InjectableParamsEvaluator_1.InjectableParamsEvaluator();
     }
     create(file) {
-        let bean = this._evaluator.evaluate(file);
+        const bean = this._evaluator.evaluate(file);
         SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()), jec_commons_1.LogLevel.DEBUG);
         Sokoke_1.Sokoke.getInstance().getBeanManager().addBean(bean);
         return bean;

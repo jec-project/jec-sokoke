@@ -12,7 +12,7 @@ import { Injectable, Inject, InjectableParams, InjectParams, Scope,
          InjectionTarget, ScopeType } from "jec-jdi";
 import { FileProperties, FilePreProcessor, Decorator, AbstractLoggerProxy,
          AbstractDecoratorConnector, LoggerProxy, JcadContext, Member,
-         Parameter, Locale } from "jec-commons";
+         Parameter, Locale, Interface } from "jec-commons";
 import { LocaleManager } from "jec-commons-node";
 
 /*PLACEHOLDER*/}

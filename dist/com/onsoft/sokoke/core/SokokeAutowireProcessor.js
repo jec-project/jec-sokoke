@@ -20,20 +20,20 @@ class SokokeAutowireProcessor {
         this._injectPointFactory = new InjectionPointsFactory_1.InjectionPointsFactory();
     }
     processStart(watcher, sourcePath) {
-        let sokoke = Sokoke_1.Sokoke.getInstance();
-        let context = SokokeContextBuilder_1.SokokeContextBuilder.getInstance().build(watcher.getTarget(), watcher.getContainer().getLocale());
+        const sokoke = Sokoke_1.Sokoke.getInstance();
+        const context = SokokeContextBuilder_1.SokokeContextBuilder.getInstance().build(watcher.getTarget(), watcher.getContainer().getLocale());
         sokoke.addContext(context);
         sokoke.setCurrentContext(context);
         SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("process.start"), jec_commons_1.LogLevel.DEBUG);
     }
     process(file, watcher) {
-        let decorators = file.decorators;
+        const decorators = file.decorators;
+        const logger = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance();
+        const i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let len = decorators.length;
         let decorator = null;
         let classPath = null;
         let decoratorName = null;
-        let logger = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance();
-        let i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let fileName = file.name;
         let hasInjectionPoint = false;
         let bean = null;

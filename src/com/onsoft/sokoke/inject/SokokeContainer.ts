@@ -91,8 +91,8 @@ export class SokokeContainer implements JdiContainer {
    * @inheritDoc
    */
   public setBeanManager(beanManager:BeanManager):void {
-    let key:string = (beanManager as SokokeBeanManager).getContext()
-                                                       .getDomainPath();
+    const key:string = (beanManager as SokokeBeanManager).getContext()
+                                                         .getDomainPath();
     this._beanManagerMap.set(key, beanManager);
   }
   

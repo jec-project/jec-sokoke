@@ -88,7 +88,7 @@ export class InjectionTargetBuilder {
    */
   public build(target:any, key:string|Symbol, decoratedType:DecoratedType,
                                    parameterIndex:number = -1):InjectionTarget {
-    let context:SokokeInjectionTarget = {
+    const context:SokokeInjectionTarget = {
       target: target,
       key: key,
       parameterIndex: parameterIndex,

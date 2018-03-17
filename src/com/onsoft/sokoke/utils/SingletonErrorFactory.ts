@@ -46,9 +46,9 @@ export class SingletonErrorFactory {
    *                              the exception.
    */
   public throw(contextClass:any):void {
+    const classRef:string = contextClass.constructor.name;
+    const i18n:LocaleManager = SokokeLocaleManager.getInstance();
     let msg:string = null;
-    let classRef:string = contextClass.constructor.name;
-    let i18n:LocaleManager = SokokeLocaleManager.getInstance();
     if(i18n.isInitialized()) {
       msg = i18n.get("errors.singleton", classRef);
     } else {

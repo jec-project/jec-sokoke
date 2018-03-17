@@ -179,9 +179,9 @@ export class SokokeInjectionPoint implements InjectionPoint {
    * @private
    */
   public toString():string {
-    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    let domainPath:string = sokoke.getCurrentContext().getDomainPath();
-    let classPath:string = this._className.substr(domainPath.length);
+    const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    const domainPath:string = sokoke.getCurrentContext().getDomainPath();
+    const classPath:string = this._className.substr(domainPath.length);
     return `[injection point: class='${classPath}', element='${this._element.getName()}']`;
   }
 }

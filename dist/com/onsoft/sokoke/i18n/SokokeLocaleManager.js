@@ -4,7 +4,7 @@ const jec_commons_node_1 = require("jec-commons-node");
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 class SokokeLocaleManager {
     constructor() {
-        let isInstanciated = SokokeLocaleManager.INSTANCE !== null;
+        const isInstanciated = SokokeLocaleManager.INSTANCE !== null;
         if (SokokeLocaleManager._locked || isInstanciated) {
             new SingletonErrorFactory_1.SingletonErrorFactory().throw(SokokeLocaleManager);
         }

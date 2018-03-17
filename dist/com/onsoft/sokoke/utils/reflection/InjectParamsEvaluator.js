@@ -10,12 +10,12 @@ const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectParamsEvaluator {
     constructor() { }
     extractField(decorator, beanClass) {
-        let fieldName = decorator.substring(decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) + 13, decorator.lastIndexOf(InjectParamsString_1.InjectParamsString.CLOSING_QUOTE));
-        let field = new jec_commons_1.Field(fieldName, beanClass);
+        const fieldName = decorator.substring(decorator.indexOf(InjectParamsString_1.InjectParamsString.PROTOTYPE) + 13, decorator.lastIndexOf(InjectParamsString_1.InjectParamsString.CLOSING_QUOTE));
+        const field = new jec_commons_1.Field(fieldName, beanClass);
         return field;
     }
     extractParams(rawParams, file) {
-        let params = {};
+        const params = {};
         let found = null;
         JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
         while ((found = JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
@@ -42,7 +42,8 @@ class InjectParamsEvaluator {
         return params;
     }
     resolveInjections(file, bean) {
-        let decorators = this.extractDecorators(file);
+        const decorators = this.extractDecorators(file);
+        const result = new Array();
         let decorator = "";
         let len = decorators.length;
         let params = null;
@@ -50,7 +51,6 @@ class InjectParamsEvaluator {
         let injectPoint = null;
         let beanClass = null;
         let className = null;
-        let result = new Array();
         if (bean) {
             beanClass = bean.getBeanClass();
             className = bean.getQualifiedClassName();
@@ -80,7 +80,7 @@ class InjectParamsEvaluator {
         return result;
     }
     extractDecorators(file) {
-        let result = new Array();
+        const result = new Array();
         let content = file.content;
         let decorator = null;
         let startId = content.indexOf(InjectParamsString_1.InjectParamsString.DECORATE);
@@ -96,7 +96,7 @@ class InjectParamsEvaluator {
         return result;
     }
     evaluate(file, bean) {
-        let injectPoints = this.resolveInjections(file, bean);
+        const injectPoints = this.resolveInjections(file, bean);
         return injectPoints;
     }
 }

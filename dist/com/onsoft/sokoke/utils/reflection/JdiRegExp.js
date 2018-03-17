@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class JdiRegExp {
     static getTypeMatcher(impRef) {
-        let pattern = `(?:const ${impRef} = require\\(\\\")(.*)(?:\\\"\\);)`;
-        let matcher = new RegExp(pattern);
+        const pattern = `(?:const ${impRef} = require\\(\\\")(.*)(?:\\\"\\);)`;
+        const matcher = new RegExp(pattern);
         return matcher;
     }
 }

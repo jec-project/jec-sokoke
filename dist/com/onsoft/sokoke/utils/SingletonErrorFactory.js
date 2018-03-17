@@ -5,9 +5,9 @@ const jec_commons_1 = require("jec-commons");
 class SingletonErrorFactory {
     constructor() { }
     throw(contextClass) {
+        const classRef = contextClass.constructor.name;
+        const i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         let msg = null;
-        let classRef = contextClass.constructor.name;
-        let i18n = SokokeLocaleManager_1.SokokeLocaleManager.getInstance();
         if (i18n.isInitialized()) {
             msg = i18n.get("errors.singleton", classRef);
         }

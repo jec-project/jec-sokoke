@@ -17,7 +17,7 @@ class InjectionTargetBuilder {
         return InjectionTargetBuilder.INSTANCE;
     }
     build(target, key, decoratedType, parameterIndex = -1) {
-        let context = {
+        const context = {
             target: target,
             key: key,
             parameterIndex: parameterIndex,

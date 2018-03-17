@@ -32,7 +32,7 @@ class SokokeBeanManager {
         }
     }
     getBeans() {
-        let result = new Set();
+        const result = new Set();
         let len = this._beanList.length;
         while (len--) {
             result.add(this._beanList[len]);
@@ -44,7 +44,7 @@ class SokokeBeanManager {
         return result;
     }
     getBeansByName(name) {
-        let result = new Set();
+        const result = new Set();
         let len = this._beanList.length;
         let bean = null;
         while (len--) {
@@ -61,7 +61,7 @@ class SokokeBeanManager {
         return result;
     }
     getBeansByType(type) {
-        let result = new Set();
+        const result = new Set();
         let len = this._beanList.length;
         let bean = null;
         while (len--) {
@@ -78,8 +78,8 @@ class SokokeBeanManager {
         return result;
     }
     getBeansByInjectionPoint(injectionPoint) {
+        const bean = injectionPoint.getBean();
         let result = null;
-        let bean = injectionPoint.getBean();
         if (bean) {
             result = new Set();
             result.add(bean);
@@ -90,13 +90,13 @@ class SokokeBeanManager {
         return result;
     }
     addInjectionPoint(injectionPoint) {
-        let key = HashCodeBuilder_1.HashCodeBuilder.getInstance()
+        const key = HashCodeBuilder_1.HashCodeBuilder.getInstance()
             .build(injectionPoint.getQualifiedClassName(), injectionPoint.getElement().getName());
         this._injectionPointMap.set(key, injectionPoint);
     }
     getReference(bean) {
+        const scope = bean.getScope();
         let result = null;
-        let scope = bean.getScope();
         let len;
         let Constructor = null;
         if (!scope) {

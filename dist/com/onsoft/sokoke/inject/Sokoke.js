@@ -29,18 +29,18 @@ class Sokoke {
         return Sokoke.INSTANCE;
     }
     initObj() {
-        let factory = new JdiContainerFactory_1.JdiContainerFactory();
+        const factory = new JdiContainerFactory_1.JdiContainerFactory();
         this._container = factory.create();
-        let sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
+        const sokokeLocalesPath = path.join(process.cwd(), "node_modules/jec-sokoke/public/locales/");
         this._localeCongig = { directory: sokokeLocalesPath };
         this._contextList = new Set();
     }
     getBeanList(injectionPoint) {
+        const manager = this._container.getBeanManager();
+        const name = injectionPoint.getRef();
+        const type = injectionPoint.getType();
         let beans = null;
         let beanList = null;
-        let manager = this._container.getBeanManager();
-        let name = injectionPoint.getRef();
-        let type = injectionPoint.getType();
         let msg = name;
         if (name) {
             beans = manager.getBeansByName(name);
@@ -78,7 +78,7 @@ class Sokoke {
         return this._container.getBeanManager();
     }
     addContext(context) {
-        let beanManager = BeanManagerBuilder_1.BeanManagerBuilder.getInstance()
+        const beanManager = BeanManagerBuilder_1.BeanManagerBuilder.getInstance()
             .build(context);
         this._contextList.add(context);
         this._container.setBeanManager(beanManager);
@@ -109,18 +109,17 @@ class Sokoke {
         return result;
     }
     resolveInjectionPoint(classPath, member) {
-        let hash = HashCodeBuilder_1.HashCodeBuilder.getInstance().build(classPath, member);
-        let injectPoint = null;
-        let beanManager = this._container.getBeanManager();
+        const hash = HashCodeBuilder_1.HashCodeBuilder.getInstance().build(classPath, member);
+        const beanManager = this._container.getBeanManager();
         return beanManager.getInjectionPoint(hash);
     }
     getInjectableReference(injectionPoint) {
-        let beanList = this.getBeanList(injectionPoint);
-        let bean = this.resolveBean(beanList, injectionPoint);
+        const beanList = this.getBeanList(injectionPoint);
+        const bean = this.resolveBean(beanList, injectionPoint);
         return this._container.getBeanManager().getReference(bean);
     }
     isDebugMode() {
-        let debugMode = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance()
+        const debugMode = SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance()
             .getLogger()
             .getLogLevel() <= jec_commons_1.LogLevel.DEBUG;
         return debugMode;

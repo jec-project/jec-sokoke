@@ -79,7 +79,7 @@ export class BeanManagerBuilder {
    * @return {BeanManager} a new <code>BeanManager</code> object.
    */
   public build(context:SokokeContext):BeanManager {
-    let beanManager:BeanManager = new SokokeBeanManager(context);
+    const beanManager:BeanManager = new SokokeBeanManager(context);
     return beanManager;
   }
 }

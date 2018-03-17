@@ -51,7 +51,7 @@ export class InjectableParamsEvaluator {
    * @return {any} the class for the current bean archive.
    */
   private getBeanClass(filePath:string):any {
-    let beanClass:any = GlobalClassLoader.getInstance().loadClass(filePath);
+    const beanClass:any = GlobalClassLoader.getInstance().loadClass(filePath);
     return beanClass;
   }
 
@@ -63,7 +63,7 @@ export class InjectableParamsEvaluator {
    * @return {Set<any>} the set of types for the current bean archive.
    */
   private buildTypes(beanClass:any, beanType:any):Set<any> {
-    let types:Set<any> = new Set<any>();
+    const types:Set<any> = new Set<any>();
     types.add(beanClass);
     if(beanType) types.add(beanType);
     return types;
@@ -83,7 +83,7 @@ export class InjectableParamsEvaluator {
    *                            archive.
    */
   private extractParams(rawParams:string, file:FileProperties):InjectableParams{
-    let params:InjectableParams = { };
+    const params:InjectableParams = { };
     let found:RegExpMatchArray = null;
     JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
     while((found = JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
@@ -121,10 +121,10 @@ export class InjectableParamsEvaluator {
    */
   private resolveInjectableParams(file:FileProperties):InjectableParams {
     JdiRegExp.INJECTABLE_MATCHER.lastIndex = 0;
-    let found:RegExpMatchArray = 
+    const found:RegExpMatchArray = 
                                 JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
-    let rawParams:string = found[1];
-    let params:InjectableParams = this.extractParams(rawParams, file);
+    const rawParams:string = found[1];
+    const params:InjectableParams = this.extractParams(rawParams, file);
     return params;
   }
 
@@ -141,18 +141,18 @@ export class InjectableParamsEvaluator {
    *                file.
    */
   public evaluate(file:FileProperties):Bean {
-    let params:InjectableParams = this.resolveInjectableParams(file);
-    let scope:Scope = ScopeStrategy.getInstance().resolve(params.scope);
-    let classPath:string = ClassPathBuilder.getInstance().build(file);
-    let beanClass:any = this.getBeanClass(classPath);
-    let bean:Bean = BeanBuilder.getInstance()
-                               .clear()
-                               .name(params.name)
-                               .scope(scope)
-                               .types(this.buildTypes(beanClass, params.type))
-                               .beanClass(beanClass)
-                               .className(classPath)
-                               .build();
+    const params:InjectableParams = this.resolveInjectableParams(file);
+    const scope:Scope = ScopeStrategy.getInstance().resolve(params.scope);
+    const classPath:string = ClassPathBuilder.getInstance().build(file);
+    const beanClass:any = this.getBeanClass(classPath);
+    const bean:Bean = BeanBuilder.getInstance()
+                                 .clear()
+                                 .name(params.name)
+                                 .scope(scope)
+                                 .types(this.buildTypes(beanClass, params.type))
+                                 .beanClass(beanClass)
+                                 .className(classPath)
+                                 .build();
     return bean;
   }
 }

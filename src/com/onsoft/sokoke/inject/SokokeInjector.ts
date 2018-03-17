@@ -17,7 +17,7 @@
 import {ClassLoaderContext, LogLevel} from "jec-commons";
 import {InjectParams, InjectionPoint, InjectionTarget, DecoratedType} from "jec-jdi";
 import {Sokoke} from "../inject/Sokoke";
-import {SokokeContext} from "../inject/SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
@@ -74,9 +74,9 @@ export class SokokeInjector {
   //////////////////////////////////////////////////////////////////////////////
 
   private resovelInjection(key:string):any {
-    let classPath:string = ClassLoaderContext.getInstance().getPath();
-    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    let context:SokokeContext = sokoke.getContextByPath(classPath);
+    const classPath:string = ClassLoaderContext.getInstance().getPath();
+    const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    const context:SokokeContext = sokoke.getContextByPath(classPath);
     let injectPoint:InjectionPoint = null;
     let injection:any = null;
     sokoke.setCurrentContext(context);
@@ -93,8 +93,8 @@ export class SokokeInjector {
    * @param {string} key the field on which to perform dependency injection.
    */
   private injectField(target:any, key:string):void {
-    let injection:any = this.resovelInjection(key);
-    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    const injection:any = this.resovelInjection(key);
+    const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     Object.defineProperty(target, key, { value: injection });
     if(sokoke.isDebugMode()) {
       SokokeLoggerProxy.getInstance().log(
@@ -120,13 +120,13 @@ export class SokokeInjector {
   private injectParam(target:any, key:string, index:number):void {
     console.log("InjectParameterDecorator")
     console.log(target.constructor.name, key, index)
-    /*let injection:any = this.resovelInjection(key);
+    /*leconstt injection:any = this.resovelInjection(key);
     //let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    let descriptor:PropertyDescriptor = 
+    const descriptor:PropertyDescriptor = 
                                    Object.getOwnPropertyDescriptor(target, key);
-    let originalMethod:Function = descriptor.value;
+    const originalMethod:Function = descriptor.value;
     descriptor.value = function():void {
-      let args:any[] = new Array<any>();
+      const args:any[] = new Array<any>();
       let len:number = arguments.length;
       while(len--) {
           args[len] = arguments[len];
@@ -145,7 +145,7 @@ export class SokokeInjector {
    * @inheritDoc
    */
   public inject(context:InjectionTarget):void {
-    let decoratedType:DecoratedType = context.decoratedType;
+    const decoratedType:DecoratedType = context.decoratedType;
     if(decoratedType === DecoratedType.FIELD) {
       this.injectField(context.target, String(context.key));
     } else if(decoratedType === DecoratedType.PARAMETER) {

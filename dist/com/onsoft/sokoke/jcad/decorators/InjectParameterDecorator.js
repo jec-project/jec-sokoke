@@ -6,7 +6,7 @@ const SokokeInjector_1 = require("../../inject/SokokeInjector");
 class InjectParameterDecorator {
     constructor() { }
     decorate(target, propertyKey, parameterIndex, context) {
-        let injectionTarget = InjectionTargetBuilder_1.InjectionTargetBuilder.getInstance().build(target, propertyKey, jec_jdi_1.DecoratedType.PARAMETER, parameterIndex);
+        const injectionTarget = InjectionTargetBuilder_1.InjectionTargetBuilder.getInstance().build(target, propertyKey, jec_jdi_1.DecoratedType.PARAMETER, parameterIndex);
         SokokeInjector_1.SokokeInjector.getInstance().inject(injectionTarget);
         return target;
     }

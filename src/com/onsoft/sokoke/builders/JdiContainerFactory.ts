@@ -42,7 +42,7 @@ export class JdiContainerFactory {
    * @return {JdiContainer} a new <code>JdiContainer</code> object.
    */
   public create():JdiContainer {
-    let container:JdiContainer = new SokokeContainer();
+    const container:JdiContainer = new SokokeContainer();
     return container;
   }
 }

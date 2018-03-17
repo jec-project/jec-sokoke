@@ -58,8 +58,8 @@ class InjectionPointBuilder {
         return this;
     }
     build() {
-        let context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
-        let injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className, this._beanRef, this._qualifiers);
+        const context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
+        const injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className, this._beanRef, this._qualifiers);
         SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance().inject(injectionPoint, context);
         return injectionPoint;
     }

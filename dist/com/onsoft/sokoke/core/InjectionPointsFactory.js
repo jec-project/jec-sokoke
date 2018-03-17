@@ -14,10 +14,10 @@ class InjectionPointsFactory {
         this._evaluator = new InjectParamsEvaluator_1.InjectParamsEvaluator();
     }
     create(file, bean) {
-        let injectPoints = this._evaluator.evaluate(file, bean);
+        const injectPoints = this._evaluator.evaluate(file, bean);
+        const showTrace = Sokoke_1.Sokoke.getInstance().isDebugMode();
         let len = injectPoints.length;
         let injectPoint = null;
-        let showTrace = Sokoke_1.Sokoke.getInstance().isDebugMode();
         while (len--) {
             injectPoint = injectPoints[len];
             if (showTrace) {

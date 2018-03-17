@@ -70,7 +70,7 @@ export class BeanFactory {
    * @return {Bean} a new bean for the specified file.
    */
   public create(file:FileProperties):Bean {
-    let bean:Bean = this._evaluator.evaluate(file);
+    const bean:Bean = this._evaluator.evaluate(file);
     SokokeLoggerProxy.getInstance().log(
       SokokeLocaleManager.getInstance().get("bean.evaluated", bean.toString()),
       LogLevel.DEBUG

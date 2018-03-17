@@ -113,7 +113,7 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getBeans():Set<Bean> {
-    let result:Set<Bean> = new Set<Bean>();
+    const result:Set<Bean> = new Set<Bean>();
     let len:number = this._beanList.length;
     while(len--) {
       result.add(this._beanList[len]);
@@ -129,7 +129,7 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getBeansByName(name:string):Set<Bean> {
-    let result:Set<Bean> = new Set<Bean>();
+    const result:Set<Bean> = new Set<Bean>();
     let len:number = this._beanList.length;
     let bean:Bean = null;
     while(len--) {
@@ -148,7 +148,7 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getBeansByType(type:any):Set<Bean> {
-    let result:Set<Bean> = new Set<Bean>();
+    const result:Set<Bean> = new Set<Bean>();
     let len:number = this._beanList.length;
     let bean:Bean = null;
     while(len--) {
@@ -167,8 +167,8 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getBeansByInjectionPoint(injectionPoint:InjectionPoint):Set<Bean> {
+    const bean:Bean = injectionPoint.getBean();
     let result:Set<Bean> = null;
-    let bean:Bean = injectionPoint.getBean();
     if(bean) {
       result = new Set<Bean>();
       result.add(bean);
@@ -182,11 +182,11 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public addInjectionPoint(injectionPoint:InjectionPoint):void {
-    let key:number = HashCodeBuilder.getInstance()
-                                    .build(
-                                      injectionPoint.getQualifiedClassName(),
-                                      injectionPoint.getElement().getName()
-                                    );
+    const key:number = HashCodeBuilder.getInstance()
+                                      .build(
+                                        injectionPoint.getQualifiedClassName(),
+                                        injectionPoint.getElement().getName()
+                                      );
     this._injectionPointMap.set(key, injectionPoint);
   }
 
@@ -194,8 +194,8 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getReference(bean:Bean):any {
+    const scope:Scope = bean.getScope();
     let result:any = null;
-    let scope:Scope = bean.getScope();
     let len:number;
     let Constructor:any = null;
     if(!scope) {

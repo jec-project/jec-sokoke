@@ -16,7 +16,7 @@ class HashCodeBuilder {
         return HashCodeBuilder.INSTANCE;
     }
     build(...values) {
-        let value = values.join();
+        const value = values.join();
         let hash = 0;
         let char = null;
         let len = value.length;

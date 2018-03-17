@@ -19,7 +19,7 @@ class SokokeContainer {
         return this._beanManagerMap.get(this._currentDomainPath);
     }
     setBeanManager(beanManager) {
-        let key = beanManager.getContext()
+        const key = beanManager.getContext()
             .getDomainPath();
         this._beanManagerMap.set(key, beanManager);
     }

@@ -76,7 +76,7 @@ export class HashCodeBuilder {
    * @return {number} a numerical, 32bit integer, hash code.
    */
   public build(...values:string[]):number {
-    let value:string = values.join();
+    const value:string = values.join();
     let hash:number = 0;
     let char:number = null;
     let len:number = value.length;

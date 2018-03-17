@@ -31,7 +31,7 @@ export class SokokeLocaleManager {
    * Creates a new <code>SokokeLocaleManager</code> instance.
    */
   constructor() {
-    let isInstanciated:boolean = SokokeLocaleManager.INSTANCE !== null;
+    const isInstanciated:boolean = SokokeLocaleManager.INSTANCE !== null;
     if(SokokeLocaleManager._locked || isInstanciated) {
       new SingletonErrorFactory().throw(SokokeLocaleManager);
     }

@@ -189,9 +189,9 @@ export class BeanBuilder {
    *                properties.
    */
   public build():Bean {
-    let context:SokokeContext =
+    const context:SokokeContext =
                            (Sokoke.getInstance() as Sokoke).getCurrentContext();
-    let bean:Bean = new SokokeBean(
+    const bean:Bean = new SokokeBean(
       this._name, this._scope, this._beanClass, this._types, this._className
     );
     SokokeMetadataInjector.getInstance().inject(bean, context);

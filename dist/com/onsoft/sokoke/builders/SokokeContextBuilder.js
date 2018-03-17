@@ -17,7 +17,7 @@ class SokokeContextBuilder {
         return SokokeContextBuilder.INSTANCE;
     }
     build(domainPath, locale) {
-        let context = new SokokeContextImpl_1.SokokeContextImpl(domainPath, locale);
+        const context = new SokokeContextImpl_1.SokokeContextImpl(domainPath, locale);
         return context;
     }
 }

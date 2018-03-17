@@ -44,7 +44,7 @@ export class InjectFieldDecorator implements Decorator {
    */
   public decorate(target:any, key:string,
                                     context:string|Interface|InjectParams):any {
-    let injectionTarget:InjectionTarget =
+    const injectionTarget:InjectionTarget =
       InjectionTargetBuilder.getInstance().build(
         target, key, DecoratedType.FIELD
       );

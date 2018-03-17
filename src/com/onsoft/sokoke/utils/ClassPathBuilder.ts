@@ -87,8 +87,8 @@ export class ClassPathBuilder {
    * @return {string} the class path for the current file.
    */
   public build(file:FileProperties):string {
-    let fileName:string = file.name + this.DOT + file.extension;
-    let filePath:string = path.join(file.path, fileName);
+    const fileName:string = file.name + this.DOT + file.extension;
+    const filePath:string = path.join(file.path, fileName);
     return filePath;
   }
 }

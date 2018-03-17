@@ -21,7 +21,7 @@ import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeContainer} from "./SokokeContainer";
 import * as path from "path";
 import {JdiContainerFactory} from "../builders/JdiContainerFactory";
-import {SokokeContext} from "./SokokeContext";
+import {SokokeContext} from "../core/SokokeContext";
 import {BeanManagerBuilder} from "../builders/BeanManagerBuilder";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 import {SokokeBeanManager} from "./SokokeBeanManager";
@@ -108,9 +108,9 @@ export class Sokoke implements JDI {
    * Initializes this object.
    */
   private initObj():void {
-    let factory:JdiContainerFactory = new JdiContainerFactory();
+    const factory:JdiContainerFactory = new JdiContainerFactory();
     this._container = (factory.create() as SokokeContainer);
-    let sokokeLocalesPath:string = path.join(
+    const sokokeLocalesPath:string = path.join(
       process.cwd(), "node_modules/jec-sokoke/public/locales/"
     );
     this._localeCongig = { directory: sokokeLocalesPath };
@@ -125,11 +125,11 @@ export class Sokoke implements JDI {
    * @return {Array<Bean>} a list of beans for the injection point.
    */
   private getBeanList(injectionPoint:InjectionPoint):Array<Bean> {
+    const manager:BeanManager = this._container.getBeanManager();
+    const name:string = injectionPoint.getRef();
+    const type:any = injectionPoint.getType();
     let beans:Set<Bean> = null;
     let beanList:Array<Bean> = null;
-    let manager:BeanManager = this._container.getBeanManager();
-    let name:string = injectionPoint.getRef();
-    let type:any = injectionPoint.getType();
     let msg:string = name;
     if(name) {
       beans = manager.getBeansByName(name);
@@ -199,8 +199,8 @@ export class Sokoke implements JDI {
    * @param {SokokeContext} context the new context to add to this SPI manager.
    */
   public addContext(context:SokokeContext):void {
-    let beanManager:BeanManager = BeanManagerBuilder.getInstance()
-                                                    .build(context);
+    const beanManager:BeanManager = BeanManagerBuilder.getInstance()
+                                                      .build(context);
     this._contextList.add(context);
     this._container.setBeanManager(beanManager);
   }
@@ -264,9 +264,8 @@ export class Sokoke implements JDI {
    * @return {InjectionPoint} the injection point for the specified parameters.
    */
   public resolveInjectionPoint(classPath:string, member:string):InjectionPoint {
-    let hash:number = HashCodeBuilder.getInstance().build(classPath, member);
-    let injectPoint:InjectionPoint = null;
-    let beanManager:SokokeBeanManager = 
+    const hash:number = HashCodeBuilder.getInstance().build(classPath, member);
+    const beanManager:SokokeBeanManager = 
                         (this._container.getBeanManager() as SokokeBeanManager);
     return beanManager.getInjectionPoint(hash);
   }
@@ -280,8 +279,8 @@ export class Sokoke implements JDI {
    *               injection point.
    */
   public getInjectableReference(injectionPoint:InjectionPoint):any {
-    let beanList:Array<Bean> = this.getBeanList(injectionPoint);
-    let bean:Bean = this.resolveBean(beanList, injectionPoint);
+    const beanList:Array<Bean> = this.getBeanList(injectionPoint);
+    const bean:Bean = this.resolveBean(beanList, injectionPoint);
     return this._container.getBeanManager().getReference(bean);
   }
 
@@ -295,9 +294,9 @@ export class Sokoke implements JDI {
    *                   otherwise.
    */
   public isDebugMode():boolean {
-    let debugMode:boolean = SokokeLoggerProxy.getInstance()
-                                             .getLogger()
-                                             .getLogLevel() <= LogLevel.DEBUG;
+    const debugMode:boolean = SokokeLoggerProxy.getInstance()
+                                               .getLogger()
+                                               .getLogLevel() <= LogLevel.DEBUG;
     return debugMode;
   }
 }

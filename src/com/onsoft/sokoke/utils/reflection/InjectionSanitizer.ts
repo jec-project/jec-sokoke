@@ -81,7 +81,7 @@ export class InjectionSanitizer {
    */
   private sanitizesString(value:string):string {
     let result:string = value.trimRight();
-    let len:number = result.length - 1;
+    const len:number = result.length - 1;
     result = result.lastIndexOf(InjectionString.COMA) === len ?
              result.substr(1, len - 2) : result.substr(1, len - 1);
     return result;
@@ -112,15 +112,15 @@ export class InjectionSanitizer {
    */
   public sanitizeType(params:InjectableParams|InjectParams, value:string,
                                                      file:FileProperties):void {
-    let len:number = value.length - 1;
-    let rawType:string = value.lastIndexOf(InjectionString.COMA) === len ?
-                         value.substr(0, len) : value;
-    let importRef:string =
+    const len:number = value.length - 1;
+    const rawType:string = value.lastIndexOf(InjectionString.COMA) === len ?
+                          value.substr(0, len) : value;
+    const importRef:string =
                     rawType.substr(0, rawType.lastIndexOf(InjectionString.DOT)); 
-    let importRefPath:string = 
+    const importRefPath:string = 
                       JdiRegExp.getTypeMatcher(importRef).exec(file.content)[1];
-    let importPath:string = path.resolve(file.path, importRefPath);
-    let type:Symbol = GlobalClassLoader.getInstance().loadClass(importPath);
+    const importPath:string = path.resolve(file.path, importRefPath);
+    const type:Symbol = GlobalClassLoader.getInstance().loadClass(importPath);
     params.type = type;
   }
   

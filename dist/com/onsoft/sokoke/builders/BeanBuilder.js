@@ -52,8 +52,8 @@ class BeanBuilder {
         return this;
     }
     build() {
-        let context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
-        let bean = new SokokeBean_1.SokokeBean(this._name, this._scope, this._beanClass, this._types, this._className);
+        const context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
+        const bean = new SokokeBean_1.SokokeBean(this._name, this._scope, this._beanClass, this._types, this._className);
         SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance().inject(bean, context);
         return bean;
     }

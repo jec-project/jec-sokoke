@@ -17,7 +17,7 @@ class BeanManagerBuilder {
         return BeanManagerBuilder.INSTANCE;
     }
     build(context) {
-        let beanManager = new SokokeBeanManager_1.SokokeBeanManager(context);
+        const beanManager = new SokokeBeanManager_1.SokokeBeanManager(context);
         return beanManager;
     }
 }

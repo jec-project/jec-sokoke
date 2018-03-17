@@ -18,8 +18,8 @@ class ClassPathBuilder {
         return ClassPathBuilder.INSTANCE;
     }
     build(file) {
-        let fileName = file.name + this.DOT + file.extension;
-        let filePath = path.join(file.path, fileName);
+        const fileName = file.name + this.DOT + file.extension;
+        const filePath = path.join(file.path, fileName);
         return filePath;
     }
 }

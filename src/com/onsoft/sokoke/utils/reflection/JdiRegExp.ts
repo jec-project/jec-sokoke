@@ -58,8 +58,9 @@ export class JdiRegExp {
    * @return {RegExp} the dynamicly created <code>RegExp</code> object.
    */
   public static getTypeMatcher(impRef:string):RegExp {
-    let pattern:string = `(?:const ${impRef} = require\\(\\\")(.*)(?:\\\"\\);)`;
-    let matcher:RegExp = new RegExp(pattern);
+    const pattern:string =
+                         `(?:const ${impRef} = require\\(\\\")(.*)(?:\\\"\\);)`;
+    const matcher:RegExp = new RegExp(pattern);
     return matcher;
   }
 }

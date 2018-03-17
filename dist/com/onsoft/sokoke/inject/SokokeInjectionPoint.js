@@ -38,9 +38,9 @@ class SokokeInjectionPoint {
         return this._qualifiers;
     }
     toString() {
-        let sokoke = Sokoke_1.Sokoke.getInstance();
-        let domainPath = sokoke.getCurrentContext().getDomainPath();
-        let classPath = this._className.substr(domainPath.length);
+        const sokoke = Sokoke_1.Sokoke.getInstance();
+        const domainPath = sokoke.getCurrentContext().getDomainPath();
+        const classPath = this._className.substr(domainPath.length);
         return `[injection point: class='${classPath}', element='${this._element.getName()}']`;
     }
 }

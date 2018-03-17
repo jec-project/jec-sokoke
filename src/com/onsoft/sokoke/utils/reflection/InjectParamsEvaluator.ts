@@ -55,11 +55,11 @@ export class InjectParamsEvaluator {
    *                 point.
    */
   private extractField(decorator:string, beanClass:any):Member {
-    let fieldName:string = decorator.substring(
+    const fieldName:string = decorator.substring(
       decorator.indexOf(InjectParamsString.PROTOTYPE) + 13,
       decorator.lastIndexOf(InjectParamsString.CLOSING_QUOTE)
     );
-    let field:Member = new Field(fieldName, beanClass);
+    const field:Member = new Field(fieldName, beanClass);
     return field;
   }
 
@@ -75,7 +75,7 @@ export class InjectParamsEvaluator {
    *                        all parameters for the current bean file.
    */
   private extractParams(rawParams:string, file:FileProperties):InjectParams{
-    let params:InjectParams = { };
+    const params:InjectParams = { };
     let found:RegExpMatchArray = null;
     JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
     while((found = JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
@@ -125,7 +125,8 @@ export class InjectParamsEvaluator {
    */
   private resolveInjections(file:FileProperties, 
                                               bean:Bean):Array<InjectionPoint> {
-    let decorators:Array<string> = this.extractDecorators(file);
+    const decorators:Array<string> = this.extractDecorators(file);
+    const result:Array<InjectionPoint> = new Array<InjectionPoint>();
     let decorator:string = "";
     let len:number = decorators.length;
     let params:InjectParams = null;
@@ -133,7 +134,6 @@ export class InjectParamsEvaluator {
     let injectPoint:InjectionPoint = null;
     let beanClass:any = null;
     let className:string = null;
-    let result:Array<InjectionPoint> = new Array<InjectionPoint>();
     if(bean) {
       beanClass = bean.getBeanClass();
       className = bean.getQualifiedClassName();
@@ -171,7 +171,7 @@ export class InjectParamsEvaluator {
    *                         the decorators for the specified file.
    */
   private extractDecorators(file:FileProperties):Array<string> {
-    let result:Array<string> = new Array<string>();
+    const result:Array<string> = new Array<string>();
     let content:string = file.content;
     let decorator:string = null;
     let startId:number = content.indexOf(InjectParamsString.DECORATE);
@@ -203,7 +203,8 @@ export class InjectParamsEvaluator {
    *                                 objects for the current file.
    */
   public evaluate(file:FileProperties, bean:Bean):Array<InjectionPoint> {
-    let injectPoints:Array<InjectionPoint> = this.resolveInjections(file, bean);
+    const injectPoints:Array<InjectionPoint> =
+                                             this.resolveInjections(file, bean);
     return injectPoints;
   }
 }

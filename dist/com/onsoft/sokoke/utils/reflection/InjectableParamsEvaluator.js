@@ -10,18 +10,18 @@ const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectableParamsEvaluator {
     constructor() { }
     getBeanClass(filePath) {
-        let beanClass = jec_commons_1.GlobalClassLoader.getInstance().loadClass(filePath);
+        const beanClass = jec_commons_1.GlobalClassLoader.getInstance().loadClass(filePath);
         return beanClass;
     }
     buildTypes(beanClass, beanType) {
-        let types = new Set();
+        const types = new Set();
         types.add(beanClass);
         if (beanType)
             types.add(beanType);
         return types;
     }
     extractParams(rawParams, file) {
-        let params = {};
+        const params = {};
         let found = null;
         JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.lastIndex = 0;
         while ((found = JdiRegExp_1.JdiRegExp.PARAMS_MATCHER.exec(rawParams)) !== null) {
@@ -47,17 +47,17 @@ class InjectableParamsEvaluator {
     }
     resolveInjectableParams(file) {
         JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.lastIndex = 0;
-        let found = JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
-        let rawParams = found[1];
-        let params = this.extractParams(rawParams, file);
+        const found = JdiRegExp_1.JdiRegExp.INJECTABLE_MATCHER.exec(file.content);
+        const rawParams = found[1];
+        const params = this.extractParams(rawParams, file);
         return params;
     }
     evaluate(file) {
-        let params = this.resolveInjectableParams(file);
-        let scope = ScopeStrategy_1.ScopeStrategy.getInstance().resolve(params.scope);
-        let classPath = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
-        let beanClass = this.getBeanClass(classPath);
-        let bean = BeanBuilder_1.BeanBuilder.getInstance()
+        const params = this.resolveInjectableParams(file);
+        const scope = ScopeStrategy_1.ScopeStrategy.getInstance().resolve(params.scope);
+        const classPath = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
+        const beanClass = this.getBeanClass(classPath);
+        const bean = BeanBuilder_1.BeanBuilder.getInstance()
             .clear()
             .name(params.name)
             .scope(scope)

@@ -99,8 +99,8 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    * @inheritDoc
    */
   public processStart(watcher:any, sourcePath:string):void {
-    let sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    let context:SokokeContext = SokokeContextBuilder.getInstance().build(
+    const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    const context:SokokeContext = SokokeContextBuilder.getInstance().build(
       watcher.getTarget(), watcher.getContainer().getLocale()
     );
     sokoke.addContext(context);
@@ -114,13 +114,13 @@ export class SokokeAutowireProcessor implements FilePreProcessor {
    * @inheritDoc
    */
   public process(file:FileProperties, watcher:any):void {
-    let decorators:DecoratorProperties[] = file.decorators;
+    const decorators:DecoratorProperties[] = file.decorators;
+    const logger:LoggerProxy = SokokeLoggerProxy.getInstance();
+    const i18n:LocaleManager = SokokeLocaleManager.getInstance();
     let len:number = decorators.length;
     let decorator:DecoratorProperties = null;
     let classPath:string = null;
     let decoratorName:string = null;
-    let logger:LoggerProxy = SokokeLoggerProxy.getInstance();
-    let i18n:LocaleManager = SokokeLocaleManager.getInstance();
     let fileName:string = file.name;
     let hasInjectionPoint:boolean = false;
     let bean:Bean = null;

@@ -15,14 +15,13 @@
 //   limitations under the License.
 
 import {InjectParams, Bean, InjectionPoint} from "jec-jdi";
-import {FileProperties, GlobalClassLoader, Member, Field} from "jec-commons";
+import {FileProperties, GlobalClassLoader, Member, Field, PathUtils} from "jec-commons";
 import {JdiRegExp} from "./JdiRegExp";
 import {InjectParamsString} from "./InjectParamsString";
 import * as path from "path";
 import {InjectionString} from "./InjectionString";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionPointBuilder} from "../../builders/InjectionPointBuilder";
-import {ClassPathBuilder} from "../../utils/ClassPathBuilder";
 
 /**
  * The <code>InjectParamsEvaluator</code> class allows to evaluate a class
@@ -138,7 +137,7 @@ export class InjectParamsEvaluator {
       beanClass = bean.getBeanClass();
       className = bean.getQualifiedClassName();
     } else {
-      className = ClassPathBuilder.getInstance().build(file);
+      className = PathUtils.getInstance().buildFilePath(file.path, file.name);
     }
     while(len--){
       decorator = decorators[len];
@@ -148,7 +147,6 @@ export class InjectParamsEvaluator {
           element = this.extractField(decorator, beanClass);
           injectPoint = InjectionPointBuilder.getInstance()
                                              .clear()
-                                             .bean(bean)
                                              .type(params.type)
                                              .element(element)
                                              .className(className)

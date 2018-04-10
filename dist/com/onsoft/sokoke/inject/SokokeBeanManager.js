@@ -1,21 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_jdi_1 = require("jec-jdi");
-const HashCodeBuilder_1 = require("../utils/HashCodeBuilder");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
+const InjectionPointManager_1 = require("./InjectionPointManager");
 class SokokeBeanManager {
     constructor(context) {
         this._context = null;
-        this._injectionPointMap = null;
         this._beanList = null;
         this._applicationManagedBeanList = null;
+        this._injectionPointManager = null;
         this.initObj(context);
     }
     initObj(context) {
         this._context = context;
-        this._injectionPointMap = new Map();
         this._beanList = new Array();
         this._applicationManagedBeanList = new Array();
+        this._injectionPointManager = new InjectionPointManager_1.InjectionPointManager();
     }
     addBean(bean) {
         let scope = null;
@@ -90,9 +90,7 @@ class SokokeBeanManager {
         return result;
     }
     addInjectionPoint(injectionPoint) {
-        const key = HashCodeBuilder_1.HashCodeBuilder.getInstance()
-            .build(injectionPoint.getQualifiedClassName(), injectionPoint.getElement().getName());
-        this._injectionPointMap.set(key, injectionPoint);
+        this._injectionPointManager.addInjectionPoint(injectionPoint);
     }
     getReference(bean) {
         const scope = bean.getScope();
@@ -113,7 +111,10 @@ class SokokeBeanManager {
         return this._context;
     }
     getInjectionPoint(ref) {
-        return this._injectionPointMap.get(ref);
+        return this._injectionPointManager.getInjectionPoint(ref);
+    }
+    getInjectionPoints() {
+        return this._injectionPointManager.getInjectionPoints();
     }
 }
 exports.SokokeBeanManager = SokokeBeanManager;

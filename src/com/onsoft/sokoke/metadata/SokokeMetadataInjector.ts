@@ -17,6 +17,8 @@
 import {SokokeContext} from "../core/SokokeContext";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 import {SokokeMetadataRefs} from "./SokokeMetadataRefs";
+import {InjectionPoint} from "jec-jdi";
+import {Sokoke} from "../inject/Sokoke";
 
 /**
  * The <code>SokokeMetadataInjector</code> singleton allows to inject metadata 
@@ -72,15 +74,15 @@ export class SokokeMetadataInjector {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Injects Sokoke metadata into the specified bean.
+   * Injects Sokoke context metadata into the specified bean.
    * 
    * @param {any} bean the bean into which to inject Sokoke metadata.
    * @param {SokokeContext} context the current Sokoke context.
    */
-  public inject(bean:any, context:SokokeContext):void {
+  public injectContext(bean:any, context:SokokeContext):void {
     Object.defineProperty(
       bean,
-      SokokeMetadataRefs.SOKOKE_METADATA,
+      SokokeMetadataRefs.SOKOKE_CONTEXT_METADATA,
       {
         value: context,
         writable: false,
@@ -88,5 +90,34 @@ export class SokokeMetadataInjector {
         enumerable: false
       }
     );
+  }
+
+  /**
+   * Injects Sokoke injection point metadata into the specified.
+   * 
+   * @param {any} target the object into which to inject Sokoke metadata.
+   * @param {injectionPoint} injectionPoint the injection point to inject.
+   */
+  public injectInjectionPoint(target:any, injectionPoint:InjectionPoint):void {
+    const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
+    const hasMetadata:boolean = Reflect.has(
+      target, SokokeMetadataRefs.SOKOKE_INJECTION_POINT_METADATA
+    );
+    let injectionPoints:Array<InjectionPoint> = null;
+    if(!hasMetadata) {
+      Reflect.defineProperty(
+        target, 
+        SokokeMetadataRefs.SOKOKE_INJECTION_POINT_METADATA, 
+        {
+          value: new Array<InjectionPoint>(),
+          configurable: false,
+          enumerable: false,
+          writable: false
+        }
+      );
+    }
+    injectionPoints =
+                     target[SokokeMetadataRefs.SOKOKE_INJECTION_POINT_METADATA];
+    injectionPoints.push(injectionPoint);
   }
 }

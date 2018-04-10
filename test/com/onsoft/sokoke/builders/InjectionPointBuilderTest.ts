@@ -140,7 +140,6 @@ export class InjectionPointBuilderTest {
   })
   public buildInitializedInstanceTest():void {
     this.result = InjectionPointBuilder.getInstance()
-                                       .bean(utils.BEAN)
                                        .element(utils.PARAMETER)
                                        .type(utils.BeanType)
                                        .className(utils.CLASS_NAME)

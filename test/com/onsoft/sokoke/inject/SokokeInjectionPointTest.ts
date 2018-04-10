@@ -32,7 +32,7 @@ export class SokokeInjectionPointTest {
   @BeforeAll()
   public initTest():void {
     this.injectionPoint = new SokokeInjectionPoint(
-      utils.BEAN, utils.BeanType, utils.PARAMETER, utils.CLASS_NAME,
+      utils.BeanType, utils.PARAMETER, utils.CLASS_NAME,
       utils.BEAN_REF, utils.QUALIFIERS
     );
   }

@@ -6,7 +6,6 @@ const InjectParamsString_1 = require("./InjectParamsString");
 const InjectionString_1 = require("./InjectionString");
 const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionPointBuilder_1 = require("../../builders/InjectionPointBuilder");
-const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectParamsEvaluator {
     constructor() { }
     extractField(decorator, beanClass) {
@@ -56,7 +55,7 @@ class InjectParamsEvaluator {
             className = bean.getQualifiedClassName();
         }
         else {
-            className = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
+            className = jec_commons_1.PathUtils.getInstance().buildFilePath(file.path, file.name);
         }
         while (len--) {
             decorator = decorators[len];
@@ -66,7 +65,6 @@ class InjectParamsEvaluator {
                     element = this.extractField(decorator, beanClass);
                     injectPoint = InjectionPointBuilder_1.InjectionPointBuilder.getInstance()
                         .clear()
-                        .bean(bean)
                         .type(params.type)
                         .element(element)
                         .className(className)

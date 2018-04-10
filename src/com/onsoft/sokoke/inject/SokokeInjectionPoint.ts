@@ -32,8 +32,6 @@ export class SokokeInjectionPoint implements InjectionPoint {
   /**
    * Creates a new <code>SokokeInjectionPoint</code> instance.
    * 
-   * @param {Bean} bean the <code>Bean</code> object associated with this
-   *                    <code>SokokeInjectionPoint</code> instance.
    * @param {any} type the type of the <code>Bean</code> object associatedwith 
    *                   this <code>SokokeInjectionPoint</code> instance.
    * @param {Member|Parameter} element the type of element associated with this
@@ -49,9 +47,9 @@ export class SokokeInjectionPoint implements InjectionPoint {
    *                                   this <code>SokokeInjectionPoint</code>
    *                                   instance.
    */
-  constructor(bean:Bean, type:any, element:Member|Parameter, className:string,
+  constructor(type:any, element:Member|Parameter, className:string,
               beanRef:string, qualifiers:Array<string>) {
-    this.initObj(bean, type, element, className, beanRef, qualifiers);
+    this.initObj(type, element, className, beanRef, qualifiers);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -101,8 +99,6 @@ export class SokokeInjectionPoint implements InjectionPoint {
   /**
    * Initializes this object.
    * 
-   * @param {Bean} bean the <code>Bean</code> object associated with this
-   *                    <code>SokokeInjectionPoint</code> instance.
    * @param {any} type the type of the <code>Bean</code> object associatedwith 
    *                   this <code>SokokeInjectionPoint</code> instance.
    * @param {Member|Parameter} element the type of element associated with this
@@ -118,10 +114,8 @@ export class SokokeInjectionPoint implements InjectionPoint {
    *                                   this <code>SokokeInjectionPoint</code>
    *                                   instance.
    */
-  private initObj(bean:Bean, type:any, element:Member|Parameter,
-                  className:string, beanRef:string,
-                  qualifiers:Array<string>):void {
-    this._bean = bean;
+  private initObj(type:any, element:Member|Parameter, className:string,
+                  beanRef:string, qualifiers:Array<string>):void {
     this._type = type;
     this._element = element;
     this._className = className;
@@ -183,5 +177,17 @@ export class SokokeInjectionPoint implements InjectionPoint {
     const domainPath:string = sokoke.getCurrentContext().getDomainPath();
     const classPath:string = this._className.substr(domainPath.length);
     return `[injection point: class='${classPath}', element='${this._element.getName()}']`;
+  }
+
+  /*
+   * @private
+   * 
+   * Sets the bean for this injection point.
+   * 
+   * @param {Bean} bean the <code>Bean</code> object associated with this
+   *                    <code>SokokeInjectionPoint</code> instance.
+   */
+  public setBean(bean:Bean):void {
+    this._bean = bean;
   }
 }

@@ -7,6 +7,7 @@ class SokokeBean {
         this._beanClass = null;
         this._types = null;
         this._className = null;
+        this._injectionPoints = null;
         this.initObj(name, scope, beanClass, types, className);
     }
     initObj(name, scope, beanClass, types, className) {
@@ -15,6 +16,7 @@ class SokokeBean {
         this._beanClass = beanClass;
         this._types = types;
         this._className = className;
+        this._injectionPoints = new Array();
     }
     getScope() {
         return this._scope;
@@ -30,6 +32,12 @@ class SokokeBean {
     }
     getQualifiedClassName() {
         return this._className;
+    }
+    getInjectionPoints() {
+        return this._injectionPoints;
+    }
+    addInjectionPoint(injectionPoint) {
+        this._injectionPoints.push(injectionPoint);
     }
     toString() {
         return `[bean: ${this._name || this._className}]`;

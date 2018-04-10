@@ -19,9 +19,9 @@ import {BeanManager, InjectionPoint, Bean, Scope, ApplicationScoped,
         JdiError} from "jec-jdi";
 import {SokokeError} from "../exceptions/SokokeError";
 import {SokokeContext} from "../core/SokokeContext";
-import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {LogLevel} from "jec-commons";
+import {InjectionPointManager} from "./InjectionPointManager";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 
@@ -53,11 +53,6 @@ export class SokokeBeanManager implements BeanManager {
   private _context:SokokeContext = null;
 
   /**
-   * Stores references to all injection points.
-   */
-  private _injectionPointMap:Map<number, InjectionPoint> = null;
-
-  /**
    * Stores references to all <code>Bean</code> objects.
    */
   private _beanList:Array<Bean> = null;
@@ -66,6 +61,12 @@ export class SokokeBeanManager implements BeanManager {
    * Stores references to all <code>ApplicationScoped</code> objects.
    */
   private _applicationManagedBeanList:Array<Bean> = null;
+
+  /**
+   * The reference to the <code>InjectionPointManager</code> instance for this
+   * bean manager.
+   */
+  private _injectionPointManager:InjectionPointManager = null;
 
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
@@ -79,9 +80,9 @@ export class SokokeBeanManager implements BeanManager {
    */
   private initObj(context:SokokeContext):void {
     this._context = context;
-    this._injectionPointMap = new Map<number, InjectionPoint>();
     this._beanList = new Array<Bean>();
     this._applicationManagedBeanList = new Array<Bean>();
+    this._injectionPointManager = new InjectionPointManager();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -182,12 +183,7 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public addInjectionPoint(injectionPoint:InjectionPoint):void {
-    const key:number = HashCodeBuilder.getInstance()
-                                      .build(
-                                        injectionPoint.getQualifiedClassName(),
-                                        injectionPoint.getElement().getName()
-                                      );
-    this._injectionPointMap.set(key, injectionPoint);
+    this._injectionPointManager.addInjectionPoint(injectionPoint);
   }
 
   /**
@@ -231,6 +227,16 @@ export class SokokeBeanManager implements BeanManager {
    * @return {InjectionPoint} the injection point with the specified reference.
    */
   public getInjectionPoint(ref:number):InjectionPoint {
-    return this._injectionPointMap.get(ref);
+    return this._injectionPointManager.getInjectionPoint(ref);
+  }
+  
+  /**
+   * Gets all injection points for the current context.
+   * 
+   * @return {Array<InjectionPoint>} all injection points for the current
+   *                                 context.
+   */
+  public getInjectionPoints():Array<InjectionPoint> {
+    return this._injectionPointManager.getInjectionPoints();
   }
 }

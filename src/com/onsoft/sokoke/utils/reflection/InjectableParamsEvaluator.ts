@@ -16,13 +16,12 @@
 
 import {Bean, Scope, InjectableParams} from "jec-jdi";
 import {BeanBuilder} from "../../builders/BeanBuilder";
-import {FileProperties, GlobalClassLoader} from "jec-commons";
+import {FileProperties, GlobalClassLoader, PathUtils} from "jec-commons";
 import {ScopeStrategy} from "../../utils/ScopeStrategy";
 import * as path from "path";
 import {JdiRegExp} from "./JdiRegExp";
 import {InjectionSanitizer} from "./InjectionSanitizer";
 import {InjectionString} from "./InjectionString";
-import {ClassPathBuilder} from "../../utils/ClassPathBuilder";
 
 /**
  * The <code>InjectableParamsEvaluator</code> class allows to evaluate a bean
@@ -143,7 +142,8 @@ export class InjectableParamsEvaluator {
   public evaluate(file:FileProperties):Bean {
     const params:InjectableParams = this.resolveInjectableParams(file);
     const scope:Scope = ScopeStrategy.getInstance().resolve(params.scope);
-    const classPath:string = ClassPathBuilder.getInstance().build(file);
+    const classPath:string = 
+                    PathUtils.getInstance().buildFilePath(file.path, file.name);
     const beanClass:any = this.getBeanClass(classPath);
     const bean:Bean = BeanBuilder.getInstance()
                                  .clear()

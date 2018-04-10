@@ -77,6 +77,6 @@ export class SokokeMetadataExtractor {
    * @param {any} bean the bean from which to extract Sokoke metadata.
    */
   public extract(bean:any):any {
-    return bean[SokokeMetadataRefs.SOKOKE_METADATA];
+    return bean[SokokeMetadataRefs.SOKOKE_CONTEXT_METADATA];
   }
 }

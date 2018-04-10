@@ -271,16 +271,26 @@ export class Sokoke implements JDI {
   }
 
   /**
-   * Obtains an injectable reference for a certain injection point.
+   * Obtains a bean for a certain injection point.
    * 
    * @param {InjectionPoint} injectionPoint the injection point used to resolve  
-   *                                        the injectable reference.
-   * @return {any} the reference to the object resolved from the specified
-   *               injection point.
+   *                                        the bean.
+   * @return {Bean} the rbean object resolved from the specified injection
+   *                point.
    */
-  public getInjectableReference(injectionPoint:InjectionPoint):any {
+  public getBean(injectionPoint:InjectionPoint):Bean {
     const beanList:Array<Bean> = this.getBeanList(injectionPoint);
     const bean:Bean = this.resolveBean(beanList, injectionPoint);
+    return bean;
+  }
+
+  /**
+   * Obtains an injectable reference for a certain bean.
+   * 
+   * @param {Bean} bean the bean for which to resolve the injectable reference.
+   * @return {any} the reference to the object resolved from the specified bean.
+   */
+  public getInjectableReference(bean:Bean):any {
     return this._container.getBeanManager().getReference(bean);
   }
 

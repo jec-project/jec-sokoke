@@ -15,12 +15,15 @@
 //   limitations under the License.
 
 import {ClassLoaderContext, LogLevel} from "jec-commons";
-import {InjectParams, InjectionPoint, InjectionTarget, DecoratedType} from "jec-jdi";
+import {InjectParams, InjectionPoint, InjectionTarget, DecoratedType, Bean} from "jec-jdi";
 import {Sokoke} from "../inject/Sokoke";
 import {SokokeContext} from "../core/SokokeContext";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
+import {SokokeInjectionPoint} from "./SokokeInjectionPoint";
+import { SokokeMetadataInjector } from "../../jec-sokoke-index";
+
 /**
  * The <code>SokokeInjector</code> singleton provides operations for performing
  * dependency injection and lifecycle callbacks on an instance of a type.  
@@ -73,16 +76,12 @@ export class SokokeInjector {
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
 
-  private resovelInjection(key:string):any {
+  private resovelInjectionPoint(key:string):InjectionPoint {
     const classPath:string = ClassLoaderContext.getInstance().getPath();
     const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
     const context:SokokeContext = sokoke.getContextByPath(classPath);
-    let injectPoint:InjectionPoint = null;
-    let injection:any = null;
     sokoke.setCurrentContext(context);
-    injectPoint = sokoke.resolveInjectionPoint(classPath, key);
-    injection = sokoke.getInjectableReference(injectPoint);
-    return injection;
+    return sokoke.resolveInjectionPoint(classPath, key);
   }
 
   /**
@@ -93,9 +92,17 @@ export class SokokeInjector {
    * @param {string} key the field on which to perform dependency injection.
    */
   private injectField(target:any, key:string):void {
-    const injection:any = this.resovelInjection(key);
     const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);
-    Object.defineProperty(target, key, { value: injection });
+    const injectionPoint:SokokeInjectionPoint = 
+                      (this.resovelInjectionPoint(key) as SokokeInjectionPoint);
+    const bean:Bean = sokoke.getBean(injectionPoint);
+    const injection:any = sokoke.getInjectableReference(bean);
+    injectionPoint.setBean(bean);
+    Reflect.defineProperty(target, key, {
+      value: injection, configurable: true 
+    });
+    SokokeMetadataInjector.getInstance()
+                          .injectInjectionPoint(target, injectionPoint);
     if(sokoke.isDebugMode()) {
       SokokeLoggerProxy.getInstance().log(
         SokokeLocaleManager.getInstance().get(

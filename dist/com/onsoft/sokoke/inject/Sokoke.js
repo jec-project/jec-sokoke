@@ -113,9 +113,12 @@ class Sokoke {
         const beanManager = this._container.getBeanManager();
         return beanManager.getInjectionPoint(hash);
     }
-    getInjectableReference(injectionPoint) {
+    getBean(injectionPoint) {
         const beanList = this.getBeanList(injectionPoint);
         const bean = this.resolveBean(beanList, injectionPoint);
+        return bean;
+    }
+    getInjectableReference(bean) {
         return this._container.getBeanManager().getReference(bean);
     }
     isDebugMode() {

@@ -2,17 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Sokoke_1 = require("./Sokoke");
 class SokokeInjectionPoint {
-    constructor(bean, type, element, className, beanRef, qualifiers) {
+    constructor(type, element, className, beanRef, qualifiers) {
         this._bean = null;
         this._type = null;
         this._element = null;
         this._className = null;
         this._beanRef = null;
         this._qualifiers = null;
-        this.initObj(bean, type, element, className, beanRef, qualifiers);
+        this.initObj(type, element, className, beanRef, qualifiers);
     }
-    initObj(bean, type, element, className, beanRef, qualifiers) {
-        this._bean = bean;
+    initObj(type, element, className, beanRef, qualifiers) {
         this._type = type;
         this._element = element;
         this._className = className;
@@ -42,6 +41,9 @@ class SokokeInjectionPoint {
         const domainPath = sokoke.getCurrentContext().getDomainPath();
         const classPath = this._className.substr(domainPath.length);
         return `[injection point: class='${classPath}', element='${this._element.getName()}']`;
+    }
+    setBean(bean) {
+        this._bean = bean;
     }
 }
 exports.SokokeInjectionPoint = SokokeInjectionPoint;

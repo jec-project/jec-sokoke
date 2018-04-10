@@ -75,12 +75,6 @@ export class InjectionPointBuilder {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * The <code>Bean</code> object associated with the new
-   * <code>InjectionPoint</code> object.
-   */
-  private _bean:Bean = null;
-
-  /**
    * The type of the <code>Bean</code> object associated with the new
    * <code>InjectionPoint</code> object.
    */
@@ -113,20 +107,6 @@ export class InjectionPointBuilder {
   //////////////////////////////////////////////////////////////////////////////
   // Public methods
   //////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * Sets the <code>Bean</code> object associated with the new
-   * <code>InjectionPoint</code> object.
-   * 
-   * @param {Bean} bean the <code>Bean</code> object associated with the new
-   *                    <code>InjectionPoint</code> object.
-   * @return {InjectionPointBuilder} the reference to this
-   *                                 <code>InjectionPointBuilder</code> object.
-   */
-  public bean(bean:Bean):InjectionPointBuilder {
-    this._bean = bean;
-    return this;
-  }
 
   /**
    * Sets the type of the <code>Bean</code> object associated with the new
@@ -203,7 +183,6 @@ export class InjectionPointBuilder {
    *                                 <code>InjectionPointBuilder</code> object.
    */
   public clear():InjectionPointBuilder {
-    this._bean = null;
     this._type = null;
     this._element = null;
     this._className = null;
@@ -223,10 +202,10 @@ export class InjectionPointBuilder {
     const context:SokokeContext =
                            (Sokoke.getInstance() as Sokoke).getCurrentContext();
     const injectionPoint:InjectionPoint = new SokokeInjectionPoint(
-      this._bean, this._type, this._element, this._className, this._beanRef,
+      this._type, this._element, this._className, this._beanRef,
       this._qualifiers
     );
-    SokokeMetadataInjector.getInstance().inject(injectionPoint, context);
+    SokokeMetadataInjector.getInstance().injectContext(injectionPoint, context);
     return injectionPoint;
   }
 }

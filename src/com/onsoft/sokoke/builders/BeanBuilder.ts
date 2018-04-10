@@ -194,7 +194,7 @@ export class BeanBuilder {
     const bean:Bean = new SokokeBean(
       this._name, this._scope, this._beanClass, this._types, this._className
     );
-    SokokeMetadataInjector.getInstance().inject(bean, context);
+    SokokeMetadataInjector.getInstance().injectContext(bean, context);
     return bean;
   }
 }

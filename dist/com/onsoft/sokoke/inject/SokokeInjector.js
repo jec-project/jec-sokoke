@@ -6,6 +6,7 @@ const Sokoke_1 = require("../inject/Sokoke");
 const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
+const jec_sokoke_index_1 = require("../../jec-sokoke-index");
 class SokokeInjector {
     constructor() {
         if (SokokeInjector._locked || SokokeInjector.INSTANCE) {
@@ -20,21 +21,24 @@ class SokokeInjector {
         }
         return SokokeInjector.INSTANCE;
     }
-    resovelInjection(key) {
+    resovelInjectionPoint(key) {
         const classPath = jec_commons_1.ClassLoaderContext.getInstance().getPath();
         const sokoke = Sokoke_1.Sokoke.getInstance();
         const context = sokoke.getContextByPath(classPath);
-        let injectPoint = null;
-        let injection = null;
         sokoke.setCurrentContext(context);
-        injectPoint = sokoke.resolveInjectionPoint(classPath, key);
-        injection = sokoke.getInjectableReference(injectPoint);
-        return injection;
+        return sokoke.resolveInjectionPoint(classPath, key);
     }
     injectField(target, key) {
-        const injection = this.resovelInjection(key);
         const sokoke = Sokoke_1.Sokoke.getInstance();
-        Object.defineProperty(target, key, { value: injection });
+        const injectionPoint = this.resovelInjectionPoint(key);
+        const bean = sokoke.getBean(injectionPoint);
+        const injection = sokoke.getInjectableReference(bean);
+        injectionPoint.setBean(bean);
+        Reflect.defineProperty(target, key, {
+            value: injection, configurable: true
+        });
+        jec_sokoke_index_1.SokokeMetadataInjector.getInstance()
+            .injectInjectionPoint(target, injectionPoint);
         if (sokoke.isDebugMode()) {
             SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.injected.field", target.constructor.name, key, injection.constructor.name), jec_commons_1.LogLevel.DEBUG);
         }

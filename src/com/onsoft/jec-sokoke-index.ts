@@ -30,6 +30,7 @@ export {SokokeError} from "./sokoke/exceptions/SokokeError";
 //--> com/onsoft/i18n
 export {SokokeLocaleManager} from "./sokoke/i18n/SokokeLocaleManager";
 //--> com/onsoft/inject
+export {InjectionPointManager} from "./sokoke/inject/InjectionPointManager";
 export {Sokoke} from "./sokoke/inject/Sokoke";
 export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
@@ -61,7 +62,6 @@ export {JdiRegExp} from "./sokoke/utils/reflection/JdiRegExp";
 //--> com/onsoft/utils/validators
 export {BeanInjectionValidator} from "./sokoke/utils/validators/BeanInjectionValidator";
 //--> com/onsoft/utils
-export {ClassPathBuilder} from "./sokoke/utils/ClassPathBuilder";
 export {HashCodeBuilder} from "./sokoke/utils/HashCodeBuilder";
 export {ScopeStrategy} from "./sokoke/utils/ScopeStrategy";
 export {SingletonErrorFactory} from "./sokoke/utils/SingletonErrorFactory";

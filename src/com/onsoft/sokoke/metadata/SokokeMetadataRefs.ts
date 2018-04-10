@@ -21,7 +21,15 @@
 export class SokokeMetadataRefs {
 
   /**
-   * Specifies the reference used to work with Sokoke metadata.
+   * Specifies the reference used to work with Sokoke context metadata.
    */
-  public static readonly SOKOKE_METADATA:string = "__sokokeMetadata";
+  public static readonly SOKOKE_CONTEXT_METADATA:string =
+                                                      "__sokokeContextMetadata";
+
+  /**
+   * Specifies the reference used to work with Sokoke injection point metadata.
+   */
+  public static readonly SOKOKE_INJECTION_POINT_METADATA:string =
+                                               "__sokokeInjectionPointMetadata";
+                                                      
 }

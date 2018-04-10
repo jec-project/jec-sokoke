@@ -14,7 +14,7 @@
 //   See the License for the specific language governing permissions and
 //   limitations under the License.
 
-import {Scope, Bean} from "jec-jdi";
+import {Scope, Bean, InjectionPoint} from "jec-jdi";
 
 /**
  * The <code>SokokeBean</code> class is the implementation of the
@@ -69,6 +69,11 @@ export class SokokeBean implements Bean {
    */
   private _className:string = null;
 
+  /**
+   * Stores all <code>InjectionPoint</code> instances associated with this bean.
+   */
+  private _injectionPoints:Array<InjectionPoint> = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -89,6 +94,7 @@ export class SokokeBean implements Bean {
     this._beanClass = beanClass;
     this._types = types;
     this._className = className;
+    this._injectionPoints = new Array<InjectionPoint>();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -128,6 +134,23 @@ export class SokokeBean implements Bean {
    */
   public getQualifiedClassName():string {
     return this._className;
+  }
+
+  /**
+   * @inheritDoc
+   */
+  public getInjectionPoints():Array<InjectionPoint> {
+    return this._injectionPoints;
+  }
+
+  /**
+   * Add the specified injection point to this bean.
+   * 
+   * @param {InjectionPoin} injectionPoint the injection point to add
+   *                                                to this bean.
+   */
+  public addInjectionPoint(injectionPoint:InjectionPoint):void {
+    this._injectionPoints.push(injectionPoint);
   }
 
   /*

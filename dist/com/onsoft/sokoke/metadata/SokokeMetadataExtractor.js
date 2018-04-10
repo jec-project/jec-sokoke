@@ -17,7 +17,7 @@ class SokokeMetadataExtractor {
         return SokokeMetadataExtractor.INSTANCE;
     }
     extract(bean) {
-        return bean[SokokeMetadataRefs_1.SokokeMetadataRefs.SOKOKE_METADATA];
+        return bean[SokokeMetadataRefs_1.SokokeMetadataRefs.SOKOKE_CONTEXT_METADATA];
     }
 }
 SokokeMetadataExtractor._locked = true;

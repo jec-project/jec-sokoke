@@ -6,7 +6,6 @@ const ScopeStrategy_1 = require("../../utils/ScopeStrategy");
 const JdiRegExp_1 = require("./JdiRegExp");
 const InjectionSanitizer_1 = require("./InjectionSanitizer");
 const InjectionString_1 = require("./InjectionString");
-const ClassPathBuilder_1 = require("../../utils/ClassPathBuilder");
 class InjectableParamsEvaluator {
     constructor() { }
     getBeanClass(filePath) {
@@ -55,7 +54,7 @@ class InjectableParamsEvaluator {
     evaluate(file) {
         const params = this.resolveInjectableParams(file);
         const scope = ScopeStrategy_1.ScopeStrategy.getInstance().resolve(params.scope);
-        const classPath = ClassPathBuilder_1.ClassPathBuilder.getInstance().build(file);
+        const classPath = jec_commons_1.PathUtils.getInstance().buildFilePath(file.path, file.name);
         const beanClass = this.getBeanClass(classPath);
         const bean = BeanBuilder_1.BeanBuilder.getInstance()
             .clear()

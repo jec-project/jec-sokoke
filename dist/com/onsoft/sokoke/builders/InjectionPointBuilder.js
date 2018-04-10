@@ -6,7 +6,6 @@ const Sokoke_1 = require("../inject/Sokoke");
 const SokokeMetadataInjector_1 = require("../metadata/SokokeMetadataInjector");
 class InjectionPointBuilder {
     constructor() {
-        this._bean = null;
         this._type = null;
         this._element = null;
         this._className = null;
@@ -23,10 +22,6 @@ class InjectionPointBuilder {
             InjectionPointBuilder.INSTANCE = new InjectionPointBuilder();
         }
         return InjectionPointBuilder.INSTANCE;
-    }
-    bean(bean) {
-        this._bean = bean;
-        return this;
     }
     type(type) {
         this._type = type;
@@ -49,7 +44,6 @@ class InjectionPointBuilder {
         return this;
     }
     clear() {
-        this._bean = null;
         this._type = null;
         this._element = null;
         this._className = null;
@@ -59,8 +53,8 @@ class InjectionPointBuilder {
     }
     build() {
         const context = Sokoke_1.Sokoke.getInstance().getCurrentContext();
-        const injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._bean, this._type, this._element, this._className, this._beanRef, this._qualifiers);
-        SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance().inject(injectionPoint, context);
+        const injectionPoint = new SokokeInjectionPoint_1.SokokeInjectionPoint(this._type, this._element, this._className, this._beanRef, this._qualifiers);
+        SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance().injectContext(injectionPoint, context);
         return injectionPoint;
     }
 }

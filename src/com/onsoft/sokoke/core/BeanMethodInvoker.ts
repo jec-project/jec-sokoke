@@ -16,7 +16,7 @@
 
 import {InjectParamsEvaluator} from "../utils/reflection/InjectParamsEvaluator";
 import {FileProperties, LogLevel} from "jec-commons";
-import {Bean, InjectionPoint, BeanManager} from "jec-jdi";
+import {Bean, BeanManager} from "jec-jdi";
 import {Sokoke} from "../inject/Sokoke";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {SokokeLoggerProxy} from "../logging/SokokeLoggerProxy";

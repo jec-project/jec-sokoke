@@ -16,7 +16,7 @@ class SokokeMetadataExtractor {
         }
         return SokokeMetadataExtractor.INSTANCE;
     }
-    extract(bean) {
+    extractContext(bean) {
         return bean[SokokeMetadataRefs_1.SokokeMetadataRefs.SOKOKE_CONTEXT_METADATA];
     }
 }

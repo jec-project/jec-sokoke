@@ -15,7 +15,7 @@
 //   limitations under the License.
 
 import {Decorator, Interface} from "jec-commons";
-import {SokokeInjector} from "../../inject/SokokeInjector";
+import {SokokeInjectionPointResolver} from "../../inject/SokokeInjectionPointResolver";
 import {InjectParams, InjectionTarget, DecoratedType} from "jec-jdi";
 import {InjectionTargetBuilder} from "../../builders/InjectionTargetBuilder";
 
@@ -48,7 +48,7 @@ export class InjectFieldDecorator implements Decorator {
       InjectionTargetBuilder.getInstance().build(
         target, key, DecoratedType.FIELD
       );
-    SokokeInjector.getInstance().inject(injectionTarget);
+      SokokeInjectionPointResolver.getInstance().resolve(injectionTarget);
     return target;
   }
 }

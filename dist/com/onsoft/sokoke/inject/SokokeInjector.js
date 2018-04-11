@@ -1,12 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const jec_commons_1 = require("jec-commons");
-const jec_jdi_1 = require("jec-jdi");
-const Sokoke_1 = require("../inject/Sokoke");
-const SokokeLoggerProxy_1 = require("../logging/SokokeLoggerProxy");
 const SingletonErrorFactory_1 = require("../utils/SingletonErrorFactory");
-const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const jec_sokoke_index_1 = require("../../jec-sokoke-index");
+const Sokoke_1 = require("../inject/Sokoke");
+const jec_jdi_1 = require("jec-jdi");
+const SokokeMetadataRefs_1 = require("../metadata/SokokeMetadataRefs");
 class SokokeInjector {
     constructor() {
         if (SokokeInjector._locked || SokokeInjector.INSTANCE) {
@@ -21,46 +18,37 @@ class SokokeInjector {
         }
         return SokokeInjector.INSTANCE;
     }
-    resovelInjectionPoint(key) {
-        const classPath = jec_commons_1.ClassLoaderContext.getInstance().getPath();
+    inject(target, scopeTypes) {
         const sokoke = Sokoke_1.Sokoke.getInstance();
-        const context = sokoke.getContextByPath(classPath);
-        sokoke.setCurrentContext(context);
-        return sokoke.resolveInjectionPoint(classPath, key);
-    }
-    injectField(target, key) {
-        const sokoke = Sokoke_1.Sokoke.getInstance();
-        const injectionPoint = this.resovelInjectionPoint(key);
-        const bean = sokoke.getBean(injectionPoint);
-        const injection = sokoke.getInjectableReference(bean);
-        injectionPoint.setBean(bean);
-        Reflect.defineProperty(target, key, {
-            value: injection, configurable: true
-        });
-        jec_sokoke_index_1.SokokeMetadataInjector.getInstance()
-            .injectInjectionPoint(target, injectionPoint);
-        if (sokoke.isDebugMode()) {
-            SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.injected.field", target.constructor.name, key, injection.constructor.name), jec_commons_1.LogLevel.DEBUG);
+        const injectionPoints = target[SokokeMetadataRefs_1.SokokeMetadataRefs.SOKOKE_INJECTION_POINT_METADATA];
+        let len = -1;
+        let injectionPoint = null;
+        let value = null;
+        let bean = null;
+        let scopeType = null;
+        let scope = null;
+        if (injectionPoints) {
+            len = injectionPoints.length;
+            while (len--) {
+                injectionPoint = injectionPoints[len];
+                bean = injectionPoint.getBean();
+                if (bean) {
+                    scope = bean.getScope();
+                    scopeType = scope ? scope.getType() : jec_jdi_1.ScopeType.DEPENDENT;
+                    if (scopeTypes.indexOf(scopeType)) {
+                        value = sokoke.getInjectableReference(bean);
+                        Reflect.defineProperty(target, injectionPoint.getElement().getName(), { value: value });
+                    }
+                }
+            }
         }
     }
-    injectParam(target, key, index) {
-        console.log("InjectParameterDecorator");
-        console.log(target.constructor.name, key, index);
-    }
-    inject(context) {
-        const decoratedType = context.decoratedType;
-        if (decoratedType === jec_jdi_1.DecoratedType.FIELD) {
-            this.injectField(context.target, String(context.key));
-        }
-        else if (decoratedType === jec_jdi_1.DecoratedType.PARAMETER) {
-            this.injectParam(context.target, String(context.key), context.parameterIndex);
-        }
-        else {
-        }
-    }
-    dispose(context) {
+    dispose(target) {
     }
 }
 SokokeInjector.INSTANCE = null;
 SokokeInjector._locked = true;
+SokokeInjector.DEFAULT_SCOPE_TYPES = [
+    jec_jdi_1.ScopeType.APPLICATION, jec_jdi_1.ScopeType.DEPENDENT
+];
 exports.SokokeInjector = SokokeInjector;

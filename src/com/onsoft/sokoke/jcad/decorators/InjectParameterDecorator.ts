@@ -17,7 +17,7 @@
 import {Decorator, Interface} from "jec-commons";
 import {InjectParams, InjectionTarget, DecoratedType} from "jec-jdi";
 import {InjectionTargetBuilder} from "../../builders/InjectionTargetBuilder";
-import {SokokeInjector} from "../../inject/SokokeInjector";
+import {SokokeInjectionPointResolver} from "../../inject/SokokeInjectionPointResolver";
 
 /**
  * The <code>InjectParameterDecorator</code> class defines the   
@@ -48,7 +48,7 @@ export class InjectParameterDecorator implements Decorator {
       InjectionTargetBuilder.getInstance().build(
         target, propertyKey, DecoratedType.PARAMETER, parameterIndex
       );
-    SokokeInjector.getInstance().inject(injectionTarget);
+      SokokeInjectionPointResolver.getInstance().resolve(injectionTarget);
     return target;
   }
 }

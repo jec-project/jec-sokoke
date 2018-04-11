@@ -17,7 +17,7 @@
 import {InjectionTarget, DecoratedType} from "jec-jdi";
 import {SingletonErrorFactory} from "../utils/SingletonErrorFactory";
 import {SokokeInjectionTarget} from "../inject/SokokeInjectionTarget";
-import { GlobalGuidGenerator } from "jec-commons";
+import {GlobalGuidGenerator} from "jec-commons";
 
 /**
  * The <code>InjectionTargetBuilder</code> singleton allows to build new 

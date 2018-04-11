@@ -36,6 +36,7 @@ export {SokokeBean} from "./sokoke/inject/SokokeBean";
 export {SokokeBeanManager} from "./sokoke/inject/SokokeBeanManager";
 export {SokokeContainer} from "./sokoke/inject/SokokeContainer";
 export {SokokeInjectionPoint} from "./sokoke/inject/SokokeInjectionPoint";
+export {SokokeInjectionPointResolver} from "./sokoke/inject/SokokeInjectionPointResolver";
 export {SokokeInjectionTarget} from "./sokoke/inject/SokokeInjectionTarget";
 export {SokokeInjector} from "./sokoke/inject/SokokeInjector";
 //--> com/onsoft/jcad/connectors

@@ -72,11 +72,11 @@ export class SokokeMetadataExtractor {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Extracts Sokoke metadata from the specified bean.
+   * Extracts Sokoke context metadata from the specified bean.
    * 
-   * @param {any} bean the bean from which to extract Sokoke metadata.
+   * @param {any} bean the bean from which to extract Sokoke context metadata.
    */
-  public extract(bean:any):any {
+  public extractContext(bean:any):any {
     return bean[SokokeMetadataRefs.SOKOKE_CONTEXT_METADATA];
   }
 }

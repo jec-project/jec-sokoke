@@ -84,7 +84,12 @@ export class SokokeInjector {
   //////////////////////////////////////////////////////////////////////////////
 
   /**
-   * @inheritDoc
+   * Injects dependencies into the target object, depending on the specified
+   * scope types.
+   * 
+   * @param {any} target the object on which to inject dependencies.
+   * @param {Array<ScopeType>} scopeTypes the list of scope that are used to
+   *                                      resolve dependency injection.
    */
   public inject(target:any, scopeTypes:ScopeType[]):void {
     const sokoke:Sokoke = (Sokoke.getInstance() as Sokoke);

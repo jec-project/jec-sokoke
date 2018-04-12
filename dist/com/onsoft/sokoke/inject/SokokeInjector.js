@@ -35,7 +35,7 @@ class SokokeInjector {
                 if (bean) {
                     scope = bean.getScope();
                     scopeType = scope ? scope.getType() : jec_jdi_1.ScopeType.DEPENDENT;
-                    if (scopeTypes.indexOf(scopeType)) {
+                    if (scopeTypes.indexOf(scopeType) !== -1) {
                         value = sokoke.getInjectableReference(bean);
                         Reflect.defineProperty(target, injectionPoint.getElement().getName(), { value: value });
                     }
@@ -43,8 +43,7 @@ class SokokeInjector {
             }
         }
     }
-    dispose(target) {
-    }
+    dispose(target, scopeTypes) { }
 }
 SokokeInjector.INSTANCE = null;
 SokokeInjector._locked = true;

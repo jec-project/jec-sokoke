@@ -107,7 +107,6 @@ export class SokokeInjectionPointResolver {
     const injectionPoint:SokokeInjectionPoint = 
                       (this.resovelInjectionPoint(key) as SokokeInjectionPoint);
     const bean:Bean = sokoke.getBean(injectionPoint);
-    const injection:any = sokoke.getInjectableReference(bean);
     injectionPoint.setBean(bean);
     SokokeMetadataInjector.getInstance()
                           .injectInjectionPoint(target, injectionPoint);
@@ -117,7 +116,7 @@ export class SokokeInjectionPointResolver {
           "bean.injected.field",
           target.constructor.name,
           key,
-          injection.constructor.name
+          bean.getBeanClass().name
         ),
         LogLevel.DEBUG
       );

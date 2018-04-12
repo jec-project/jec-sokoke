@@ -109,7 +109,7 @@ export class SokokeInjector {
         if(bean) {
           scope = bean.getScope();
           scopeType = scope ? scope.getType() : ScopeType.DEPENDENT;
-          if(scopeTypes.indexOf(scopeType)) {
+          if(scopeTypes.indexOf(scopeType) !== -1) {
             value = sokoke.getInjectableReference(bean);
             Reflect.defineProperty(
               target, injectionPoint.getElement().getName(), { value: value }

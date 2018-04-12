@@ -2,13 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const jec_jdi_1 = require("jec-jdi");
 const SokokeLocaleManager_1 = require("../i18n/SokokeLocaleManager");
-const InjectionPointManager_1 = require("./InjectionPointManager");
+const InjectionPointManager_1 = require("../core/InjectionPointManager");
+const BeanStore_1 = require("../core/BeanStore");
 class SokokeBeanManager {
     constructor(context) {
         this._context = null;
         this._beanList = null;
         this._applicationManagedBeanList = null;
         this._injectionPointManager = null;
+        this._beanStore = null;
         this.initObj(context);
     }
     initObj(context) {
@@ -16,6 +18,7 @@ class SokokeBeanManager {
         this._beanList = new Array();
         this._applicationManagedBeanList = new Array();
         this._injectionPointManager = new InjectionPointManager_1.InjectionPointManager();
+        this._beanStore = new BeanStore_1.BeanStore();
     }
     addBean(bean) {
         let scope = null;
@@ -30,6 +33,7 @@ class SokokeBeanManager {
                 this._applicationManagedBeanList.push(bean);
             }
         }
+        this._beanStore.registerBean(bean);
     }
     getBeans() {
         const result = new Set();
@@ -93,19 +97,7 @@ class SokokeBeanManager {
         this._injectionPointManager.addInjectionPoint(injectionPoint);
     }
     getReference(bean) {
-        const scope = bean.getScope();
-        let result = null;
-        let len;
-        let Constructor = null;
-        if (!scope) {
-            Constructor = bean.getBeanClass();
-            result = new Constructor();
-        }
-        else {
-            if (scope instanceof jec_jdi_1.ApplicationScoped) {
-            }
-        }
-        return result;
+        return this._beanStore.getBeanInstance(bean);
     }
     getContext() {
         return this._context;

@@ -15,6 +15,7 @@
 //   limitations under the License.
 
 import {Scope, Bean, InjectionPoint} from "jec-jdi";
+import {HashCodeBuilder} from "../utils/HashCodeBuilder";
 
 /**
  * The <code>SokokeBean</code> class is the implementation of the
@@ -74,6 +75,11 @@ export class SokokeBean implements Bean {
    */
   private _injectionPoints:Array<InjectionPoint> = null;
 
+  /**
+   * A hash reference used to identify the bean class faster.
+   */
+  private _hash:number = -1;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -95,6 +101,7 @@ export class SokokeBean implements Bean {
     this._types = types;
     this._className = className;
     this._injectionPoints = new Array<InjectionPoint>();
+    this._hash = HashCodeBuilder.getInstance().build(beanClass, name);
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -151,6 +158,13 @@ export class SokokeBean implements Bean {
    */
   public addInjectionPoint(injectionPoint:InjectionPoint):void {
     this._injectionPoints.push(injectionPoint);
+  }
+
+  /**
+   * Returns the hash for this bean.
+   */
+  public getHash():number {
+    return this._hash;
   }
 
   /*

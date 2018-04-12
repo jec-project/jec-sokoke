@@ -33,12 +33,11 @@ class SokokeInjectionPointResolver {
         const sokoke = Sokoke_1.Sokoke.getInstance();
         const injectionPoint = this.resovelInjectionPoint(key);
         const bean = sokoke.getBean(injectionPoint);
-        const injection = sokoke.getInjectableReference(bean);
         injectionPoint.setBean(bean);
         SokokeMetadataInjector_1.SokokeMetadataInjector.getInstance()
             .injectInjectionPoint(target, injectionPoint);
         if (sokoke.isDebugMode()) {
-            SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.injected.field", target.constructor.name, key, injection.constructor.name), jec_commons_1.LogLevel.DEBUG);
+            SokokeLoggerProxy_1.SokokeLoggerProxy.getInstance().log(SokokeLocaleManager_1.SokokeLocaleManager.getInstance().get("bean.injected.field", target.constructor.name, key, bean.getBeanClass().name), jec_commons_1.LogLevel.DEBUG);
         }
     }
     injectParamMetadata(target, key, index) {

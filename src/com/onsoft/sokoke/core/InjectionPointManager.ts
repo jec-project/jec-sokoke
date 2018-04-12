@@ -16,7 +16,7 @@
 
 import {InjectionPoint, Bean} from "jec-jdi";
 import {HashCodeBuilder} from "../utils/HashCodeBuilder";
-import {SokokeBean} from "./SokokeBean";
+import {SokokeBean} from "../inject/SokokeBean";
 
 /**
  * The <code>InjectionPointManager</code> class allows to manage 

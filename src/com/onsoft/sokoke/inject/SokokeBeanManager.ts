@@ -21,7 +21,8 @@ import {SokokeError} from "../exceptions/SokokeError";
 import {SokokeContext} from "../core/SokokeContext";
 import {SokokeLocaleManager} from "../i18n/SokokeLocaleManager";
 import {LogLevel} from "jec-commons";
-import {InjectionPointManager} from "./InjectionPointManager";
+import {InjectionPointManager} from "../core/InjectionPointManager";
+import {BeanStore} from "../core/BeanStore";
 
 /**
  * The <code>SokokeBeanManager</code> class is the Sokoke framework 
@@ -68,6 +69,11 @@ export class SokokeBeanManager implements BeanManager {
    */
   private _injectionPointManager:InjectionPointManager = null;
 
+  /**
+   * The reference to the <code>BeanStore</code> instance for this bean manager.
+   */
+  private _beanStore:BeanStore = null;
+
   //////////////////////////////////////////////////////////////////////////////
   // Private methods
   //////////////////////////////////////////////////////////////////////////////
@@ -83,6 +89,7 @@ export class SokokeBeanManager implements BeanManager {
     this._beanList = new Array<Bean>();
     this._applicationManagedBeanList = new Array<Bean>();
     this._injectionPointManager = new InjectionPointManager();
+    this._beanStore = new BeanStore();
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -108,6 +115,7 @@ export class SokokeBeanManager implements BeanManager {
         this._applicationManagedBeanList.push(bean);
       }
     }
+    this._beanStore.registerBean(bean);
   }
 
   /**
@@ -190,20 +198,7 @@ export class SokokeBeanManager implements BeanManager {
    * @inheritDoc
    */
   public getReference(bean:Bean):any {
-    const scope:Scope = bean.getScope();
-    let result:any = null;
-    let len:number;
-    let Constructor:any = null;
-    if(!scope) {
-      Constructor = bean.getBeanClass();
-      result = new Constructor();
-      //
-    } else {
-      if(scope instanceof ApplicationScoped) {
-        
-      }
-    }
-    return result;
+    return this._beanStore.getBeanInstance(bean);
   }
   
   //////////////////////////////////////////////////////////////////////////////

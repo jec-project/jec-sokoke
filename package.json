@@ -1,6 +1,6 @@
 {
   "name": "jec-sokoke",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JEC Sokoke - The default RESTful web services framework for GlassCat applications.",
   "main": "dist/com/onsoft/jec-sokoke-index",
   "types": "types/jec-sokoke.d.ts",

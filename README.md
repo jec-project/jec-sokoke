@@ -68,5 +68,5 @@ limitations under the License.
 ```
 
 [jec-url]: http://jecproject.org
-[jec-jdi-url]: https://github.com/pechemann/jec-jdi
-[jec-logo]: https://raw.githubusercontent.com/pechemann/JEC/master/assets/jec-logos/jec-logo.png
+[jec-jdi-url]: https://github.com/jec-project/jec-jdi
+[jec-logo]: https://raw.githubusercontent.com/jec-project/JEC/master/assets/jec-logos/jec-logo.png

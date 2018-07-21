@@ -44,7 +44,7 @@ The documentation generator is [TypeDoc](http://typedoc.org/)
 
 ## Update Release Notes
 
-**Current stable release:** [0.0.1](CHANGELOG.md#jec-sokoke-0.0.1)
+**Current stable release:** [0.0.3](CHANGELOG.md#jec-sokoke-0.0.3)
  
 For a complete listing of release notes for all Sokoke update releases, see the [CHANGELOG](CHANGELOG.md) file. 
 

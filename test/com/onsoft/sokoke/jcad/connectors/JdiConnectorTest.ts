@@ -32,7 +32,7 @@ export class JdiConnectorTest {
     description: "should extend the AbstractDecoratorConnector class"
   })
   public errorInstanceTest():void {
-    let connector = new JdiConnector(
+    const connector = new JdiConnector(
       JdiConnectorRefs.INJECTABLE_CONNECTOR_REF, utils.DECORATOR
     );
     expect(connector).to.be.an.instanceOf(AbstractDecoratorConnector);
@@ -42,7 +42,7 @@ export class JdiConnectorTest {
     description: "should return the JCAD reference passed as parameter of the constructor function"
   })
   public getJcadReferenceTest():void {
-    let connector = new JdiConnector(
+    const connector = new JdiConnector(
       JdiConnectorRefs.INJECTABLE_CONNECTOR_REF, utils.DECORATOR
     );
     expect(
@@ -54,7 +54,7 @@ export class JdiConnectorTest {
     description: "should return the Decorator instance passed as parameter of the constructor function"
   })
   public getDecoratorTest():void {
-     let connector = new JdiConnector(
+     const connector = new JdiConnector(
       JdiConnectorRefs.INJECTABLE_CONNECTOR_REF, utils.DECORATOR
     );
     expect(connector.getDecorator()).to.be.equal(utils.DECORATOR);

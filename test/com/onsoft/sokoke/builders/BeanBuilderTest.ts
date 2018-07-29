@@ -41,7 +41,7 @@ export class BeanBuilderTest {
     order: 0
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new BeanBuilder();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -52,7 +52,7 @@ export class BeanBuilderTest {
     order: 1
   })
   public getInstanceTest():void {
-    let builder:any = BeanBuilder.getInstance();
+    const builder:any = BeanBuilder.getInstance();
     expect(builder).to.be.an.instanceOf(BeanBuilder);
   }
   
@@ -61,8 +61,8 @@ export class BeanBuilderTest {
     order: 2
   })
   public singletonTest():void {
-    let builder1:any = BeanBuilder.getInstance();
-    let builder2:any = BeanBuilder.getInstance();
+    const builder1:any = BeanBuilder.getInstance();
+    const builder2:any = BeanBuilder.getInstance();
     expect(builder1).to.equal(builder2);
   }
 
@@ -184,7 +184,9 @@ export class BeanBuilderTest {
     order: 16
   })
   public clearTest():void {
-    expect(BeanBuilder.getInstance().clear()).to.be.OK;
+    expect(
+      BeanBuilder.getInstance().clear()
+    ).to.equal(BeanBuilder.getInstance());
     this.bean = BeanBuilder.getInstance().build();
   }
 

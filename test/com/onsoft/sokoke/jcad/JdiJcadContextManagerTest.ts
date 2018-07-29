@@ -28,8 +28,8 @@ export class JdiJcadContextManagerTest {
     description: "should throw a JcadContextError excpetion when nor context have been created before"
   })
   public deleteContextErrorTest():void {
-    let manager:JdiContextManager = new JdiContextManager();
-    let doDeleteContext:Function = function():void {
+    const manager:JdiContextManager = new JdiContextManager();
+    const doDeleteContext:Function = function():void {
       manager.deleteContext();
     };
     expect(doDeleteContext).to.throw(JcadContextError);
@@ -39,9 +39,9 @@ export class JdiJcadContextManagerTest {
     description: "should create and remove JCAD contexts without error"
   })
   public createContextTest():void {
-    let manager:JdiContextManager = new JdiContextManager();
-    let context:JcadContext = new JcadContextFactory().create();
-    expect(manager.createContext(context)).to.be.OK;
-    expect(manager.deleteContext()).to.be.OK;
+    const manager:JdiContextManager = new JdiContextManager();
+    const context:JcadContext = new JcadContextFactory().create();
+    expect(manager.createContext(context)).to.be.undefined;
+    expect(manager.deleteContext()).to.be.undefined;
   }
 }

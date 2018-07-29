@@ -29,7 +29,7 @@ export class SokokeLocaleManagerTest {
     description: "should throw a SingletonError error when calling the constructor function"
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new SokokeLocaleManager();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -39,7 +39,7 @@ export class SokokeLocaleManagerTest {
     description: "should return a DefaultLocaleManager instance"
   })
   public getInstanceTest():void {
-    let manager:LocaleManager = SokokeLocaleManager.getInstance();
+    const manager:LocaleManager = SokokeLocaleManager.getInstance();
     expect(manager).to.be.an.instanceOf(LocaleManagerBase);
   }
   
@@ -47,8 +47,8 @@ export class SokokeLocaleManagerTest {
     description: "should return a singleton reference"
   })
   public validSingletonTest():void {
-    let manager1:LocaleManager = SokokeLocaleManager.getInstance();
-    let manager2:LocaleManager = SokokeLocaleManager.getInstance();
+    const manager1:LocaleManager = SokokeLocaleManager.getInstance();
+    const manager2:LocaleManager = SokokeLocaleManager.getInstance();
     expect(manager1).to.equal(manager2);
   }
 }

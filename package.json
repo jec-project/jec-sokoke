@@ -1,6 +1,6 @@
 {
   "name": "jec-sokoke",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "JEC Sokoke - The default RESTful web services framework for GlassCat applications.",
   "main": "dist/com/onsoft/jec-sokoke-index",
   "types": "types/jec-sokoke.d.ts",
@@ -31,24 +31,24 @@
   },
   "homepage": "https://github.com/jec-project/jec-sokoke#readme",
   "devDependencies": {
-    "@types/node": "^8.0.13",
-    "chai": "^3.5.0",
-    "chai-spies": "^0.7.1",
-    "jec-juta": "^1.1.8",
-    "jec-tiger": "^1.2.1",
-    "mocha": "^3.4.2",
-    "typedoc": "^0.8.0",
-    "grunt": "^1.0.1",
+    "@types/node": "^10.5.4",
+    "chai": "^4.1.2",
+    "sinon": "^6.1.4",
+    "grunt": "1.0.3",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-mocha-test": "^0.13.2",
-    "grunt-ts": "^6.0.0-beta.17",
+    "grunt-mocha-test": "^0.13.3",
+    "grunt-ts": "^6.0.0-beta.21",
     "grunt-typedoc": "^0.2.4",
-    "typescript": "^2.6.2"
+    "mocha": "^5.2.0",
+    "typedoc": "^0.11.1",
+    "typescript": "^2.9.2",
+    "jec-juta": "^1.1.9",
+    "jec-tiger": "^1.2.2"
   },
   "dependencies": {
-    "jec-commons": "^1.1.9",
-    "jec-commons-node": "^1.0.7",
-    "jec-jdi": "^0.1.0"
+    "jec-commons": "^1.2.0",
+    "jec-commons-node": "^1.0.9",
+    "jec-jdi": "^0.1.1"
   }
 }

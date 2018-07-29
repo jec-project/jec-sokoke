@@ -27,7 +27,7 @@ export class SokokeErrorTest {
     description: "should extend the Error class"
   })
   public errorInstanceTest():void {
-    let error = new SokokeError(null);
+    const error = new SokokeError(null);
     expect(error).to.be.an.instanceOf(Error);
   }
   
@@ -35,8 +35,8 @@ export class SokokeErrorTest {
     description: "should return the same message as passed to the constructor function"
   })
   public messageTest():void {
-    let message:string = "foo bar";
-    let error = new SokokeError(message);
+    const message:string = "foo bar";
+    const error = new SokokeError(message);
     expect(error.message).to.equal(message);
   }
 }

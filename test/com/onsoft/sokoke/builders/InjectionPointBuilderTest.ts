@@ -41,7 +41,7 @@ export class InjectionPointBuilderTest {
     order: 0
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new InjectionPointBuilder();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -52,7 +52,7 @@ export class InjectionPointBuilderTest {
     order: 1
   })
   public getInstanceTest():void {
-    let builder:any = InjectionPointBuilder.getInstance();
+    const builder:any = InjectionPointBuilder.getInstance();
     expect(builder).to.be.an.instanceOf(InjectionPointBuilder);
   }
   
@@ -60,8 +60,8 @@ export class InjectionPointBuilderTest {
     description: "should return a singleton reference"
   })
   public singletonTest():void {
-    let builder1:any = InjectionPointBuilder.getInstance();
-    let builder2:any = InjectionPointBuilder.getInstance();
+    const builder1:any = InjectionPointBuilder.getInstance();
+    const builder2:any = InjectionPointBuilder.getInstance();
     expect(builder1).to.equal(builder2);
   }
 
@@ -152,11 +152,11 @@ export class InjectionPointBuilderTest {
   }
 
   @Test({
-    description: "should return the same 'Bean' as used to build the injection point",
+    description: "should return the 'null' since the bean is not ealready created",
     order: 12
   })
   public getBeanTest():void {
-    expect(this.result.getBean()).to.equal(utils.BEAN);
+    expect(this.result.getBean()).to.be.null;
   }
   
   @Test({
@@ -204,7 +204,9 @@ export class InjectionPointBuilderTest {
     order: 18
   })
   public clearTest():void {
-    expect(InjectionPointBuilder.getInstance().clear()).to.be.OK;
+    expect(
+      InjectionPointBuilder.getInstance().clear()
+    ).to.equal(InjectionPointBuilder.getInstance());
     this.result = InjectionPointBuilder.getInstance().build();
   }
 

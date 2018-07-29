@@ -17,7 +17,7 @@
 import { TestSuite, Test } from "jec-juta";
 import { expect } from "chai";
 import { ScopeStrategy } from "../../../../../src/com/onsoft/sokoke/utils/ScopeStrategy";
-import { Scope, ApplicationScoped, SessionScoped, RequestScoped, ScopeType } from "jec-jdi";
+import { ApplicationScoped, SessionScoped, RequestScoped, ScopeType } from "jec-jdi";
 import { SingletonError } from "jec-commons";
 
 @TestSuite({
@@ -29,7 +29,7 @@ export class ScopeStrategyTest {
     description: "should throw a singleton error when calling the constructor function"
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new ScopeStrategy();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -46,8 +46,8 @@ export class ScopeStrategyTest {
     description: "should return a singleton reference"
   })
   public singletonTest():void {
-    let strategy1:any = ScopeStrategy.getInstance();
-    let strategy2:any = ScopeStrategy.getInstance();
+    const strategy1:any = ScopeStrategy.getInstance();
+    const strategy2:any = ScopeStrategy.getInstance();
     expect(strategy1).to.equal(strategy2);
   }
   

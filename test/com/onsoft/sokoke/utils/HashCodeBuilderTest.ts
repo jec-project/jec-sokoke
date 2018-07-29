@@ -28,7 +28,7 @@ export class HashCodeBuilderTest {
     description: "should throw a singleton error when calling the constructor function"
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new HashCodeBuilder();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -45,8 +45,8 @@ export class HashCodeBuilderTest {
     description: "should return a singleton reference"
   })
   public singletonTest():void {
-    let builder1:any = HashCodeBuilder.getInstance();
-    let builder2:any = HashCodeBuilder.getInstance();
+    const builder1:any = HashCodeBuilder.getInstance();
+    const builder2:any = HashCodeBuilder.getInstance();
     expect(builder1).to.equal(builder2);
   }
   

@@ -28,7 +28,7 @@ export class SokokeLoggerProxyTest {
     description: "should throw a singleton error when calling the constructor function"
   })
   public singletonErrorTest():void {
-    let buildInstance:Function = function():void {
+    const buildInstance:Function = function():void {
       new SokokeLoggerProxy();
     };
     expect(buildInstance).to.throw(SingletonError);
@@ -38,7 +38,7 @@ export class SokokeLoggerProxyTest {
     description: "should return a SokokeLoggerProxy instance"
   })
   public getInstanceTest():void {
-    let logger:LoggerProxy = SokokeLoggerProxy.getInstance();
+    const logger:LoggerProxy = SokokeLoggerProxy.getInstance();
     expect(logger).to.be.an.instanceOf(SokokeLoggerProxy);
   }
   
@@ -46,8 +46,8 @@ export class SokokeLoggerProxyTest {
     description: "should return a singleton reference"
   })
   public singletonTest():void {
-    let logger1:LoggerProxy = SokokeLoggerProxy.getInstance();
-    let logger2:LoggerProxy = SokokeLoggerProxy.getInstance();
+    const logger1:LoggerProxy = SokokeLoggerProxy.getInstance();
+    const logger2:LoggerProxy = SokokeLoggerProxy.getInstance();
     expect(logger1).to.equal(logger2);
   }
 }

@@ -43,10 +43,10 @@ export class SokokeInjectionPointTest {
   }
 
   @Test({
-    description: "should return the same 'Bean' as used to build the injection point"
+    description: "should return the 'null' since the bean is not ealready created",
   })
   public getBeanTest():void {
-    expect(this.injectionPoint.getBean()).to.equal(utils.BEAN);
+    expect(this.injectionPoint.getBean()).to.be.null;
   }
   
   @Test({
